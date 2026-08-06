@@ -1,0 +1,804 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// User and Authentication
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  emailVerified DateTime?
+  name          String?
+  password      String?
+  image         String?
+  phone         String?
+  whatsapp      String?
+  role          UserRole  @default(CUSTOMER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+  orders        Order[]
+  wishlist      Wishlist[]
+  reviews       Review[]
+  media         Media[]
+  auditLogs     AuditLog[]
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+  SUPER_ADMIN
+  CONTENT_MANAGER
+  INVENTORY_MANAGER
+  ORDER_MANAGER
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// Product Management
+model Category {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  image       String?
+  order       Int       @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  products Product[]
+}
+
+model Product {
+  id          String        @id @default(cuid())
+  name        String
+  slug        String        @unique
+  description String?       @db.Text
+  model       String
+  categoryId  String
+  condition   ProductCondition
+  isFeatured  Boolean       @default(false)
+  isActive    Boolean       @default(true)
+  metaTitle   String?
+  metaDescription String?
+  publishedAt DateTime?
+  status      ProductStatus @default(DRAFT)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  category     Category       @relation(fields: [categoryId], references: [id])
+  variants     ProductVariant[]
+  images       ProductImage[]
+  devices      Device[]
+  reviews      Review[]
+  promotions   Promotion[]
+
+  @@index([categoryId])
+  @@index([status])
+  @@index([isFeatured])
+  @@index([isActive])
+  @@index([condition])
+}
+
+enum ProductStatus {
+  DRAFT
+  PUBLISHED
+  HIDDEN
+  OUT_OF_STOCK
+  SOLD
+  ARCHIVED
+}
+
+enum ProductCondition {
+  BOXED
+  PRE_OWNED
+  SECOND_HAND
+}
+
+model ProductVariant {
+  id          String   @id @default(cuid())
+  productId   String
+  storage     String
+  colour      String
+  price       Decimal  @db.Decimal(10, 2)
+  comparePrice Decimal? @db.Decimal(10, 2)
+  costPrice   Decimal? @db.Decimal(10, 2)
+  sku         String?  @unique
+  stock       Int      @default(0)
+  reserved    Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  product       Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
+  orderItems    OrderItem[]
+  wishlistItems WishlistItem[]
+  inventory     Inventory?
+
+  @@index([productId])
+  @@index([isActive])
+  @@index([stock])
+}
+
+model ProductImage {
+  id        String   @id @default(cuid())
+  productId String
+  url       String
+  alt       String?
+  order     Int      @default(0)
+  type      ImageType
+  createdAt DateTime @default(now())
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+enum ImageType {
+  MAIN
+  FRONT
+  BACK
+  SIDE
+  CAMERA
+  BOX
+  ACCESSORIES
+  CONDITION
+}
+
+model Device {
+  id               String   @id @default(cuid())
+  productId        String
+  variantId        String?
+  imei             String?  @unique
+  serialNumber     String? @unique
+  modelNumber      String?
+  region           String?
+  simType          String?
+  esimSupport      Boolean  @default(false)
+  networkStatus    String?
+  activationStatus String?
+  icloudStatus     String?
+  repairHistory    String?  @db.Text
+  screenCondition  String?
+  bodyCondition    String?
+  cameraCondition  String?
+  faceIdStatus     String?
+  touchFunctionality String?
+  chargingPortCondition String?
+  batteryHealth    Int?
+  condition        String?
+  notes            String?  @db.Text
+  price            Decimal  @db.Decimal(10, 2)
+  isSold           Boolean  @default(false)
+  isReserved       Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+// Orders and Cart
+model Order {
+  id              String      @id @default(cuid())
+  orderNumber     String      @unique
+  userId          String?
+  customerName    String
+  customerEmail   String
+  customerPhone   String
+  customerWhatsapp String?
+  deliveryAddress String?     @db.Text
+  city            String?
+  orderNotes      String?     @db.Text
+  subtotal        Decimal    @db.Decimal(10, 2)
+  deliveryFee     Decimal    @db.Decimal(10, 2)
+  total           Decimal    @db.Decimal(10, 2)
+  currency        String      @default("USD")
+  status          OrderStatus @default(PENDING)
+  paymentStatus   PaymentStatus @default(PENDING)
+  paymentMethod   String?
+  deliveryMethod  String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  user       User?       @relation(fields: [userId], references: [id])
+  items      OrderItem[]
+  payment    Payment?
+
+  @@index([userId])
+  @@index([status])
+  @@index([paymentStatus])
+  @@index([createdAt])
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  READY_FOR_PICKUP
+  OUT_FOR_DELIVERY
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+model OrderItem {
+  id          String   @id @default(cuid())
+  orderId     String
+  variantId   String
+  quantity    Int      @default(1)
+  price       Decimal  @db.Decimal(10, 2)
+  deviceIds   String[] // Array of device IDs for pre-owned/second-hand
+  createdAt   DateTime @default(now())
+
+  order   Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  variant ProductVariant @relation(fields: [variantId], references: [id])
+}
+
+model Payment {
+  id              String   @id @default(cuid())
+  orderId         String   @unique
+  transactionId   String?  @unique
+  amount          Decimal  @db.Decimal(10, 2)
+  method          String
+  status          PaymentStatus
+  paymentDate     DateTime?
+  metadata        Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+// Wishlist
+model Wishlist {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user  User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items WishlistItem[]
+}
+
+model WishlistItem {
+  id         String   @id @default(cuid())
+  wishlistId String
+  variantId  String
+  createdAt  DateTime @default(now())
+
+  wishlist Wishlist       @relation(fields: [wishlistId], references: [id], onDelete: Cascade)
+  variant  ProductVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@unique([wishlistId, variantId])
+}
+
+// Reviews
+model Review {
+  id          String   @id @default(cuid())
+  productId   String
+  userId      String?
+  rating      Int
+  title       String?
+  comment     String   @db.Text
+  name        String?
+  isApproved  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user    User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Blog
+model BlogPost {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String?
+  content     String   @db.Text
+  featuredImage String?
+  author      String?
+  isPublished Boolean  @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  categories BlogCategoryPost[]
+  tags        BlogTagPost[]
+}
+
+model BlogCategory {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  posts BlogCategoryPost[]
+}
+
+model BlogCategoryPost {
+  blogPostId String
+  categoryId String
+  blogPost   BlogPost   @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
+  category   BlogCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([blogPostId, categoryId])
+  @@index([blogPostId])
+  @@index([categoryId])
+}
+
+model BlogTag {
+  id   String   @id @default(cuid())
+  name String   @unique
+  slug String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  posts BlogTagPost[]
+}
+
+model BlogTagPost {
+  blogPostId String
+  tagId      String
+  blogPost   BlogPost   @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
+  tag        BlogTag   @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([blogPostId, tagId])
+  @@index([blogPostId])
+  @@index([tagId])
+}
+
+// Enquiries
+model Enquiry {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  phone       String
+  subject     String
+  message     String   @db.Text
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Trade-In
+model TradeInEnquiry {
+  id              String   @id @default(cuid())
+  name            String
+  email           String?
+  phone           String
+  whatsapp        String?
+  currentModel    String
+  storage         String?
+  condition       String?
+  batteryHealth   Int?
+  colour          String?
+  accessories     String?
+  powersOn        Boolean?
+  touchscreenWorking Boolean?
+  camerasWorking  Boolean?
+  faceIdWorking   Boolean?
+  chargingPortWorking Boolean?
+  beenRepaired    Boolean?
+  hasCracks       Boolean?
+  liquidDamage    Boolean?
+  otherAccessories String?
+  photos          String[]
+  notes           String?  @db.Text
+  adminNotes      String?  @db.Text
+  estimatedValue  Decimal? @db.Decimal(10, 2)
+  finalOffer      Decimal? @db.Decimal(10, 2)
+  status          TradeInStatus @default(NEW)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+enum TradeInStatus {
+  NEW
+  UNDER_REVIEW
+  MORE_INFO_REQUIRED
+  ESTIMATED
+  OFFER_SENT
+  ACCEPTED
+  DECLINED
+  COMPLETED
+  CANCELLED
+}
+
+// Reservation
+model Reservation {
+  id          String   @id @default(cuid())
+  productId   String
+  variantId   String?
+  name        String
+  phone       String
+  whatsapp    String?
+  preferredTime String?
+  status      String   @default("PENDING")
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Promotions
+model Promotion {
+  id          String   @id @default(cuid())
+  productId   String?
+  variantId   String?
+  categoryId String?
+  name        String
+  description String?  @db.Text
+  type        PromotionType
+  value       Decimal  @db.Decimal(10, 2)
+  promoCode   String?  @unique
+  startDate   DateTime
+  endDate     DateTime
+  usageLimit  Int?
+  usageCount  Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  product Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([isActive])
+  @@index([startDate])
+  @@index([endDate])
+}
+
+enum PromotionType {
+  PERCENTAGE
+  FIXED_AMOUNT
+  SALE_PRICE
+  PROMO_CODE
+  FLASH_SALE
+}
+
+// Site Settings
+model SiteSettings {
+  id                 String   @id @default(cuid())
+  businessName       String
+  ceoName            String?
+  businessEmail      String
+  businessPhone      String
+  whatsappNumber     String?
+  whatsappNumber2    String?
+  whatsappPrimary    String?  @default("artwell")
+  address            String?  @db.Text
+  city               String?
+  country            String?
+  socialMedia        Json?
+  openingHours       Json?
+  currency           String   @default("USD")
+  taxRate            Decimal? @db.Decimal(5, 2)
+  lowStockThreshold  Int      @default(5)
+  seoMeta            Json?
+  policies           Json?
+  deliveryConfig     Json?
+  paymentConfig      Json?
+  warrantyConfig     Json?
+  returnConfig       Json?
+  ceoBiography       String?  @db.Text
+  ceoImage          String?
+  inspectionProcess  String?  @db.Text
+  pickupLocation     String?
+  pickupHours        String?
+  pickupRequirements String?
+  googleMapsUrl      String?
+  heroImage          String?
+  updatedAt          DateTime @updatedAt
+}
+
+// Notifications
+model Notification {
+  id          String   @id @default(cuid())
+  type        String
+  title       String
+  message     String   @db.Text
+  isRead      Boolean  @default(false)
+  metadata    Json?
+  createdAt   DateTime @default(now())
+}
+
+// Audit Log
+model AuditLog {
+  id          String   @id @default(cuid())
+  userId      String?
+  action      String
+  entity      String
+  entityId    String?
+  changes     Json?
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime @default(now())
+
+  user        User?   @relation(fields: [userId], references: [id])
+}
+
+// Media Library
+model Media {
+  id          String   @id @default(cuid())
+  filename    String
+  url         String
+  mimeType    String
+  size        Int
+  alt         String?
+  category    MediaCategory @default(OTHER)
+  metadata    Json?
+  uploadedBy  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  uploader    User?   @relation(fields: [uploadedBy], references: [id])
+
+  @@index([category])
+  @@index([uploadedBy])
+}
+
+enum MediaCategory {
+  PRODUCT
+  HERO
+  BLOG
+  CEO
+  LOGO
+  BANNER
+  OTHER
+}
+
+// Navigation Items
+model NavigationItem {
+  id          String   @id @default(cuid())
+  label       String
+  url         String
+  order       Int      @default(0)
+  isExternal  Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  parentId    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  parent      NavigationItem? @relation("NavigationHierarchy", fields: [parentId], references: [id])
+  children    NavigationItem[] @relation("NavigationHierarchy")
+}
+
+// FAQ
+model FAQ {
+  id          String   @id @default(cuid())
+  question    String
+  answer      String   @db.Text
+  category    FAQCategory
+  order       Int      @default(0)
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum FAQCategory {
+  BUYING
+  PRODUCTS
+  BOXED_IPHONES
+  PRE_OWNED
+  SECOND_HAND
+  BATTERY_HEALTH
+  DELIVERY
+  PAYMENTS
+  WARRANTY
+  RETURNS
+  TRADE_IN
+  GENERAL
+}
+
+// Inventory Management
+model Inventory {
+  id              String   @id @default(cuid())
+  variantId       String   @unique
+  currentStock    Int      @default(0)
+  reservedStock   Int      @default(0)
+  availableStock   Int      @default(0)
+  soldStock       Int      @default(0)
+  lowStockThreshold Int    @default(5)
+  location        String?
+  lastStockUpdate DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  variant     ProductVariant      @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  movements   InventoryMovement[]
+}
+
+model InventoryMovement {
+  id            String   @id @default(cuid())
+  inventoryId   String
+  previousStock Int
+  newStock      Int
+  difference    Int
+  reason        MovementReason
+  referenceId   String?  // Order ID, Device ID, etc.
+  notes         String?  @db.Text
+  performedBy   String?
+  createdAt     DateTime @default(now())
+
+  inventory Inventory @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+
+  @@index([inventoryId])
+  @@index([createdAt])
+}
+
+enum MovementReason {
+  STOCK_ADD
+  STOCK_REMOVE
+  STOCK_ADJUST
+  STOCK_RESERVE
+  STOCK_RELEASE
+  STOCK_SOLD
+  STOCK_RESTOCK
+  DAMAGED
+  RETURNED
+  MANUAL_ADJUST
+}
+
+// Homepage Configuration
+model HomepageConfig {
+  id                  String   @id @default(cuid())
+  heroHeading         String
+  heroSubtitle        String
+  heroDescription     String?  @db.Text
+  heroCtaText         String
+  heroCtaUrl          String
+  heroImageUrl        String?
+  heroBackgroundUrl   String?
+  heroOverlay         Boolean  @default(false)
+  showHero            Boolean  @default(true)
+  featuredProductIds  String[]
+  showFeaturedProducts Boolean  @default(true)
+  showCategories      Boolean  @default(true)
+  showWhyChooseUs     Boolean  @default(true)
+  showAboutSection    Boolean  @default(true)
+  showTradeInSection  Boolean  @default(true)
+  showAccessories     Boolean  @default(true)
+  showReviews         Boolean  @default(true)
+  showContactSection  Boolean  @default(true)
+  isActive            Boolean  @default(true)
+  updatedAt           DateTime @updatedAt
+}
+
+// Trust Features for Homepage
+model TrustFeature {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  icon        String
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Homepage Banners
+model HomepageBanner {
+  id          String   @id @default(cuid())
+  title       String
+  subtitle    String?
+  imageUrl    String
+  buttonText String?
+  buttonUrl   String?
+  startDate   DateTime
+  endDate     DateTime
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Blog/Articles
+model Article {
+  id             String      @id @default(cuid())
+  title          String
+  slug           String      @unique
+  excerpt        String?
+  content        String      @db.Text
+  featuredImage  String?
+  author         String?
+  category       String?
+  tags           String[]
+  isPublished    Boolean     @default(false)
+  isFeatured     Boolean     @default(false)
+  publishedAt    DateTime?
+  seoTitle       String?
+  seoDescription String?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
+// About Us
+model AboutUs {
+  id          String   @id @default(cuid())
+  companyName String
+  heading     String
+  description String   @db.Text
+  story       String?  @db.Text
+  mission     String?  @db.Text
+  vision      String?  @db.Text
+  values      String?  @db.Text
+  ceoName     String
+  ceoTitle    String?
+  ceoBio      String?  @db.Text
+  ceoPhoto    String?
+  teamMembers Json?
+  storePhotos String[]
+  statistics  Json?
+  achievements Json?
+  updatedAt   DateTime @updatedAt
+}
+
+// Contact Information
+model ContactInfo {
+  id                  String   @id @default(cuid())
+  phonePrimary         String
+  phonePrimaryLabel   String
+  phoneSecondary       String?
+  phoneSecondaryLabel String?
+  whatsappPrimary     String
+  whatsappSecondary   String?
+  email                String
+  address              String?  @db.Text
+  city                 String?
+  country              String?
+  openingHours         String?  @db.Text
+  googleMapsUrl        String?
+  facebookUrl          String?
+  instagramUrl         String?
+  tiktokUrl            String?
+  updatedAt            DateTime @updatedAt
+}
+
+
+
+
