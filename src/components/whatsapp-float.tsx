@@ -8,14 +8,14 @@ export function WhatsAppFloat() {
 
   const handleWhatsAppClick = (name: string, number: string) => {
     const whatsappNumber = `263${number.replace(/^0/, "")}`;
-    const message = "Hello iPhone Hub Masvingo, I would like to enquire about your iPhones.";
+    const message = "Hello iPhone Hub Zimbabwe, I would like to enquire about your iPhones.";
     const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
     setIsOpen(false);
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-24 sm:bottom-6 right-6 z-50 lg:right-36">
       {isOpen && (
         <div className="absolute bottom-20 right-0 space-y-3 animate-fade-in-up">
           <button
@@ -50,8 +50,8 @@ export function WhatsAppFloat() {
         className="relative group"
         aria-label="Chat on WhatsApp"
       >
-        <div className="absolute inset-0 bg-[#CDB586] rounded-full blur-md opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
-        <div className="relative bg-[#0E161B] border-2 border-[#CDB586] text-[#CDB586] p-4 rounded-full shadow-lg hover:bg-[#1A1814] transition-all duration-300 group-hover:scale-110 gold-glow">
+        <div className="absolute inset-0 bg-[#25D366] rounded-full blur-md opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
+        <div className="relative bg-[#25D366] text-white p-4 rounded-full shadow-lg hover:bg-[#128C7E] transition-all duration-300 group-hover:scale-110">
           {isOpen ? (
             <X className="h-6 w-6" />
           ) : (

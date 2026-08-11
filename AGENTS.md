@@ -1,12 +1,13 @@
 # iPhone Hub Masvingo - Admin Dashboard Setup & Deployment Guide
 
 ## Overview
-This guide covers the setup, configuration, and deployment of the iPhone Hub Masvingo website with a complete production-ready Admin Dashboard and CMS.
+This guide covers the setup, configuration, and deployment of the iPhone Hub Masvingo website with a complete production-ready Admin Dashboard and CMS, including an AI-powered customer support system.
 
 ## Tech Stack
 - **Framework**: Next.js 16.3.0 (App Router)
 - **Database**: PostgreSQL with Prisma ORM 7.9.1
 - **Authentication**: NextAuth v5
+- **AI Support**: OpenAI GPT-4o-mini
 - **Styling**: Tailwind CSS
 - **UI Components**: Custom components with Lucide icons
 - **Deployment**: Ready for Vercel, Netlify, or similar platforms
@@ -207,6 +208,10 @@ npx prisma studio
 - `GET/POST /api/orders` - Order management
 - `POST /api/trade-in` - Trade-in requests
 - `POST /api/enquiries` - Customer enquiries
+- `POST /api/support/chat` - AI customer support chat
+- `GET/POST /api/support/knowledge` - Knowledge base management
+- `GET/POST /api/support/unanswered` - Unanswered questions
+- `GET/PUT /api/support/conversations` - Conversation management
 
 ## Database Schema Highlights
 
@@ -283,6 +288,94 @@ npx prisma migrate dev
 npx prisma studio
 npx prisma db seed
 ```
+
+## Trade-In Feature
+
+### Trade-In Request Process
+The trade-in feature is a 6-step form that allows customers to submit their iPhone for valuation:
+
+**Step 1:** Customer Information (name, phone, whatsapp, email)
+**Step 2:** Device Information (model, storage, colour, battery health, condition)
+**Step 3:** Device Status (powers on, touchscreen, cameras, face ID, charging port, buttons, repairs, cracks, liquid damage)
+**Step 4:** Accessories (original box, charging cable, charger, receipt, other accessories)
+**Step 5:** Photo Upload (device photos)
+**Step 6:** Additional Information (notes)
+
+### Trade-In Submission
+When a customer completes the 6-step form and submits:
+1. Data is saved to the database via `/api/trade-in`
+2. Form details are sent to **both CEOs via WhatsApp**:
+   - **Sabeka:** +263784502347
+   - **Artwell:** +263773227172
+3. WhatsApp message includes complete trade-in details formatted with emojis
+4. Both CEOs receive the same information for valuation
+5. Customer receives confirmation that data was sent to both CEOs
+
+### WhatsApp Message Format
+The WhatsApp message includes:
+- Customer information (name, phone, whatsapp, email)
+- Device information (model, storage, colour, battery health, condition)
+- Device status (all functional aspects with Yes/No indicators)
+- Accessories (original box, charging cable, charger, receipt, other)
+- Additional notes
+
+### CEO Contact Information
+- **Sabeka (CEO):** +263784502347
+- **Artwell (CEO):** +263773227172
+
+Both CEOs receive trade-in requests and can provide valuations directly to customers via WhatsApp.
+
+## AI Customer Support System
+
+### Overview
+The website includes a complete AI-powered customer support system that integrates with the existing database, products, and business information.
+
+### Features
+- **Chat Widget**: Floating chat button in bottom-right corner
+- **Natural Language**: Customers can ask questions in normal English
+- **Product Search**: AI searches real product database
+- **Product Recommendations**: AI recommends based on budget, preferences
+- **Real-Time Data**: Uses current prices, stock, and product info
+- **Never Hallucinates**: Only uses actual database information
+- **Human Escalation**: Automatically escalates complex issues to human support
+- **WhatsApp Integration**: Direct WhatsApp contact when needed
+
+### Admin Dashboard
+- **Support Dashboard** (`/admin/support`) - Overview of all support activity
+- **Conversations** (`/admin/support/conversations`) - View all customer chats
+- **Knowledge Base** (`/admin/support/knowledge`) - Manage AI knowledge articles
+- **Unanswered Questions** (`/admin/support/unanswered`) - Review unanswered questions
+- **Analytics** (`/admin/support/analytics`) - Track support performance
+
+### Setup Requirements
+1. **OpenAI API Key** (Required)
+   - Get from https://platform.openai.com/api-keys
+   - Add to `.env` as `OPENAI_API_KEY=sk-your-key`
+   
+2. **Database Tables** (Auto-created)
+   - `SupportConversation` - Chat conversations
+   - `SupportMessage` - Individual messages
+   - `SupportEscalation` - Escalated conversations
+   - `KnowledgeArticle` - AI knowledge base
+   - `UnansweredQuestion` - Questions AI couldn't answer
+   - `SupportSettings` - AI configuration
+
+3. **Environment Variables**
+   ```env
+   OPENAI_API_KEY="sk-your-actual-key"
+   UPSTASH_REDIS_REST_URL="optional-rate-limiting"
+   UPSTASH_REDIS_REST_TOKEN="optional-rate-limiting"
+   ```
+
+### API Endpoints
+- `POST /api/support/chat` - AI chat endpoint
+- `GET/POST /api/support/knowledge` - Knowledge base CRUD
+- `GET/PUT/DELETE /api/support/knowledge/[id]` - Individual knowledge articles
+- `GET/POST /api/support/unanswered` - Unanswered questions management
+- `GET/PUT /api/support/conversations` - Conversation management
+
+### Documentation
+See `AI_SUPPORT_SETUP.md` for complete setup guide and troubleshooting.
 
 ## Testing
 

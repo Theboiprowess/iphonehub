@@ -13,8 +13,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
+          console.error("Missing credentials");
           throw new Error("Invalid credentials");
         }
+
+        console.log("Attempting login for:", credentials.email);
 
         const user = await prisma.user.findUnique({
           where: {
@@ -23,17 +26,24 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         });
 
         if (!user || !user.password) {
+          console.error("User not found or no password");
           throw new Error("Invalid credentials");
         }
+
+        console.log("User found:", user.email, "Role:", user.role);
 
         const isCorrectPassword = await bcrypt.compare(
           credentials.password as string,
           user.password
         );
 
+        console.log("Password match:", isCorrectPassword);
+
         if (!isCorrectPassword) {
           throw new Error("Invalid credentials");
         }
+
+        console.log("Authentication successful for:", user.email);
 
         return {
           id: user.id,

@@ -53,7 +53,7 @@ export default function AdminLoginPage() {
             </div>
           </div>
           <CardTitle className="text-2xl font-bold text-[#EBE2C5]">
-            iPhone Hub Masvingo
+            iPhone Hub Zimbabwe
           </CardTitle>
           <p className="text-[#EBE2C5]/60">Admin Dashboard Login</p>
         </CardHeader>
@@ -69,7 +69,7 @@ export default function AdminLoginPage() {
               <Input
                 id="email"
                 type="email"
-                placeholder="admin@iphonehubmasvingo.co.zw"
+                placeholder="admin@iphonehubzimbabwe.co.zw"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 required

@@ -41,7 +41,7 @@ export async function GET(
   }
 }
 
-// PATCH - Single product action (publish, hide, archive, etc.)
+// PATCH - Single product action (publish, hide, archive, etc.) or full edit
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -53,7 +53,8 @@ export async function PATCH(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { action } = await request.json();
+    const body = await request.json();
+    const { action } = body;
 
     // Check permissions based on action
     switch (action) {
@@ -66,12 +67,11 @@ export async function PATCH(
       case "ARCHIVE":
         requirePermission((session.user as any).role, "PRODUCTS_ARCHIVE");
         break;
+      case "EDIT":
+        requirePermission((session.user as any).role, "PRODUCTS_EDIT");
+        break;
       default:
         requirePermission((session.user as any).role, "PRODUCTS_EDIT");
-    }
-
-    if (!action) {
-      return NextResponse.json({ error: "Action is required" }, { status: 400 });
     }
 
     // Check if product exists
@@ -83,6 +83,102 @@ export async function PATCH(
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
 
+    // Handle full product edit (EDIT action)
+    if (action === "EDIT") {
+      const {
+        name,
+        model,
+        categoryId,
+        condition,
+        description,
+        isFeatured,
+        isActive,
+        status,
+        metaTitle,
+        metaDescription,
+        variants,
+        images,
+        devices
+      } = body;
+
+      // Update product with full data
+      const updatedProduct = await prisma.product.update({
+        where: { id },
+        data: {
+          name,
+          model,
+          categoryId,
+          condition,
+          description,
+          isFeatured,
+          isActive,
+          status,
+          metaTitle,
+          metaDescription,
+          variants: {
+            deleteMany: {},
+            create: variants?.map((v: any) => ({
+              storage: v.storage,
+              colour: v.colour,
+              price: v.price,
+              comparePrice: v.comparePrice,
+              costPrice: v.costPrice,
+              sku: v.sku,
+              stock: v.stock,
+              reserved: v.reserved,
+              isActive: v.isActive !== false
+            })) || []
+          },
+          images: {
+            deleteMany: {},
+            create: images?.map((img: any) => ({
+              url: img.url,
+              alt: img.alt,
+              order: img.order,
+              type: img.type
+            })) || []
+          },
+          devices: {
+            deleteMany: {},
+            create: devices?.map((d: any) => ({
+              variantId: d.variantId,
+              imei: d.imei,
+              serialNumber: d.serialNumber,
+              modelNumber: d.modelNumber,
+              region: d.region,
+              simType: d.simType,
+              esimSupport: d.esimSupport,
+              networkStatus: d.networkStatus,
+              activationStatus: d.activationStatus,
+              icloudStatus: d.icloudStatus,
+              repairHistory: d.repairHistory,
+              screenCondition: d.screenCondition,
+              bodyCondition: d.bodyCondition,
+              cameraCondition: d.cameraCondition,
+              faceIdStatus: d.faceIdStatus,
+              touchFunctionality: d.touchFunctionality,
+              chargingPortCondition: d.chargingPortCondition,
+              batteryHealth: d.batteryHealth,
+              condition: d.condition,
+              notes: d.notes,
+              price: d.price,
+              isSold: d.isSold,
+              isReserved: d.isReserved
+            })) || []
+          }
+        }
+      });
+
+      // Revalidate cache
+      revalidatePath("/iphones");
+      revalidatePath(`/iphones/${product.slug}`);
+      revalidatePath("/");
+      revalidatePath("/admin/(protected)/products");
+
+      return NextResponse.json(updatedProduct);
+    }
+
+    // Handle status-only actions
     let updateData: any = {};
 
     switch (action) {

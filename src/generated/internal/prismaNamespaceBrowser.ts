@@ -63,6 +63,9 @@ export const ModelName = {
   Order: 'Order',
   OrderItem: 'OrderItem',
   Payment: 'Payment',
+  EcoCashTransaction: 'EcoCashTransaction',
+  PaymentProof: 'PaymentProof',
+  PaymentAuditLog: 'PaymentAuditLog',
   Wishlist: 'Wishlist',
   WishlistItem: 'WishlistItem',
   Review: 'Review',
@@ -88,7 +91,14 @@ export const ModelName = {
   HomepageBanner: 'HomepageBanner',
   Article: 'Article',
   AboutUs: 'AboutUs',
-  ContactInfo: 'ContactInfo'
+  ContactInfo: 'ContactInfo',
+  PriceCatalogue: 'PriceCatalogue',
+  SupportConversation: 'SupportConversation',
+  SupportMessage: 'SupportMessage',
+  SupportEscalation: 'SupportEscalation',
+  KnowledgeArticle: 'KnowledgeArticle',
+  UnansweredQuestion: 'UnansweredQuestion',
+  SupportSettings: 'SupportSettings'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -303,17 +313,75 @@ export type OrderItemScalarFieldEnum = (typeof OrderItemScalarFieldEnum)[keyof t
 export const PaymentScalarFieldEnum = {
   id: 'id',
   orderId: 'orderId',
-  transactionId: 'transactionId',
+  provider: 'provider',
+  providerTransactionId: 'providerTransactionId',
+  merchantReference: 'merchantReference',
   amount: 'amount',
-  method: 'method',
+  currency: 'currency',
+  customerPhone: 'customerPhone',
   status: 'status',
-  paymentDate: 'paymentDate',
+  failureReason: 'failureReason',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  completedAt: 'completedAt',
   metadata: 'metadata',
+  rawResponse: 'rawResponse'
+} as const
+
+export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+
+
+export const EcoCashTransactionScalarFieldEnum = {
+  id: 'id',
+  transactionReference: 'transactionReference',
+  amount: 'amount',
+  currency: 'currency',
+  senderPhone: 'senderPhone',
+  merchantNumber: 'merchantNumber',
+  merchantName: 'merchantName',
+  transactionDate: 'transactionDate',
+  transactionTime: 'transactionTime',
+  rawMessage: 'rawMessage',
+  receivedAt: 'receivedAt',
+  sourceDevice: 'sourceDevice',
+  status: 'status',
+  matchedPaymentId: 'matchedPaymentId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+export type EcoCashTransactionScalarFieldEnum = (typeof EcoCashTransactionScalarFieldEnum)[keyof typeof EcoCashTransactionScalarFieldEnum]
+
+
+export const PaymentProofScalarFieldEnum = {
+  id: 'id',
+  paymentId: 'paymentId',
+  transactionReference: 'transactionReference',
+  amount: 'amount',
+  senderPhone: 'senderPhone',
+  paymentDate: 'paymentDate',
+  screenshotUrl: 'screenshotUrl',
+  submittedAt: 'submittedAt',
+  status: 'status',
+  matchedTransactionId: 'matchedTransactionId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PaymentProofScalarFieldEnum = (typeof PaymentProofScalarFieldEnum)[keyof typeof PaymentProofScalarFieldEnum]
+
+
+export const PaymentAuditLogScalarFieldEnum = {
+  id: 'id',
+  paymentId: 'paymentId',
+  action: 'action',
+  actor: 'actor',
+  actorType: 'actorType',
+  metadata: 'metadata',
+  timestamp: 'timestamp'
+} as const
+
+export type PaymentAuditLogScalarFieldEnum = (typeof PaymentAuditLogScalarFieldEnum)[keyof typeof PaymentAuditLogScalarFieldEnum]
 
 
 export const WishlistScalarFieldEnum = {
@@ -526,6 +594,20 @@ export const SiteSettingsScalarFieldEnum = {
   pickupRequirements: 'pickupRequirements',
   googleMapsUrl: 'googleMapsUrl',
   heroImage: 'heroImage',
+  primaryColor: 'primaryColor',
+  secondaryColor: 'secondaryColor',
+  buttonStyle: 'buttonStyle',
+  siteName: 'siteName',
+  logo: 'logo',
+  favicon: 'favicon',
+  seoTitle: 'seoTitle',
+  seoDescription: 'seoDescription',
+  seoKeywords: 'seoKeywords',
+  ogImage: 'ogImage',
+  facebookUrl: 'facebookUrl',
+  instagramUrl: 'instagramUrl',
+  tiktokUrl: 'tiktokUrl',
+  language: 'language',
   updatedAt: 'updatedAt'
 } as const
 
@@ -764,6 +846,136 @@ export const ContactInfoScalarFieldEnum = {
 } as const
 
 export type ContactInfoScalarFieldEnum = (typeof ContactInfoScalarFieldEnum)[keyof typeof ContactInfoScalarFieldEnum]
+
+
+export const PriceCatalogueScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  series: 'series',
+  model: 'model',
+  storage: 'storage',
+  price: 'price',
+  description: 'description',
+  imageKey: 'imageKey',
+  imageOverride: 'imageOverride',
+  order: 'order',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PriceCatalogueScalarFieldEnum = (typeof PriceCatalogueScalarFieldEnum)[keyof typeof PriceCatalogueScalarFieldEnum]
+
+
+export const SupportConversationScalarFieldEnum = {
+  id: 'id',
+  sessionId: 'sessionId',
+  userId: 'userId',
+  customerName: 'customerName',
+  customerEmail: 'customerEmail',
+  customerPhone: 'customerPhone',
+  status: 'status',
+  escalatedAt: 'escalatedAt',
+  escalatedTo: 'escalatedTo',
+  escalatedBy: 'escalatedBy',
+  resolvedAt: 'resolvedAt',
+  resolvedBy: 'resolvedBy',
+  metadata: 'metadata',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SupportConversationScalarFieldEnum = (typeof SupportConversationScalarFieldEnum)[keyof typeof SupportConversationScalarFieldEnum]
+
+
+export const SupportMessageScalarFieldEnum = {
+  id: 'id',
+  conversationId: 'conversationId',
+  role: 'role',
+  content: 'content',
+  metadata: 'metadata',
+  confidence: 'confidence',
+  productContext: 'productContext',
+  createdAt: 'createdAt'
+} as const
+
+export type SupportMessageScalarFieldEnum = (typeof SupportMessageScalarFieldEnum)[keyof typeof SupportMessageScalarFieldEnum]
+
+
+export const SupportEscalationScalarFieldEnum = {
+  id: 'id',
+  conversationId: 'conversationId',
+  reason: 'reason',
+  priority: 'priority',
+  notes: 'notes',
+  assignedTo: 'assignedTo',
+  assignedAt: 'assignedAt',
+  resolvedAt: 'resolvedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SupportEscalationScalarFieldEnum = (typeof SupportEscalationScalarFieldEnum)[keyof typeof SupportEscalationScalarFieldEnum]
+
+
+export const KnowledgeArticleScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  content: 'content',
+  category: 'category',
+  tags: 'tags',
+  status: 'status',
+  order: 'order',
+  views: 'views',
+  helpful: 'helpful',
+  notHelpful: 'notHelpful',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  publishedAt: 'publishedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type KnowledgeArticleScalarFieldEnum = (typeof KnowledgeArticleScalarFieldEnum)[keyof typeof KnowledgeArticleScalarFieldEnum]
+
+
+export const UnansweredQuestionScalarFieldEnum = {
+  id: 'id',
+  question: 'question',
+  category: 'category',
+  intent: 'intent',
+  confidence: 'confidence',
+  status: 'status',
+  answer: 'answer',
+  addedToKB: 'addedToKB',
+  kbArticleId: 'kbArticleId',
+  answeredBy: 'answeredBy',
+  answeredAt: 'answeredAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UnansweredQuestionScalarFieldEnum = (typeof UnansweredQuestionScalarFieldEnum)[keyof typeof UnansweredQuestionScalarFieldEnum]
+
+
+export const SupportSettingsScalarFieldEnum = {
+  id: 'id',
+  aiProvider: 'aiProvider',
+  aiModel: 'aiModel',
+  aiTemperature: 'aiTemperature',
+  aiMaxTokens: 'aiMaxTokens',
+  greeting: 'greeting',
+  escalationMessage: 'escalationMessage',
+  fallbackMessage: 'fallbackMessage',
+  quickActions: 'quickActions',
+  isActive: 'isActive',
+  rateLimitPerMinute: 'rateLimitPerMinute',
+  rateLimitPerHour: 'rateLimitPerHour',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SupportSettingsScalarFieldEnum = (typeof SupportSettingsScalarFieldEnum)[keyof typeof SupportSettingsScalarFieldEnum]
 
 
 export const SortOrder = {

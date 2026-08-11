@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { Save, Loader2, Globe, Smartphone, Palette, Shield } from "lucide-react";
+import { AdminPageHeader } from "@/components/admin/admin-page-header";
 
 interface WebsiteSettings {
   id?: string;
@@ -34,8 +35,8 @@ interface WebsiteSettings {
 
 export default function SettingsPage() {
   const [settings, setSettings] = useState<WebsiteSettings>({
-    siteName: "iPhone Hub Masvingo",
-    contactEmail: "info@iphonehubmasvingo.co.zw",
+    siteName: "iPhone Hub Zimbabwe",
+    contactEmail: "info@iphonehubzimbabwe.co.zw",
     contactPhone: "0773227172",
     currency: "USD",
     language: "en"
@@ -53,6 +54,7 @@ export default function SettingsPage() {
     try {
       const response = await fetch("/admin/api/settings");
       const data = await response.json();
+      console.log("Fetched settings:", data);
       setSettings(data);
     } catch (error) {
       console.error("Error fetching settings:", error);
@@ -64,20 +66,30 @@ export default function SettingsPage() {
   const handleSave = async () => {
     setSaving(true);
     try {
+      console.log("Saving settings:", settings);
+      
       const response = await fetch("/admin/api/settings", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(settings),
       });
 
+      console.log("Response status:", response.status);
+      
+      const responseData = await response.json();
+      console.log("Response data:", responseData);
+
       if (!response.ok) {
-        throw new Error("Failed to save settings");
+        throw new Error(responseData.error || "Failed to save settings");
       }
 
-      alert("Settings saved successfully!");
+      alert("Settings saved successfully! The appearance changes will be applied immediately.");
+      
+      // Reload page to see changes
+      window.location.reload();
     } catch (error) {
       console.error("Error saving settings:", error);
-      alert("Failed to save settings");
+      alert("Failed to save settings: " + (error as Error).message + ". Please try again.");
     } finally {
       setSaving(false);
     }
@@ -96,16 +108,16 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-[#EBE2C5] font-manrope">Website Settings</h1>
-          <p className="text-[#EBE2C5]/60">Manage website configuration</p>
+    <div className="space-y-8">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+        <div className="space-y-2 min-w-0 flex-1">
+          <h1 className="text-3xl lg:text-4xl font-bold text-[#0E161B] font-manrope">Website Settings</h1>
+          <p className="text-[#5F3C18] text-base">Manage website configuration</p>
         </div>
         <Button
           onClick={handleSave}
           disabled={saving}
-          className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]"
+          className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] flex-shrink-0"
         >
           {saving ? (
             <>
@@ -218,7 +230,7 @@ export default function SettingsPage() {
                   id="seoTitle"
                   value={settings.seoTitle || ""}
                   onChange={(e) => handleChange("seoTitle", e.target.value)}
-                  placeholder="iPhone Hub Masvingo - Premium iPhones"
+                  placeholder="iPhone Hub Zimbabwe - Premium iPhones"
                   className="bg-white border-[#CDB586]"
                 />
               </div>
@@ -228,7 +240,7 @@ export default function SettingsPage() {
                   id="seoDescription"
                   value={settings.seoDescription || ""}
                   onChange={(e) => handleChange("seoDescription", e.target.value)}
-                  placeholder="Your trusted source for premium boxed, pre-owned, and second-hand iPhones in Masvingo, Zimbabwe."
+                  placeholder="Your trusted source for premium boxed, pre-owned, and second-hand iPhones in Zimbabwe."
                   className="bg-white border-[#CDB586]"
                   rows={3}
                 />
@@ -239,7 +251,7 @@ export default function SettingsPage() {
                   id="seoKeywords"
                   value={settings.seoKeywords || ""}
                   onChange={(e) => handleChange("seoKeywords", e.target.value)}
-                  placeholder="iPhone, Apple, Masvingo, Zimbabwe, boxed iPhones, pre-owned iPhones"
+                  placeholder="iPhone, Apple, Zimbabwe, boxed iPhones, pre-owned iPhones"
                   className="bg-white border-[#CDB586]"
                   rows={2}
                 />
@@ -270,7 +282,7 @@ export default function SettingsPage() {
                   id="facebookUrl"
                   value={settings.facebookUrl || ""}
                   onChange={(e) => handleChange("facebookUrl", e.target.value)}
-                  placeholder="https://facebook.com/iphonehubmasvingo"
+                  placeholder="https://facebook.com/iphonehubzimbabwe"
                   className="bg-white border-[#CDB586]"
                 />
               </div>
@@ -280,7 +292,7 @@ export default function SettingsPage() {
                   id="instagramUrl"
                   value={settings.instagramUrl || ""}
                   onChange={(e) => handleChange("instagramUrl", e.target.value)}
-                  placeholder="https://instagram.com/iphonehubmasvingo"
+                  placeholder="https://instagram.com/iphonehubzimbabwe"
                   className="bg-white border-[#CDB586]"
                 />
               </div>
@@ -290,7 +302,7 @@ export default function SettingsPage() {
                   id="tiktokUrl"
                   value={settings.tiktokUrl || ""}
                   onChange={(e) => handleChange("tiktokUrl", e.target.value)}
-                  placeholder="https://tiktok.com/@iphonehubmasvingo"
+                  placeholder="https://tiktok.com/@iphonehubzimbabwe"
                   className="bg-white border-[#CDB586]"
                 />
               </div>

@@ -102,6 +102,21 @@ export type OrderItem = Prisma.OrderItemModel
  */
 export type Payment = Prisma.PaymentModel
 /**
+ * Model EcoCashTransaction
+ * 
+ */
+export type EcoCashTransaction = Prisma.EcoCashTransactionModel
+/**
+ * Model PaymentProof
+ * 
+ */
+export type PaymentProof = Prisma.PaymentProofModel
+/**
+ * Model PaymentAuditLog
+ * 
+ */
+export type PaymentAuditLog = Prisma.PaymentAuditLogModel
+/**
  * Model Wishlist
  * 
  */
@@ -231,3 +246,38 @@ export type AboutUs = Prisma.AboutUsModel
  * 
  */
 export type ContactInfo = Prisma.ContactInfoModel
+/**
+ * Model PriceCatalogue
+ * 
+ */
+export type PriceCatalogue = Prisma.PriceCatalogueModel
+/**
+ * Model SupportConversation
+ * 
+ */
+export type SupportConversation = Prisma.SupportConversationModel
+/**
+ * Model SupportMessage
+ * 
+ */
+export type SupportMessage = Prisma.SupportMessageModel
+/**
+ * Model SupportEscalation
+ * 
+ */
+export type SupportEscalation = Prisma.SupportEscalationModel
+/**
+ * Model KnowledgeArticle
+ * 
+ */
+export type KnowledgeArticle = Prisma.KnowledgeArticleModel
+/**
+ * Model UnansweredQuestion
+ * 
+ */
+export type UnansweredQuestion = Prisma.UnansweredQuestionModel
+/**
+ * Model SupportSettings
+ * 
+ */
+export type SupportSettings = Prisma.SupportSettingsModel

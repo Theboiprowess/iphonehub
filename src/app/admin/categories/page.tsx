@@ -24,6 +24,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { AdminPageHeader } from "@/components/admin/admin-page-header";
 
 interface Category {
   id: string;
@@ -149,23 +150,23 @@ export default function CategoriesPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-[#EBE2C5] font-manrope">Categories</h1>
-          <p className="text-[#EBE2C5]/60">Manage product categories</p>
+    <div className="space-y-8">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+        <div className="space-y-2 min-w-0 flex-1">
+          <h1 className="text-3xl lg:text-4xl font-bold text-[#0E161B] font-manrope">Categories</h1>
+          <p className="text-[#5F3C18] text-base">Manage product categories</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-shrink-0 items-center gap-3">
           <Button
             onClick={handleSeedCategories}
             variant="outline"
-            className="border-[#CDB586] text-[#EBE2C5]"
+            className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586]/10 flex-shrink-0"
           >
             Seed Default
           </Button>
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]">
+              <Button className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] flex-shrink-0">
                 <Plus className="h-4 w-4 mr-2" />
                 Add Category
               </Button>
@@ -198,7 +199,7 @@ export default function CategoriesPage() {
             <p className="text-[#5F3C18]/60 mb-4">Create your first category to organize your products</p>
             <Button
               onClick={() => setDialogOpen(true)}
-              className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]"
+              className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] flex-shrink-0"
             >
               <Plus className="h-4 w-4 mr-2" />
               Add Category
@@ -238,7 +239,7 @@ export default function CategoriesPage() {
                     variant="ghost"
                     onClick={() => moveCategoryOrder(index, "up")}
                     disabled={index === 0}
-                    className="hover:bg-[#CDB586]/20"
+                    className="hover:bg-[#CDB586]/20 flex-shrink-0"
                   >
                     <ArrowUp className="h-4 w-4 text-[#5F3C18]" />
                   </Button>
@@ -247,7 +248,7 @@ export default function CategoriesPage() {
                     variant="ghost"
                     onClick={() => moveCategoryOrder(index, "down")}
                     disabled={index === categories.length - 1}
-                    className="hover:bg-[#CDB586]/20"
+                    className="hover:bg-[#CDB586]/20 flex-shrink-0"
                   >
                     <ArrowDown className="h-4 w-4 text-[#5F3C18]" />
                   </Button>
@@ -258,7 +259,7 @@ export default function CategoriesPage() {
                       setEditingCategory(category);
                       setDialogOpen(true);
                     }}
-                    className="hover:bg-[#CDB586]/20"
+                    className="hover:bg-[#CDB586]/20 flex-shrink-0"
                   >
                     <Edit className="h-4 w-4 text-[#5F3C18]" />
                   </Button>
@@ -266,7 +267,7 @@ export default function CategoriesPage() {
                     size="sm"
                     variant="ghost"
                     onClick={() => handleDelete(category.id)}
-                    className="hover:bg-red-100"
+                    className="hover:bg-red-100 flex-shrink-0"
                   >
                     <Trash2 className="h-4 w-4 text-red-600" />
                   </Button>

@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Save, Loader2, Building2, User, Trophy, Users } from "lucide-react";
+import { AdminPageHeader } from "@/components/admin/admin-page-header";
 
 interface AboutUs {
   id?: string;
@@ -30,9 +31,9 @@ interface AboutUs {
 
 export default function AboutPage() {
   const [aboutUs, setAboutUs] = useState<AboutUs>({
-    companyName: "iPhone Hub Masvingo",
-    heading: "About iPhone Hub Masvingo",
-    description: "Your trusted source for premium iPhones in Masvingo, Zimbabwe",
+    companyName: "iPhone Hub Zimbabwe",
+    heading: "About iPhone Hub Zimbabwe",
+    description: "Your trusted source for premium iPhones in Zimbabwe",
     ceoName: "Artwell Gwata",
     ceoTitle: "Founder & CEO",
     teamMembers: [],
@@ -96,16 +97,16 @@ export default function AboutPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-[#EBE2C5] font-manrope">About Us Management</h1>
-          <p className="text-[#EBE2C5]/60">Manage company information and story</p>
+    <div className="space-y-8">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+        <div className="space-y-2 min-w-0 flex-1">
+          <h1 className="text-3xl lg:text-4xl font-bold text-[#0E161B] font-manrope">About Us Management</h1>
+          <p className="text-[#5F3C18] text-base">Manage company information and story</p>
         </div>
         <Button
           onClick={handleSave}
           disabled={saving}
-          className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]"
+          className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] flex-shrink-0"
         >
           {saving ? (
             <>
@@ -210,14 +211,47 @@ export default function AboutPage() {
                 />
               </div>
               <div>
-                <Label htmlFor="ceoPhoto">CEO Photo URL</Label>
-                <Input
-                  id="ceoPhoto"
-                  value={aboutUs.ceoPhoto || ""}
-                  onChange={(e) => handleChange("ceoPhoto", e.target.value)}
-                  placeholder="/uploads/media/ceo-photo.jpg"
-                  className="bg-white border-[#CDB586]"
-                />
+                <Label htmlFor="ceoPhoto">CEO Photo</Label>
+                <div className="space-y-3">
+                  {aboutUs.ceoPhoto && (
+                    <div className="relative w-32 h-32">
+                      <img
+                        src={aboutUs.ceoPhoto}
+                        alt="CEO"
+                        className="w-full h-full object-cover rounded-lg border border-[#CDB586]"
+                      />
+                    </div>
+                  )}
+                  <div>
+                    <Input
+                      id="ceoPhoto"
+                      type="file"
+                      accept="image/*"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            handleChange("ceoPhoto", reader.result as string);
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                      className="bg-white border-[#CDB586]"
+                    />
+                    <p className="text-xs text-gray-600 mt-1">Upload CEO photo (will be stored as base64)</p>
+                  </div>
+                  {aboutUs.ceoPhoto && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => handleChange("ceoPhoto", "")}
+                      className="border-[#CDB586] text-[#0E161B]"
+                    >
+                      Remove Photo
+                    </Button>
+                  )}
+                </div>
               </div>
             </CardContent>
           </Card>

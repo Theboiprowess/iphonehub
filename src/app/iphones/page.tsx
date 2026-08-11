@@ -6,9 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { SectionHeader } from "@/components/ui/section-header";
 import { formatPrice } from "@/lib/utils";
-import { Heart, Search, SlidersHorizontal } from "lucide-react";
-import { ArrowRight } from "lucide-react";
+import { Heart, Search, SlidersHorizontal, MessageSquare } from "lucide-react";
+import Link from "next/link";
 
 const conditionLabels: Record<string, { label: string; variant: "boxed" | "preOwned" | "secondHand" }> = {
   BOXED: { label: "Boxed / Brand New", variant: "boxed" },
@@ -30,6 +31,15 @@ export default function iPhonesPage() {
     sortBy: "featured",
     search: "",
   });
+
+  useEffect(() => {
+    // Check URL params on mount
+    const urlParams = new URLSearchParams(window.location.search);
+    const conditionParam = urlParams.get("condition");
+    if (conditionParam) {
+      setFilters((prev) => ({ ...prev, condition: conditionParam }));
+    }
+  }, []);
 
   useEffect(() => {
     fetchProducts();
@@ -65,21 +75,31 @@ export default function iPhonesPage() {
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
+  const clearFilters = () => {
+    setFilters({
+      condition: "",
+      model: "",
+      minPrice: "",
+      maxPrice: "",
+      storage: "",
+      sortBy: "featured",
+      search: "",
+    });
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-            iPhones
-          </h1>
-          <p className="text-lg text-gray-600">
-            Browse our collection of quality iPhones
-          </p>
-        </div>
+    <div className="min-h-screen bg-gray-50 section-spacing">
+      <div className="site-container">
+        <SectionHeader 
+          title={filters.condition === "boxed" ? "Boxed iPhones" : filters.condition === "pre-owned" ? "Pre-Owned iPhones" : filters.condition === "second-hand" ? "Second-Hand iPhones" : "iPhones"}
+          subtitle={filters.condition === "boxed" ? "Browse our collection of brand new boxed iPhones" : 
+             filters.condition === "pre-owned" ? "Browse our collection of premium pre-owned iPhones" :
+             filters.condition === "second-hand" ? "Browse our collection of second-hand iPhones" :
+             "Browse our collection of quality iPhones"}
+        />
 
         {/* Search and Filters */}
-        <div className="mb-8 space-y-4">
+        <div className="mb-8 space-y-4 mt-12">
           <div className="flex gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -98,6 +118,14 @@ export default function iPhonesPage() {
               <SlidersHorizontal className="h-4 w-4 mr-2" />
               Filters
             </Button>
+            {filters.condition && (
+              <Button
+                variant="outline"
+                onClick={clearFilters}
+              >
+                Clear Filter
+              </Button>
+            )}
           </div>
 
           <div className={`${showFilters ? "block" : "hidden"} lg:block`}>
@@ -179,16 +207,25 @@ export default function iPhonesPage() {
             <p className="text-gray-600">Loading products...</p>
           </div>
         ) : products.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-600">No products found matching your criteria.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Empty grid - no products shown */}
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {products.map((product) => (
               <Card key={product.id} className="group hover:shadow-lg transition-shadow">
                 <CardHeader className="p-0">
-                  <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-t-lg flex items-center justify-center relative">
-                    <div className="text-6xl">📱</div>
+                  <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-t-lg flex items-center justify-center relative overflow-hidden">
+                    {product.images && product.images.length > 0 && product.images[0] && product.images[0].url ? (
+                      <img 
+                        src={product.images[0].url} 
+                        alt={product.images[0].alt || product.name}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="text-6xl">📱</div>
+                    )}
                     <div className="absolute top-4 left-4">
                       <Badge variant={conditionLabels[product.condition].variant}>
                         {conditionLabels[product.condition].label}
@@ -204,33 +241,46 @@ export default function iPhonesPage() {
                   </div>
                 </CardHeader>
                 <CardContent className="p-6">
-                  <h3 className="font-semibold text-lg mb-2">{product.name}</h3>
+                  <h3 className="font-semibold text-lg mb-2 text-gray-900">{product.name}</h3>
                   <div className="space-y-1 text-sm text-gray-600 mb-4">
-                    <p>{product.model}</p>
-                    {product.variants?.[0] && (
-                      <>
-                        <p>{product.variants[0].storage} • {product.variants[0].colour}</p>
-                        {product.variants[0].batteryHealth && (
-                          <p>Battery Health: {product.variants[0].batteryHealth}%</p>
-                        )}
-                      </>
+                    <p className="font-medium">{product.model}</p>
+                    <p>{product.storage} • {product.colour}</p>
+                    {product.condition !== "BOXED" && (
+                      <p>Battery Health: {product.batteryHealth}%</p>
                     )}
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-2xl font-bold">
-                      {formatPrice(product.variants?.[0]?.price || 0)}
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="text-2xl font-bold text-gray-900">
+                      {formatPrice(product.price)}
                     </span>
-                    {product.variants?.[0]?.comparePrice && (
+                    {product.comparePrice && (
                       <span className="text-sm text-gray-500 line-through">
-                        {formatPrice(product.variants[0].comparePrice)}
+                        {formatPrice(product.comparePrice)}
                       </span>
                     )}
                   </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <span className={product.stock > 0 ? "text-green-600" : "text-red-600"}>
+                      {product.stock > 0 ? `${product.stock} in stock` : "Sold out"}
+                    </span>
+                  </div>
                 </CardContent>
-                <CardFooter className="p-6 pt-0">
-                  <Button className="w-full">
-                    View Details
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                <CardFooter className="p-6 pt-0 flex gap-3">
+                  <Link href={`/iphones/${product.id}`} className="flex-1">
+                    <Button className="w-full bg-blue-600 text-white hover:bg-blue-700">
+                      View Details
+                    </Button>
+                  </Link>
+                  <Button 
+                    variant="outline" 
+                    className="border-blue-600 text-blue-600 hover:bg-blue-50"
+                    onClick={() => {
+                      const whatsappNumber = "263773227172";
+                      const message = `Hello iPhone Hub Zimbabwe, I am interested in the ${product.name} (${product.storage}, ${product.colour}). Is it still available?`;
+                      window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+                    }}
+                  >
+                    <MessageSquare className="h-4 w-4" />
                   </Button>
                 </CardFooter>
               </Card>

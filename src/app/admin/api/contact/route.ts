@@ -26,8 +26,8 @@ export async function GET() {
           phoneSecondaryLabel: "Sabeka",
           whatsappPrimary: "0773227172",
           whatsappSecondary: "0784502347",
-          email: "info@iphonehubmasvingo.co.zw",
-          city: "Masvingo",
+          email: "info@iphonehubzimbabwe.co.zw",
+          city: "Zimbabwe",
           country: "Zimbabwe"
         }
       });

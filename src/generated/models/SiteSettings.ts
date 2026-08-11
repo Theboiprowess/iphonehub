@@ -59,6 +59,20 @@ export type SiteSettingsMinAggregateOutputType = {
   pickupRequirements: string | null
   googleMapsUrl: string | null
   heroImage: string | null
+  primaryColor: string | null
+  secondaryColor: string | null
+  buttonStyle: string | null
+  siteName: string | null
+  logo: string | null
+  favicon: string | null
+  seoTitle: string | null
+  seoDescription: string | null
+  seoKeywords: string | null
+  ogImage: string | null
+  facebookUrl: string | null
+  instagramUrl: string | null
+  tiktokUrl: string | null
+  language: string | null
   updatedAt: Date | null
 }
 
@@ -85,6 +99,20 @@ export type SiteSettingsMaxAggregateOutputType = {
   pickupRequirements: string | null
   googleMapsUrl: string | null
   heroImage: string | null
+  primaryColor: string | null
+  secondaryColor: string | null
+  buttonStyle: string | null
+  siteName: string | null
+  logo: string | null
+  favicon: string | null
+  seoTitle: string | null
+  seoDescription: string | null
+  seoKeywords: string | null
+  ogImage: string | null
+  facebookUrl: string | null
+  instagramUrl: string | null
+  tiktokUrl: string | null
+  language: string | null
   updatedAt: Date | null
 }
 
@@ -119,6 +147,20 @@ export type SiteSettingsCountAggregateOutputType = {
   pickupRequirements: number
   googleMapsUrl: number
   heroImage: number
+  primaryColor: number
+  secondaryColor: number
+  buttonStyle: number
+  siteName: number
+  logo: number
+  favicon: number
+  seoTitle: number
+  seoDescription: number
+  seoKeywords: number
+  ogImage: number
+  facebookUrl: number
+  instagramUrl: number
+  tiktokUrl: number
+  language: number
   updatedAt: number
   _all: number
 }
@@ -157,6 +199,20 @@ export type SiteSettingsMinAggregateInputType = {
   pickupRequirements?: true
   googleMapsUrl?: true
   heroImage?: true
+  primaryColor?: true
+  secondaryColor?: true
+  buttonStyle?: true
+  siteName?: true
+  logo?: true
+  favicon?: true
+  seoTitle?: true
+  seoDescription?: true
+  seoKeywords?: true
+  ogImage?: true
+  facebookUrl?: true
+  instagramUrl?: true
+  tiktokUrl?: true
+  language?: true
   updatedAt?: true
 }
 
@@ -183,6 +239,20 @@ export type SiteSettingsMaxAggregateInputType = {
   pickupRequirements?: true
   googleMapsUrl?: true
   heroImage?: true
+  primaryColor?: true
+  secondaryColor?: true
+  buttonStyle?: true
+  siteName?: true
+  logo?: true
+  favicon?: true
+  seoTitle?: true
+  seoDescription?: true
+  seoKeywords?: true
+  ogImage?: true
+  facebookUrl?: true
+  instagramUrl?: true
+  tiktokUrl?: true
+  language?: true
   updatedAt?: true
 }
 
@@ -217,6 +287,20 @@ export type SiteSettingsCountAggregateInputType = {
   pickupRequirements?: true
   googleMapsUrl?: true
   heroImage?: true
+  primaryColor?: true
+  secondaryColor?: true
+  buttonStyle?: true
+  siteName?: true
+  logo?: true
+  favicon?: true
+  seoTitle?: true
+  seoDescription?: true
+  seoKeywords?: true
+  ogImage?: true
+  facebookUrl?: true
+  instagramUrl?: true
+  tiktokUrl?: true
+  language?: true
   updatedAt?: true
   _all?: true
 }
@@ -338,6 +422,20 @@ export type SiteSettingsGroupByOutputType = {
   pickupRequirements: string | null
   googleMapsUrl: string | null
   heroImage: string | null
+  primaryColor: string | null
+  secondaryColor: string | null
+  buttonStyle: string | null
+  siteName: string | null
+  logo: string | null
+  favicon: string | null
+  seoTitle: string | null
+  seoDescription: string | null
+  seoKeywords: string | null
+  ogImage: string | null
+  facebookUrl: string | null
+  instagramUrl: string | null
+  tiktokUrl: string | null
+  language: string | null
   updatedAt: Date
   _count: SiteSettingsCountAggregateOutputType | null
   _avg: SiteSettingsAvgAggregateOutputType | null
@@ -395,6 +493,20 @@ export type SiteSettingsWhereInput = {
   pickupRequirements?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   googleMapsUrl?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   heroImage?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  primaryColor?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  secondaryColor?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  buttonStyle?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  siteName?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  logo?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  favicon?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  seoTitle?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  seoDescription?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  seoKeywords?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  ogImage?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  facebookUrl?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  instagramUrl?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  tiktokUrl?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  language?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   updatedAt?: Prisma.DateTimeFilter<"SiteSettings"> | Date | string
 }
 
@@ -429,6 +541,20 @@ export type SiteSettingsOrderByWithRelationInput = {
   pickupRequirements?: Prisma.SortOrderInput | Prisma.SortOrder
   googleMapsUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   heroImage?: Prisma.SortOrderInput | Prisma.SortOrder
+  primaryColor?: Prisma.SortOrderInput | Prisma.SortOrder
+  secondaryColor?: Prisma.SortOrderInput | Prisma.SortOrder
+  buttonStyle?: Prisma.SortOrderInput | Prisma.SortOrder
+  siteName?: Prisma.SortOrderInput | Prisma.SortOrder
+  logo?: Prisma.SortOrderInput | Prisma.SortOrder
+  favicon?: Prisma.SortOrderInput | Prisma.SortOrder
+  seoTitle?: Prisma.SortOrderInput | Prisma.SortOrder
+  seoDescription?: Prisma.SortOrderInput | Prisma.SortOrder
+  seoKeywords?: Prisma.SortOrderInput | Prisma.SortOrder
+  ogImage?: Prisma.SortOrderInput | Prisma.SortOrder
+  facebookUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  instagramUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  tiktokUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  language?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -466,6 +592,20 @@ export type SiteSettingsWhereUniqueInput = Prisma.AtLeast<{
   pickupRequirements?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   googleMapsUrl?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   heroImage?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  primaryColor?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  secondaryColor?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  buttonStyle?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  siteName?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  logo?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  favicon?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  seoTitle?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  seoDescription?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  seoKeywords?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  ogImage?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  facebookUrl?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  instagramUrl?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  tiktokUrl?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
+  language?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   updatedAt?: Prisma.DateTimeFilter<"SiteSettings"> | Date | string
 }, "id">
 
@@ -500,6 +640,20 @@ export type SiteSettingsOrderByWithAggregationInput = {
   pickupRequirements?: Prisma.SortOrderInput | Prisma.SortOrder
   googleMapsUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   heroImage?: Prisma.SortOrderInput | Prisma.SortOrder
+  primaryColor?: Prisma.SortOrderInput | Prisma.SortOrder
+  secondaryColor?: Prisma.SortOrderInput | Prisma.SortOrder
+  buttonStyle?: Prisma.SortOrderInput | Prisma.SortOrder
+  siteName?: Prisma.SortOrderInput | Prisma.SortOrder
+  logo?: Prisma.SortOrderInput | Prisma.SortOrder
+  favicon?: Prisma.SortOrderInput | Prisma.SortOrder
+  seoTitle?: Prisma.SortOrderInput | Prisma.SortOrder
+  seoDescription?: Prisma.SortOrderInput | Prisma.SortOrder
+  seoKeywords?: Prisma.SortOrderInput | Prisma.SortOrder
+  ogImage?: Prisma.SortOrderInput | Prisma.SortOrder
+  facebookUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  instagramUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  tiktokUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  language?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.SiteSettingsCountOrderByAggregateInput
   _avg?: Prisma.SiteSettingsAvgOrderByAggregateInput
@@ -542,6 +696,20 @@ export type SiteSettingsScalarWhereWithAggregatesInput = {
   pickupRequirements?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
   googleMapsUrl?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
   heroImage?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
+  primaryColor?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
+  secondaryColor?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
+  buttonStyle?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
+  siteName?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
+  logo?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
+  favicon?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
+  seoTitle?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
+  seoDescription?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
+  seoKeywords?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
+  ogImage?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
+  facebookUrl?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
+  instagramUrl?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
+  tiktokUrl?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
+  language?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"SiteSettings"> | Date | string
 }
 
@@ -576,6 +744,20 @@ export type SiteSettingsCreateInput = {
   pickupRequirements?: string | null
   googleMapsUrl?: string | null
   heroImage?: string | null
+  primaryColor?: string | null
+  secondaryColor?: string | null
+  buttonStyle?: string | null
+  siteName?: string | null
+  logo?: string | null
+  favicon?: string | null
+  seoTitle?: string | null
+  seoDescription?: string | null
+  seoKeywords?: string | null
+  ogImage?: string | null
+  facebookUrl?: string | null
+  instagramUrl?: string | null
+  tiktokUrl?: string | null
+  language?: string | null
   updatedAt?: Date | string
 }
 
@@ -610,6 +792,20 @@ export type SiteSettingsUncheckedCreateInput = {
   pickupRequirements?: string | null
   googleMapsUrl?: string | null
   heroImage?: string | null
+  primaryColor?: string | null
+  secondaryColor?: string | null
+  buttonStyle?: string | null
+  siteName?: string | null
+  logo?: string | null
+  favicon?: string | null
+  seoTitle?: string | null
+  seoDescription?: string | null
+  seoKeywords?: string | null
+  ogImage?: string | null
+  facebookUrl?: string | null
+  instagramUrl?: string | null
+  tiktokUrl?: string | null
+  language?: string | null
   updatedAt?: Date | string
 }
 
@@ -644,6 +840,20 @@ export type SiteSettingsUpdateInput = {
   pickupRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   heroImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buttonStyle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  siteName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favicon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ogImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tiktokUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -678,6 +888,20 @@ export type SiteSettingsUncheckedUpdateInput = {
   pickupRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   heroImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buttonStyle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  siteName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favicon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ogImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tiktokUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -712,6 +936,20 @@ export type SiteSettingsCreateManyInput = {
   pickupRequirements?: string | null
   googleMapsUrl?: string | null
   heroImage?: string | null
+  primaryColor?: string | null
+  secondaryColor?: string | null
+  buttonStyle?: string | null
+  siteName?: string | null
+  logo?: string | null
+  favicon?: string | null
+  seoTitle?: string | null
+  seoDescription?: string | null
+  seoKeywords?: string | null
+  ogImage?: string | null
+  facebookUrl?: string | null
+  instagramUrl?: string | null
+  tiktokUrl?: string | null
+  language?: string | null
   updatedAt?: Date | string
 }
 
@@ -746,6 +984,20 @@ export type SiteSettingsUpdateManyMutationInput = {
   pickupRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   heroImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buttonStyle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  siteName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favicon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ogImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tiktokUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -780,6 +1032,20 @@ export type SiteSettingsUncheckedUpdateManyInput = {
   pickupRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   heroImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buttonStyle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  siteName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  favicon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ogImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tiktokUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -814,6 +1080,20 @@ export type SiteSettingsCountOrderByAggregateInput = {
   pickupRequirements?: Prisma.SortOrder
   googleMapsUrl?: Prisma.SortOrder
   heroImage?: Prisma.SortOrder
+  primaryColor?: Prisma.SortOrder
+  secondaryColor?: Prisma.SortOrder
+  buttonStyle?: Prisma.SortOrder
+  siteName?: Prisma.SortOrder
+  logo?: Prisma.SortOrder
+  favicon?: Prisma.SortOrder
+  seoTitle?: Prisma.SortOrder
+  seoDescription?: Prisma.SortOrder
+  seoKeywords?: Prisma.SortOrder
+  ogImage?: Prisma.SortOrder
+  facebookUrl?: Prisma.SortOrder
+  instagramUrl?: Prisma.SortOrder
+  tiktokUrl?: Prisma.SortOrder
+  language?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -845,6 +1125,20 @@ export type SiteSettingsMaxOrderByAggregateInput = {
   pickupRequirements?: Prisma.SortOrder
   googleMapsUrl?: Prisma.SortOrder
   heroImage?: Prisma.SortOrder
+  primaryColor?: Prisma.SortOrder
+  secondaryColor?: Prisma.SortOrder
+  buttonStyle?: Prisma.SortOrder
+  siteName?: Prisma.SortOrder
+  logo?: Prisma.SortOrder
+  favicon?: Prisma.SortOrder
+  seoTitle?: Prisma.SortOrder
+  seoDescription?: Prisma.SortOrder
+  seoKeywords?: Prisma.SortOrder
+  ogImage?: Prisma.SortOrder
+  facebookUrl?: Prisma.SortOrder
+  instagramUrl?: Prisma.SortOrder
+  tiktokUrl?: Prisma.SortOrder
+  language?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -871,6 +1165,20 @@ export type SiteSettingsMinOrderByAggregateInput = {
   pickupRequirements?: Prisma.SortOrder
   googleMapsUrl?: Prisma.SortOrder
   heroImage?: Prisma.SortOrder
+  primaryColor?: Prisma.SortOrder
+  secondaryColor?: Prisma.SortOrder
+  buttonStyle?: Prisma.SortOrder
+  siteName?: Prisma.SortOrder
+  logo?: Prisma.SortOrder
+  favicon?: Prisma.SortOrder
+  seoTitle?: Prisma.SortOrder
+  seoDescription?: Prisma.SortOrder
+  seoKeywords?: Prisma.SortOrder
+  ogImage?: Prisma.SortOrder
+  facebookUrl?: Prisma.SortOrder
+  instagramUrl?: Prisma.SortOrder
+  tiktokUrl?: Prisma.SortOrder
+  language?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -912,6 +1220,20 @@ export type SiteSettingsSelect<ExtArgs extends runtime.Types.Extensions.Internal
   pickupRequirements?: boolean
   googleMapsUrl?: boolean
   heroImage?: boolean
+  primaryColor?: boolean
+  secondaryColor?: boolean
+  buttonStyle?: boolean
+  siteName?: boolean
+  logo?: boolean
+  favicon?: boolean
+  seoTitle?: boolean
+  seoDescription?: boolean
+  seoKeywords?: boolean
+  ogImage?: boolean
+  facebookUrl?: boolean
+  instagramUrl?: boolean
+  tiktokUrl?: boolean
+  language?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["siteSettings"]>
 
@@ -946,6 +1268,20 @@ export type SiteSettingsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   pickupRequirements?: boolean
   googleMapsUrl?: boolean
   heroImage?: boolean
+  primaryColor?: boolean
+  secondaryColor?: boolean
+  buttonStyle?: boolean
+  siteName?: boolean
+  logo?: boolean
+  favicon?: boolean
+  seoTitle?: boolean
+  seoDescription?: boolean
+  seoKeywords?: boolean
+  ogImage?: boolean
+  facebookUrl?: boolean
+  instagramUrl?: boolean
+  tiktokUrl?: boolean
+  language?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["siteSettings"]>
 
@@ -980,6 +1316,20 @@ export type SiteSettingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   pickupRequirements?: boolean
   googleMapsUrl?: boolean
   heroImage?: boolean
+  primaryColor?: boolean
+  secondaryColor?: boolean
+  buttonStyle?: boolean
+  siteName?: boolean
+  logo?: boolean
+  favicon?: boolean
+  seoTitle?: boolean
+  seoDescription?: boolean
+  seoKeywords?: boolean
+  ogImage?: boolean
+  facebookUrl?: boolean
+  instagramUrl?: boolean
+  tiktokUrl?: boolean
+  language?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["siteSettings"]>
 
@@ -1014,10 +1364,24 @@ export type SiteSettingsSelectScalar = {
   pickupRequirements?: boolean
   googleMapsUrl?: boolean
   heroImage?: boolean
+  primaryColor?: boolean
+  secondaryColor?: boolean
+  buttonStyle?: boolean
+  siteName?: boolean
+  logo?: boolean
+  favicon?: boolean
+  seoTitle?: boolean
+  seoDescription?: boolean
+  seoKeywords?: boolean
+  ogImage?: boolean
+  facebookUrl?: boolean
+  instagramUrl?: boolean
+  tiktokUrl?: boolean
+  language?: boolean
   updatedAt?: boolean
 }
 
-export type SiteSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "businessName" | "ceoName" | "businessEmail" | "businessPhone" | "whatsappNumber" | "whatsappNumber2" | "whatsappPrimary" | "address" | "city" | "country" | "socialMedia" | "openingHours" | "currency" | "taxRate" | "lowStockThreshold" | "seoMeta" | "policies" | "deliveryConfig" | "paymentConfig" | "warrantyConfig" | "returnConfig" | "ceoBiography" | "ceoImage" | "inspectionProcess" | "pickupLocation" | "pickupHours" | "pickupRequirements" | "googleMapsUrl" | "heroImage" | "updatedAt", ExtArgs["result"]["siteSettings"]>
+export type SiteSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "businessName" | "ceoName" | "businessEmail" | "businessPhone" | "whatsappNumber" | "whatsappNumber2" | "whatsappPrimary" | "address" | "city" | "country" | "socialMedia" | "openingHours" | "currency" | "taxRate" | "lowStockThreshold" | "seoMeta" | "policies" | "deliveryConfig" | "paymentConfig" | "warrantyConfig" | "returnConfig" | "ceoBiography" | "ceoImage" | "inspectionProcess" | "pickupLocation" | "pickupHours" | "pickupRequirements" | "googleMapsUrl" | "heroImage" | "primaryColor" | "secondaryColor" | "buttonStyle" | "siteName" | "logo" | "favicon" | "seoTitle" | "seoDescription" | "seoKeywords" | "ogImage" | "facebookUrl" | "instagramUrl" | "tiktokUrl" | "language" | "updatedAt", ExtArgs["result"]["siteSettings"]>
 
 export type $SiteSettingsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SiteSettings"
@@ -1053,6 +1417,20 @@ export type $SiteSettingsPayload<ExtArgs extends runtime.Types.Extensions.Intern
     pickupRequirements: string | null
     googleMapsUrl: string | null
     heroImage: string | null
+    primaryColor: string | null
+    secondaryColor: string | null
+    buttonStyle: string | null
+    siteName: string | null
+    logo: string | null
+    favicon: string | null
+    seoTitle: string | null
+    seoDescription: string | null
+    seoKeywords: string | null
+    ogImage: string | null
+    facebookUrl: string | null
+    instagramUrl: string | null
+    tiktokUrl: string | null
+    language: string | null
     updatedAt: Date
   }, ExtArgs["result"]["siteSettings"]>
   composites: {}
@@ -1507,6 +1885,20 @@ export interface SiteSettingsFieldRefs {
   readonly pickupRequirements: Prisma.FieldRef<"SiteSettings", 'String'>
   readonly googleMapsUrl: Prisma.FieldRef<"SiteSettings", 'String'>
   readonly heroImage: Prisma.FieldRef<"SiteSettings", 'String'>
+  readonly primaryColor: Prisma.FieldRef<"SiteSettings", 'String'>
+  readonly secondaryColor: Prisma.FieldRef<"SiteSettings", 'String'>
+  readonly buttonStyle: Prisma.FieldRef<"SiteSettings", 'String'>
+  readonly siteName: Prisma.FieldRef<"SiteSettings", 'String'>
+  readonly logo: Prisma.FieldRef<"SiteSettings", 'String'>
+  readonly favicon: Prisma.FieldRef<"SiteSettings", 'String'>
+  readonly seoTitle: Prisma.FieldRef<"SiteSettings", 'String'>
+  readonly seoDescription: Prisma.FieldRef<"SiteSettings", 'String'>
+  readonly seoKeywords: Prisma.FieldRef<"SiteSettings", 'String'>
+  readonly ogImage: Prisma.FieldRef<"SiteSettings", 'String'>
+  readonly facebookUrl: Prisma.FieldRef<"SiteSettings", 'String'>
+  readonly instagramUrl: Prisma.FieldRef<"SiteSettings", 'String'>
+  readonly tiktokUrl: Prisma.FieldRef<"SiteSettings", 'String'>
+  readonly language: Prisma.FieldRef<"SiteSettings", 'String'>
   readonly updatedAt: Prisma.FieldRef<"SiteSettings", 'DateTime'>
 }
     

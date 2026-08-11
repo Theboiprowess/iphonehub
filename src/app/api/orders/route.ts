@@ -21,7 +21,10 @@ export async function POST(request: NextRequest) {
     } = body;
 
     // Generate order number
-    const orderNumber = `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+    const orderNumber = `IHZ-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 100000)).padStart(5, '0')}`;
+
+    // Determine initial order status based on payment method
+    const initialStatus = paymentMethod === "ecocash" ? "PENDING_PAYMENT" : "PENDING_PAYMENT";
 
     const order = await prisma.order.create({
       data: {
@@ -39,7 +42,7 @@ export async function POST(request: NextRequest) {
         currency: "USD",
         deliveryMethod,
         paymentMethod,
-        status: "PENDING",
+        status: initialStatus,
         paymentStatus: "PENDING",
         items: {
           create: items.map((item: any) => ({
@@ -54,7 +57,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    return NextResponse.json(order);
+    return NextResponse.json({ order });
   } catch (error) {
     console.error("Error creating order:", error);
     return NextResponse.json(

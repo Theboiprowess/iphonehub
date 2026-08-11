@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Save, Loader2, Phone, MessageCircle, Mail, MapPin, Share2 } from "lucide-react";
+import { AdminPageHeader } from "@/components/admin/admin-page-header";
 
 interface ContactInfo {
   id?: string;
@@ -36,8 +37,8 @@ export default function ContactPage() {
     phoneSecondaryLabel: "Sabeka",
     whatsappPrimary: "0773227172",
     whatsappSecondary: "0784502347",
-    email: "info@iphonehubmasvingo.co.zw",
-    city: "Masvingo",
+    email: "info@iphonehubzimbabwe.co.zw",
+    city: "Zimbabwe",
     country: "Zimbabwe"
   });
   const [loading, setLoading] = useState(true);
@@ -96,16 +97,16 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-[#EBE2C5] font-manrope">Contact Management</h1>
-          <p className="text-[#EBE2C5]/60">Manage contact information and channels</p>
+    <div className="space-y-8">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+        <div className="space-y-2 min-w-0 flex-1">
+          <h1 className="text-3xl lg:text-4xl font-bold text-[#0E161B] font-manrope">Contact Management</h1>
+          <p className="text-[#5F3C18] text-base">Manage contact information and channels</p>
         </div>
         <Button
           onClick={handleSave}
           disabled={saving}
-          className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]"
+          className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] flex-shrink-0"
         >
           {saving ? (
             <>
@@ -122,7 +123,7 @@ export default function ContactPage() {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="bg-[#F7F5EF] border-[#CDB586]">
+        <TabsList className="bg-[#F7F5EF] border-[#CDB586]/30">
           <TabsTrigger value="phones" className="data-[state=active]:bg-[#CDB586] data-[state=active]:text-[#0E161B]">
             <Phone className="h-4 w-4 mr-2" />
             Phones
@@ -146,7 +147,7 @@ export default function ContactPage() {
         </TabsList>
 
         <TabsContent value="phones">
-          <Card className="bg-[#F7F5EF] border-[#CDB586]">
+          <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
             <CardHeader>
               <CardTitle className="text-[#0E161B]">Phone Numbers</CardTitle>
             </CardHeader>
@@ -158,7 +159,7 @@ export default function ContactPage() {
                     id="phonePrimary"
                     value={contactInfo.phonePrimary}
                     onChange={(e) => handleChange("phonePrimary", e.target.value)}
-                    className="bg-white border-[#CDB586]"
+                    className="bg-white border-[#CDB586]/30"
                   />
                 </div>
                 <div>
@@ -168,7 +169,7 @@ export default function ContactPage() {
                     value={contactInfo.phonePrimaryLabel}
                     onChange={(e) => handleChange("phonePrimaryLabel", e.target.value)}
                     placeholder="Artwell"
-                    className="bg-white border-[#CDB586]"
+                    className="bg-white border-[#CDB586]/30"
                   />
                 </div>
               </div>
@@ -179,7 +180,7 @@ export default function ContactPage() {
                     id="phoneSecondary"
                     value={contactInfo.phoneSecondary || ""}
                     onChange={(e) => handleChange("phoneSecondary", e.target.value)}
-                    className="bg-white border-[#CDB586]"
+                    className="bg-white border-[#CDB586]/30"
                   />
                 </div>
                 <div>
@@ -189,7 +190,7 @@ export default function ContactPage() {
                     value={contactInfo.phoneSecondaryLabel || ""}
                     onChange={(e) => handleChange("phoneSecondaryLabel", e.target.value)}
                     placeholder="Sabeka"
-                    className="bg-white border-[#CDB586]"
+                    className="bg-white border-[#CDB586]/30"
                   />
                 </div>
               </div>
@@ -198,7 +199,7 @@ export default function ContactPage() {
         </TabsContent>
 
         <TabsContent value="whatsapp">
-          <Card className="bg-[#F7F5EF] border-[#CDB586]">
+          <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
             <CardHeader>
               <CardTitle className="text-[#0E161B]">WhatsApp Numbers</CardTitle>
             </CardHeader>
@@ -226,7 +227,7 @@ export default function ContactPage() {
         </TabsContent>
 
         <TabsContent value="email">
-          <Card className="bg-[#F7F5EF] border-[#CDB586]">
+          <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
             <CardHeader>
               <CardTitle className="text-[#0E161B]">Email Address</CardTitle>
             </CardHeader>
@@ -246,7 +247,7 @@ export default function ContactPage() {
         </TabsContent>
 
         <TabsContent value="address">
-          <Card className="bg-[#F7F5EF] border-[#CDB586]">
+          <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
             <CardHeader>
               <CardTitle className="text-[#0E161B]">Address & Location</CardTitle>
             </CardHeader>
@@ -268,7 +269,7 @@ export default function ContactPage() {
                     id="city"
                     value={contactInfo.city || ""}
                     onChange={(e) => handleChange("city", e.target.value)}
-                    className="bg-white border-[#CDB586]"
+                    className="bg-white border-[#CDB586]/30"
                   />
                 </div>
                 <div>
@@ -277,7 +278,7 @@ export default function ContactPage() {
                     id="country"
                     value={contactInfo.country || ""}
                     onChange={(e) => handleChange("country", e.target.value)}
-                    className="bg-white border-[#CDB586]"
+                    className="bg-white border-[#CDB586]/30"
                   />
                 </div>
               </div>
@@ -307,7 +308,7 @@ export default function ContactPage() {
         </TabsContent>
 
         <TabsContent value="social">
-          <Card className="bg-[#F7F5EF] border-[#CDB586]">
+          <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
             <CardHeader>
               <CardTitle className="text-[#0E161B]">Social Media</CardTitle>
             </CardHeader>
@@ -318,7 +319,7 @@ export default function ContactPage() {
                   id="facebookUrl"
                   value={contactInfo.facebookUrl || ""}
                   onChange={(e) => handleChange("facebookUrl", e.target.value)}
-                  placeholder="https://facebook.com/iphonehubmasvingo"
+                  placeholder="https://facebook.com/iphonehubzimbabwe"
                   className="bg-white border-[#CDB586]"
                 />
               </div>
@@ -328,7 +329,7 @@ export default function ContactPage() {
                   id="instagramUrl"
                   value={contactInfo.instagramUrl || ""}
                   onChange={(e) => handleChange("instagramUrl", e.target.value)}
-                  placeholder="https://instagram.com/iphonehubmasvingo"
+                  placeholder="https://instagram.com/iphonehubzimbabwe"
                   className="bg-white border-[#CDB586]"
                 />
               </div>
@@ -338,7 +339,7 @@ export default function ContactPage() {
                   id="tiktokUrl"
                   value={contactInfo.tiktokUrl || ""}
                   onChange={(e) => handleChange("tiktokUrl", e.target.value)}
-                  placeholder="https://tiktok.com/@iphonehubmasvingo"
+                  placeholder="https://tiktok.com/@iphonehubzimbabwe"
                   className="bg-white border-[#CDB586]"
                 />
               </div>

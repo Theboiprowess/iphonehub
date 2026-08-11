@@ -6,12 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Upload, 
-  Search, 
-  Trash2, 
-  Copy, 
-  Download, 
+import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import {
+  Upload,
+  Search,
+  Trash2,
+  Copy,
+  Download,
   Eye,
   Loader2,
   X,
@@ -37,12 +38,15 @@ interface MediaItem {
   id: string;
   filename: string;
   url: string;
-  fileType: string;
-  fileSize: number;
-  width: number;
-  height: number;
+  mimeType: string;
+  size: number;
+  metadata: {
+    width?: number;
+    height?: number;
+    caption?: string | null;
+  };
   alt: string | null;
-  caption: string | null;
+  category: string;
   createdAt: string;
 }
 
@@ -72,9 +76,26 @@ export default function MediaLibraryPage() {
 
       const response = await fetch(`/admin/api/media?${params.toString()}`);
       const data = await response.json();
-      setMedia(data.media || []);
+      
+      console.log("Fetched media data:", data);
+      
+      // Map the API response to match the interface
+      const mappedMedia = (data.media || []).map((item: any) => ({
+        id: item.id,
+        filename: item.filename,
+        url: item.url,
+        mimeType: item.mimeType || item.fileType || 'image/jpeg',
+        size: item.size || item.fileSize || 0,
+        metadata: item.metadata || { width: 0, height: 0 },
+        alt: item.alt,
+        category: item.category || 'OTHER',
+        createdAt: item.createdAt
+      }));
+      
+      setMedia(mappedMedia);
     } catch (error) {
       console.error("Error fetching media:", error);
+      setMedia([]);
     } finally {
       setLoading(false);
     }
@@ -164,6 +185,7 @@ export default function MediaLibraryPage() {
   };
 
   const getFileTypeLabel = (type: string) => {
+    if (!type) return "UNKNOWN";
     if (type.includes("jpeg") || type.includes("jpg")) return "JPEG";
     if (type.includes("png")) return "PNG";
     if (type.includes("webp")) return "WebP";
@@ -181,20 +203,20 @@ export default function MediaLibraryPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-[#EBE2C5] font-manrope">Media Library</h1>
-          <p className="text-[#EBE2C5]/60">Manage website media files</p>
+    <div className="space-y-8">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+        <div className="space-y-2 min-w-0 flex-1">
+          <h1 className="text-3xl lg:text-4xl font-bold text-[#0E161B] font-manrope">Media Library</h1>
+          <p className="text-[#5F3C18] text-base">Manage website media files</p>
         </div>
         <Dialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]">
+            <Button className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] flex-shrink-0">
               <Upload className="h-4 w-4 mr-2" />
               Upload Media
             </Button>
           </DialogTrigger>
-          <DialogContent className="bg-[#F7F5EF] border-[#CDB586]">
+          <DialogContent className="bg-[#F7F5EF] border-[#CDB586]/30">
             <DialogHeader>
               <DialogTitle className="text-[#0E161B]">Upload Media</DialogTitle>
             </DialogHeader>
@@ -235,14 +257,14 @@ export default function MediaLibraryPage() {
                   type="button"
                   variant="outline"
                   onClick={() => setUploadDialogOpen(false)}
-                  className="border-[#CDB586] text-[#0E161B]"
+                  className="border-[#CDB586] text-[#0E161B] flex-shrink-0"
                 >
                   Cancel
                 </Button>
                 <Button
                   type="submit"
                   disabled={!uploadFile || uploading}
-                  className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]"
+                  className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] flex-shrink-0"
                 >
                   {uploading ? (
                     <>
@@ -260,7 +282,7 @@ export default function MediaLibraryPage() {
       </div>
 
       {/* Filters */}
-      <Card className="bg-[#F7F5EF] border-[#CDB586]">
+      <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
         <CardContent className="p-4">
           <div className="flex gap-4 items-center">
             <div className="flex-1 relative">
@@ -273,7 +295,7 @@ export default function MediaLibraryPage() {
               />
             </div>
             <Select value={typeFilter} onValueChange={setTypeFilter}>
-              <SelectTrigger className="w-[180px] bg-white border-[#CDB586]">
+              <SelectTrigger className="w-[180px] bg-white border-[#CDB586] flex-shrink-0">
                 <SelectValue placeholder="Filter by type" />
               </SelectTrigger>
               <SelectContent>
@@ -288,7 +310,7 @@ export default function MediaLibraryPage() {
               <Button
                 onClick={handleBulkDelete}
                 variant="outline"
-                className="bg-red-600 text-white hover:bg-red-700 border-red-600"
+                className="bg-red-600 text-white hover:bg-red-700 border-red-600 flex-shrink-0"
               >
                 <Trash2 className="h-4 w-4 mr-2" />
                 Delete ({selectedMedia.size})
@@ -300,14 +322,14 @@ export default function MediaLibraryPage() {
 
       {/* Empty State */}
       {media.length === 0 && (
-        <Card className="bg-[#F7F5EF] border-[#CDB586]">
+        <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
           <CardContent className="p-12 text-center">
             <ImageIcon className="h-12 w-12 mx-auto mb-4 text-[#CDB586]/40" />
             <p className="font-medium text-[#5F3C18] mb-2">No media files yet</p>
             <p className="text-[#5F3C18]/60 mb-4">Upload your first media file to get started</p>
             <Button
               onClick={() => setUploadDialogOpen(true)}
-              className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]"
+              className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] flex-shrink-0"
             >
               <Upload className="h-4 w-4 mr-2" />
               Upload Media
@@ -345,20 +367,20 @@ export default function MediaLibraryPage() {
                 />
                 <div className="absolute top-2 right-2 flex gap-1">
                   <Badge className="bg-[#0E161B]/80 text-[#EBE2C5]">
-                    {getFileTypeLabel(item.fileType)}
+                    {getFileTypeLabel(item.mimeType)}
                   </Badge>
                 </div>
               </div>
               <CardContent className="p-3">
                 <p className="text-xs text-[#5F3C18] truncate mb-1">{item.filename}</p>
                 <p className="text-xs text-[#5F3C18]/60">
-                  {item.width}×{item.height} • {formatFileSize(item.fileSize)}
+                  {item.metadata?.width || 0}×{item.metadata?.height || 0} • {formatFileSize(item.size)}
                 </p>
                 <div className="flex gap-1 mt-2">
                   <Button
                     size="sm"
                     variant="ghost"
-                    className="h-6 w-6 p-0 hover:bg-[#CDB586]/20"
+                    className="h-6 w-6 p-0 hover:bg-[#CDB586]/20 flex-shrink-0"
                     onClick={(e) => {
                       e.stopPropagation();
                       setPreviewMedia(item);
@@ -369,7 +391,7 @@ export default function MediaLibraryPage() {
                   <Button
                     size="sm"
                     variant="ghost"
-                    className="h-6 w-6 p-0 hover:bg-[#CDB586]/20"
+                    className="h-6 w-6 p-0 hover:bg-[#CDB586]/20 flex-shrink-0"
                     onClick={(e) => {
                       e.stopPropagation();
                       copyToClipboard(item.url);
@@ -380,7 +402,7 @@ export default function MediaLibraryPage() {
                   <Button
                     size="sm"
                     variant="ghost"
-                    className="h-6 w-6 p-0 hover:bg-red-100"
+                    className="h-6 w-6 p-0 hover:bg-red-100 flex-shrink-0"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleDelete(item.id);
@@ -411,15 +433,15 @@ export default function MediaLibraryPage() {
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
                   <p className="font-medium text-[#5F3C18]">Type</p>
-                  <p className="text-[#5F3C18]/60">{previewMedia.fileType}</p>
+                  <p className="text-[#5F3C18]/60">{getFileTypeLabel(previewMedia.mimeType)}</p>
                 </div>
                 <div>
                   <p className="font-medium text-[#5F3C18]">Size</p>
-                  <p className="text-[#5F3C18]/60">{formatFileSize(previewMedia.fileSize)}</p>
+                  <p className="text-[#5F3C18]/60">{formatFileSize(previewMedia.size)}</p>
                 </div>
                 <div>
                   <p className="font-medium text-[#5F3C18]">Dimensions</p>
-                  <p className="text-[#5F3C18]/60">{previewMedia.width}×{previewMedia.height}</p>
+                  <p className="text-[#5F3C18]/60">{previewMedia.metadata?.width || 0}×{previewMedia.metadata?.height || 0}</p>
                 </div>
                 <div>
                   <p className="font-medium text-[#5F3C18]">URL</p>
@@ -431,10 +453,10 @@ export default function MediaLibraryPage() {
                     <p className="text-[#5F3C18]/60">{previewMedia.alt}</p>
                   </div>
                 )}
-                {previewMedia.caption && (
+                {previewMedia.metadata?.caption && (
                   <div className="col-span-2">
                     <p className="font-medium text-[#5F3C18]">Caption</p>
-                    <p className="text-[#5F3C18]/60">{previewMedia.caption}</p>
+                    <p className="text-[#5F3C18]/60">{previewMedia.metadata.caption}</p>
                   </div>
                 )}
               </div>

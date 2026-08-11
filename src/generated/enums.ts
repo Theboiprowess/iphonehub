@@ -57,13 +57,16 @@ export type ImageType = (typeof ImageType)[keyof typeof ImageType]
 
 
 export const OrderStatus = {
-  PENDING: 'PENDING',
+  PENDING_PAYMENT: 'PENDING_PAYMENT',
+  PAYMENT_PROCESSING: 'PAYMENT_PROCESSING',
+  PAID: 'PAID',
   CONFIRMED: 'CONFIRMED',
   PROCESSING: 'PROCESSING',
   READY_FOR_PICKUP: 'READY_FOR_PICKUP',
   OUT_FOR_DELIVERY: 'OUT_FOR_DELIVERY',
-  COMPLETED: 'COMPLETED',
-  CANCELLED: 'CANCELLED'
+  DELIVERED: 'DELIVERED',
+  CANCELLED: 'CANCELLED',
+  REFUNDED: 'REFUNDED'
 } as const
 
 export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
@@ -71,12 +74,42 @@ export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
 
 export const PaymentStatus = {
   PENDING: 'PENDING',
-  PAID: 'PAID',
-  FAILED: 'FAILED',
+  AWAITING_PROOF: 'AWAITING_PROOF',
+  PROOF_SUBMITTED: 'PROOF_SUBMITTED',
+  MATCHING: 'MATCHING',
+  VERIFIED: 'VERIFIED',
+  APPROVED: 'APPROVED',
+  MISMATCH: 'MISMATCH',
+  MANUAL_REVIEW: 'MANUAL_REVIEW',
+  REJECTED: 'REJECTED',
+  EXPIRED: 'EXPIRED',
   REFUNDED: 'REFUNDED'
 } as const
 
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
+
+
+export const EcoCashTransactionStatus = {
+  PENDING: 'PENDING',
+  MATCHED: 'MATCHED',
+  MISMATCH: 'MISMATCH',
+  DUPLICATE: 'DUPLICATE',
+  EXPIRED: 'EXPIRED'
+} as const
+
+export type EcoCashTransactionStatus = (typeof EcoCashTransactionStatus)[keyof typeof EcoCashTransactionStatus]
+
+
+export const PaymentProofStatus = {
+  PENDING: 'PENDING',
+  MATCHED: 'MATCHED',
+  MISMATCH: 'MISMATCH',
+  MANUAL_REVIEW: 'MANUAL_REVIEW',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type PaymentProofStatus = (typeof PaymentProofStatus)[keyof typeof PaymentProofStatus]
 
 
 export const TradeInStatus = {
@@ -150,3 +183,52 @@ export const MovementReason = {
 } as const
 
 export type MovementReason = (typeof MovementReason)[keyof typeof MovementReason]
+
+
+export const SupportStatus = {
+  OPEN: 'OPEN',
+  IN_PROGRESS: 'IN_PROGRESS',
+  ESCALATED: 'ESCALATED',
+  RESOLVED: 'RESOLVED',
+  CLOSED: 'CLOSED'
+} as const
+
+export type SupportStatus = (typeof SupportStatus)[keyof typeof SupportStatus]
+
+
+export const MessageRole = {
+  USER: 'USER',
+  ASSISTANT: 'ASSISTANT',
+  SYSTEM: 'SYSTEM'
+} as const
+
+export type MessageRole = (typeof MessageRole)[keyof typeof MessageRole]
+
+
+export const EscalationPriority = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  URGENT: 'URGENT'
+} as const
+
+export type EscalationPriority = (typeof EscalationPriority)[keyof typeof EscalationPriority]
+
+
+export const KnowledgeStatus = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED',
+  ARCHIVED: 'ARCHIVED'
+} as const
+
+export type KnowledgeStatus = (typeof KnowledgeStatus)[keyof typeof KnowledgeStatus]
+
+
+export const UnansweredStatus = {
+  PENDING: 'PENDING',
+  REVIEWING: 'REVIEWING',
+  ANSWERED: 'ANSWERED',
+  IGNORED: 'IGNORED'
+} as const
+
+export type UnansweredStatus = (typeof UnansweredStatus)[keyof typeof UnansweredStatus]

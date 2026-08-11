@@ -82,8 +82,7 @@ export async function GET(request: NextRequest) {
           where: { isActive: true },
         },
         images: {
-          where: { type: "MAIN" },
-          take: 1,
+          orderBy: { order: "asc" },
         },
       },
       orderBy,

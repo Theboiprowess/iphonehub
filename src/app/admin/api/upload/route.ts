@@ -1,7 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import { existsSync } from "fs";
-import path from "path";
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,73 +19,33 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid file type. Only JPEG, PNG, and WebP are allowed." }, { status: 400 });
     }
 
-    // Validate file size (max 5MB)
-    const maxSize = 5 * 1024 * 1024; // 5MB
+    // Validate file size (max 2MB for base64 storage)
+    const maxSize = 2 * 1024 * 1024; // 2MB
     if (file.size > maxSize) {
       console.error("File too large:", file.size);
-      return NextResponse.json({ error: "File too large. Maximum size is 5MB." }, { status: 400 });
+      return NextResponse.json({ error: "File too large. Maximum size is 2MB for database storage." }, { status: 400 });
     }
 
+    // Convert file to base64
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
+    const base64 = buffer.toString('base64');
+    const dataUrl = `data:${file.type};base64,${base64}`;
 
-    // Generate unique filename
-    const timestamp = Date.now();
-    const random = Math.random().toString(36).substring(2, 15);
-    const extension = path.extname(file.name);
-    const filename = `${timestamp}-${random}${extension}`;
+    console.log("File converted to base64 successfully, size:", base64.length);
 
-    // Create upload directory if it doesn't exist
-    const uploadDir = path.join(process.cwd(), "public", "uploads", type);
-    console.log("Upload directory:", uploadDir);
-    
-    if (!existsSync(uploadDir)) {
-      console.log("Creating upload directory...");
-      await mkdir(uploadDir, { recursive: true });
-    }
-
-    // Write file
-    const filepath = path.join(uploadDir, filename);
-    console.log("Writing file to:", filepath);
-    await writeFile(filepath, buffer);
-
-    // Return the public URL
-    const publicUrl = `/uploads/${type}/${filename}`;
-    console.log("File uploaded successfully:", publicUrl);
-
-    return NextResponse.json({ url: publicUrl, filename });
+    return NextResponse.json({ 
+      url: dataUrl, 
+      filename: file.name,
+      isBase64: true
+    });
   } catch (error) {
     console.error("Error uploading file:", error);
-    return NextResponse.json({ error: "Failed to upload file" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to upload file: " + (error as Error).message }, { status: 500 });
   }
 }
 
 export async function DELETE(request: NextRequest) {
-  try {
-    const { searchParams } = new URL(request.url);
-    const filePath = searchParams.get("path");
-
-    if (!filePath) {
-      return NextResponse.json({ error: "No file path provided" }, { status: 400 });
-    }
-
-    // Only allow deleting files from uploads directory
-    if (!filePath.startsWith("/uploads/")) {
-      return NextResponse.json({ error: "Invalid file path" }, { status: 400 });
-    }
-
-    const fullPath = path.join(process.cwd(), "public", filePath);
-    
-    const { unlink } = await import("fs/promises");
-    try {
-      await unlink(fullPath);
-      return NextResponse.json({ success: true });
-    } catch (error) {
-      // File might not exist, that's okay
-      return NextResponse.json({ success: true });
-    }
-  } catch (error) {
-    console.error("Error deleting file:", error);
-    return NextResponse.json({ error: "Failed to delete file" }, { status: 500 });
-  }
+  // For base64 storage, deletion is handled when the product is updated
+  return NextResponse.json({ success: true });
 }

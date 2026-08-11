@@ -7,6 +7,9 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
+    
+    console.log("Fetching product with ID:", id);
+    
     const product = await prisma.product.findUnique({
       where: { id },
       include: {
@@ -17,29 +20,19 @@ export async function GET(
         images: {
           orderBy: { order: "asc" },
         },
-        devices: {
-          where: { isSold: false },
-        },
-        reviews: {
-          where: { isApproved: true },
-          include: {
-            user: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        },
+        devices: true,
       },
     });
 
     if (!product) {
+      console.log("Product not found:", id);
       return NextResponse.json(
         { error: "Product not found" },
         { status: 404 }
       );
     }
 
+    console.log("Product found:", product.name);
     return NextResponse.json(product);
   } catch (error) {
     console.error("Error fetching product:", error);

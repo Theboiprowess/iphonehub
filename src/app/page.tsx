@@ -7,11 +7,13 @@ import { TrustCards } from "@/components/home/trust-cards";
 
 export default function Home() {
   return (
-    <div className="flex flex-col bg-[#F7F5EF]">
+    <div className="flex flex-col w-full">
       <Hero />
-      <CategoryCards />
-      <FeaturedProducts />
-      <TrustCards />
+      <div className="w-full">
+        <CategoryCards />
+        <FeaturedProducts />
+        <TrustCards />
+      </div>
     </div>
   );
 }

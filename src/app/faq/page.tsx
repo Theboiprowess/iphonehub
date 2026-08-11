@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { SectionHeader } from "@/components/ui/section-header";
 import {
   Accordion,
   AccordionContent,
@@ -11,14 +12,14 @@ import { ShoppingBag, Smartphone, BatteryMedium, Truck, CreditCard, ShieldCheck,
 
 export default function FAQPage() {
   return (
-    <div className="min-h-screen bg-[#F7F5EF] py-12">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold mb-4 text-[#0E161B] font-manrope">Frequently Asked Questions</h1>
-        <p className="text-[#5F3C18] mb-12">
-          Find answers to common questions about our products and services.
-        </p>
+    <div className="min-h-screen bg-[#F7F5EF] section-spacing">
+      <div className="site-container">
+        <SectionHeader 
+          title="Frequently Asked Questions"
+          subtitle="Find answers to common questions about our products and services"
+        />
 
-        <div className="space-y-8">
+        <div className="space-y-8 mt-12">
           {/* General Questions */}
           <Card className="bg-[#F7F5EF] border-[#CDB586]">
             <CardHeader>
@@ -31,10 +32,10 @@ export default function FAQPage() {
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="gen-1">
                   <AccordionTrigger className="text-left text-[#0E161B]">
-                    What does iPhone Hub Masvingo sell?
+                    What does iPhone Hub Zimbabwe sell?
                   </AccordionTrigger>
                   <AccordionContent className="text-[#5F3C18]">
-                    iPhone Hub Masvingo offers boxed, pre-owned and second-hand iPhones. Product availability, specifications, condition and pricing should be displayed on each individual product listing.
+                    iPhone Hub Zimbabwe offers boxed, pre-owned and second-hand iPhones. Product availability, specifications, condition and pricing should be displayed on each individual product listing.
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="gen-2">
@@ -42,7 +43,7 @@ export default function FAQPage() {
                     Where is iPhone Hub located?
                   </AccordionTrigger>
                   <AccordionContent className="text-[#5F3C18]">
-                    iPhone Hub Masvingo is based in Masvingo, Zimbabwe. The exact physical address should be displayed once added by the administrator.
+                    iPhone Hub Zimbabwe is based in Zimbabwe. The exact physical address should be displayed once added by the administrator.
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="gen-3">
@@ -94,7 +95,7 @@ export default function FAQPage() {
                     Can I reserve an iPhone?
                   </AccordionTrigger>
                   <AccordionContent className="text-[#5F3C18]">
-                    Customers may request a reservation through WhatsApp. Reservation availability and duration are subject to confirmation by iPhone Hub Masvingo.
+                    Customers may request a reservation through WhatsApp. Reservation availability and duration are subject to confirmation by iPhone Hub Zimbabwe.
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
@@ -334,7 +335,7 @@ export default function FAQPage() {
                     Do your iPhones come with a warranty?
                   </AccordionTrigger>
                   <AccordionContent className="text-[#5F3C18]">
-                    Warranty availability and terms vary by product. Please check the product listing or contact iPhone Hub Masvingo before purchasing.
+                    Warranty availability and terms vary by product. Please check the product listing or contact iPhone Hub Zimbabwe before purchasing.
                     <br /><br />
                     <div className="p-4 bg-[#EBE2C5] rounded-lg border border-[#CDB586]/50 space-y-2">
                       <p className="text-sm text-[#5F3C18] italic">

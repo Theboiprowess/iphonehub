@@ -3,8 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-[#F7F5EF] py-12">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold mb-8 text-[#0E161B] font-manrope">Privacy Policy</h1>
+      <div className="site-container">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-3xl font-bold mb-8 text-[#0E161B] font-manrope">Privacy Policy</h1>
 
         <Card className="bg-[#F7F5EF] border-[#CDB586]">
           <CardContent className="pt-6 space-y-6">
@@ -46,11 +47,12 @@ export default function PrivacyPage() {
             <section>
               <h2 className="text-xl font-semibold mb-4 text-[#0E161B]">Contact Us</h2>
               <p className="text-[#5F3C18]">
-                If you have questions about this Privacy Policy, please contact us through our contact page or at info@iphonehubmasvingo.co.zw
+                If you have questions about this Privacy Policy, please contact us through our contact page or at info@iphonehubzimbabwe.co.zw
               </p>
             </section>
           </CardContent>
         </Card>
+        </div>
       </div>
     </div>
   );

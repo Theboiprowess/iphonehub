@@ -1,7 +1,9 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { SectionHeader } from "@/components/ui/section-header";
 import { ArrowRight, Package, BadgeCheck, Smartphone } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 const categories = [
   {
@@ -14,6 +16,7 @@ const categories = [
     accentClass: "border-[#CDB586]",
     iconBg: "bg-[#CDB586]",
     iconColor: "text-[#0E161B]",
+    image: "/boxed-iphone.jpg.jpg",
   },
   {
     title: "PRE-OWNED iPHONES",
@@ -25,6 +28,7 @@ const categories = [
     accentClass: "border-[#EBE2C5]",
     iconBg: "bg-[#CDB586]",
     iconColor: "text-[#0E161B]",
+    image: "/pre-owned-iphone.jpg.jpg",
   },
   {
     title: "SECOND-HAND iPHONES",
@@ -36,45 +40,49 @@ const categories = [
     accentClass: "border-[#CDB586]",
     iconBg: "bg-[#CDB586]",
     iconColor: "text-[#0E161B]",
+    image: "/second-hand-iphone.jpg.jpg",
   },
 ];
 
 export function CategoryCards() {
   return (
-    <section className="py-16 sm:py-24 bg-[#F7F5EF]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0E161B] mb-4 font-manrope">
-            Shop by Category
-          </h2>
-          <p className="text-lg text-[#5F3C18] max-w-2xl mx-auto">
-            Find the perfect iPhone that fits your budget and needs
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <section className="section-spacing bg-[#F7F5EF]">
+      <div className="site-container">
+        <SectionHeader 
+          title="Shop by Category"
+          subtitle="Find the perfect iPhone that fits your budget and needs"
+        />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mt-12">
           {categories.map((category) => {
             const Icon = category.icon;
             return (
               <Link key={category.title} href={category.href}>
-                <Card className={`${category.bgClass} border ${category.accentClass} hover:shadow-xl transition-all group cursor-pointer h-full`}>
-                  <CardHeader className="pb-4">
+                <Card className={`${category.bgClass} border ${category.accentClass} hover:shadow-xl transition-all group cursor-pointer h-full flex flex-col`}>
+                  <CardHeader className="p-6 pb-5 flex-1">
                     {/* Icon */}
-                    <div className={`h-16 w-16 rounded-xl ${category.iconBg} ${category.iconColor} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                      <Icon className="h-8 w-8" />
+                    <div className={`h-14 w-14 rounded-xl ${category.iconBg} ${category.iconColor} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+                      <Icon className="h-7 w-7" />
                     </div>
-                    <CardTitle className="text-2xl text-[#EBE2C5] mb-2">{category.title}</CardTitle>
-                    <CardDescription className="text-[#EBE2C5]/90 text-base">{category.description}</CardDescription>
+                    <div className="space-y-3">
+                      <CardTitle className="text-xl text-[#EBE2C5]">{category.title}</CardTitle>
+                      <div className="h-px w-12 bg-[#CDB586]/30"></div>
+                    </div>
+                    <CardDescription className="text-[#EBE2C5]/90 text-base pt-3">{category.description}</CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    {/* Image Placeholder */}
-                    <div className="aspect-[4/3] rounded-lg bg-gradient-to-br from-[#0E161B]/30 to-[#5F3C18]/30 flex items-center justify-center border border-[#CDB586]/20">
-                      <div className="text-center p-4">
-                        <Smartphone className="h-12 w-12 mx-auto mb-2 text-[#CDB586]/60" />
-                        <p className="text-xs text-[#EBE2C5]/60">iPhone image</p>
-                      </div>
+                  <CardContent className="space-y-5 p-6 pt-0 flex-1">
+                    {/* Image */}
+                    <div className="aspect-[4/3] rounded-lg overflow-hidden border border-[#CDB586]/20 relative w-full">
+                      <Image
+                        src={category.image}
+                        alt={category.title}
+                        fill
+                        className="object-cover"
+                        quality={100}
+                        priority={false}
+                      />
                     </div>
-                    <p className="text-sm text-[#EBE2C5]/70">{category.supportingText}</p>
-                    <Button variant="outline" className="w-full border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586] hover:text-[#0E161B] group-hover:scale-105 transition-transform">
+                    <p className="text-sm text-[#EBE2C5]/70 leading-relaxed">{category.supportingText}</p>
+                    <Button variant="outline" className="w-full border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586] hover:text-[#0E161B] group-hover:scale-105 transition-transform h-10">
                       SHOP {category.title.split(" ")[0]}
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>

@@ -22,7 +22,7 @@ export async function GET() {
         data: {
           heroHeading: "Find Your Perfect iPhone",
           heroSubtitle: "Boxed. Pre-Owned. Second-Hand.",
-          heroDescription: "Discover premium iPhones at the best prices in Masvingo",
+          heroDescription: "Discover premium iPhones at the best prices in Zimbabwe",
           heroCtaText: "SHOP iPHONES",
           heroCtaUrl: "/iphones",
           featuredProductIds: [],

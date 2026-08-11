@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { SectionHeader } from "@/components/ui/section-header";
 import { ShieldCheck, ScanSearch, Smartphone, Headphones, ArrowLeftRight, MapPin } from "lucide-react";
 
 const trustFeatures = [
@@ -29,34 +30,33 @@ const trustFeatures = [
   },
   {
     icon: MapPin,
-    title: "Masvingo Based",
-    description: "Your trusted local iPhone destination in Masvingo, Zimbabwe.",
+    title: "Zimbabwe Based",
+    description: "Your trusted local iPhone destination in Zimbabwe.",
   },
 ];
 
 export function TrustCards() {
   return (
-    <section className="py-16 sm:py-24 bg-[#EBE2C5]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0E161B] mb-4 font-manrope">
-            Why Choose iPhone Hub?
-          </h2>
-          <p className="text-lg text-[#5F3C18] max-w-2xl mx-auto">
-            Discover why customers trust us for their iPhone needs
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <section className="section-spacing bg-[#EBE2C5]">
+      <div className="site-container">
+        <SectionHeader 
+          title="Why Choose iPhone Hub?"
+          subtitle="Discover why customers trust us for their iPhone needs"
+        />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mt-12">
           {trustFeatures.map((feature) => (
             <Card key={feature.title} className="border-[#CDB586] shadow-sm bg-[#F7F5EF] hover:shadow-lg transition-all group">
-              <CardHeader>
-                <div className="h-14 w-14 rounded-xl bg-[#0E161B] text-[#CDB586] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform gold-glow">
+              <CardHeader className="p-8">
+                <div className="h-14 w-14 rounded-xl bg-[#0E161B] text-[#CDB586] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform gold-glow">
                   <feature.icon className="h-7 w-7" />
                 </div>
-                <CardTitle className="text-lg text-[#0E161B]">{feature.title}</CardTitle>
+                <div className="space-y-4">
+                  <CardTitle className="text-lg text-[#0E161B] font-semibold">{feature.title}</CardTitle>
+                  <div className="h-px w-8 bg-[#CDB586]/30"></div>
+                </div>
               </CardHeader>
-              <CardContent>
-                <p className="text-[#5F3C18]">{feature.description}</p>
+              <CardContent className="p-8 pt-0">
+                <p className="text-[#5F3C18] leading-relaxed">{feature.description}</p>
               </CardContent>
             </Card>
           ))}

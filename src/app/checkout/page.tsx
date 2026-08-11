@@ -49,11 +49,19 @@ export default function CheckoutPage() {
       });
 
       if (response.ok) {
-        clearCart();
-        // Redirect to success page
-        window.location.href = "/checkout/success";
+        const data = await response.json();
+        
+        // If EcoCash is selected, redirect to EcoCash payment page
+        if (formData.paymentMethod === "ecocash") {
+          window.location.href = `/checkout/ecocash?orderId=${data.order.id}`;
+        } else {
+          // For other payment methods, proceed as before
+          clearCart();
+          window.location.href = "/checkout/success?orderId=" + data.order.id;
+        }
       } else {
-        alert("Failed to create order. Please try again.");
+        const errorData = await response.json();
+        alert(errorData.error || "Failed to create order. Please try again.");
       }
     } catch (error) {
       console.error("Error creating order:", error);
@@ -80,7 +88,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="site-container">
         <h1 className="text-3xl font-bold mb-8">Checkout</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -163,13 +171,13 @@ export default function CheckoutPage() {
                         <SelectItem value="pickup">
                           <div className="flex items-center gap-2">
                             <Truck className="h-4 w-4" />
-                            <span>Masvingo Pickup (Free)</span>
+                            <span>Zimbabwe Pickup (Free)</span>
                           </div>
                         </SelectItem>
                         <SelectItem value="local">
                           <div className="flex items-center gap-2">
                             <Truck className="h-4 w-4" />
-                            <span>Local Delivery - Masvingo ($15)</span>
+                            <span>Local Delivery - Zimbabwe ($15)</span>
                           </div>
                         </SelectItem>
                         <SelectItem value="nationwide">

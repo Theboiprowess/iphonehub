@@ -5,9 +5,9 @@ import { useParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ArrowLeft, Heart, ShoppingCart, Share2, CheckCircle, XCircle, MessageSquare } from "lucide-react";
+import Link from "next/link";
 import { formatPrice } from "@/lib/utils";
-import { Heart, Phone, ShoppingCart, Share2, Shield, Truck, Clock } from "lucide-react";
 
 const conditionLabels: Record<string, { label: string; variant: "boxed" | "preOwned" | "secondHand" }> = {
   BOXED: { label: "Boxed / Brand New", variant: "boxed" },
@@ -19,34 +19,27 @@ export default function ProductDetailPage() {
   const params = useParams();
   const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [selectedVariant, setSelectedVariant] = useState<any>(null);
-  const [selectedImage, setSelectedImage] = useState(0);
+  const [selectedImage, setSelectedImage] = useState<number>(0);
 
   useEffect(() => {
-    fetchProduct();
+    if (params.id) {
+      fetchProduct(params.id as string);
+    }
   }, [params.id]);
 
-  const fetchProduct = async () => {
+  const fetchProduct = async (id: string) => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/products/${params.id}`);
-      const data = await response.json();
-      setProduct(data);
-      if (data.variants?.length > 0) {
-        setSelectedVariant(data.variants[0]);
+      const response = await fetch(`/api/products/${id}`);
+      if (response.ok) {
+        const data = await response.json();
+        setProduct(data);
       }
     } catch (error) {
       console.error("Error fetching product:", error);
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleWhatsAppEnquiry = () => {
-    const message = `Hello iPhone Hub Masvingo, I am interested in the ${product?.name} ${selectedVariant?.storage} ${selectedVariant?.colour}. Is it still available?`;
-    const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "263000000000";
-    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-    window.open(url, "_blank");
   };
 
   if (loading) {
@@ -65,48 +58,58 @@ export default function ProductDetailPage() {
     );
   }
 
-  const allImages = [...product.images, ...(selectedVariant?.images || [])];
+  const mainImage = product.images?.[selectedImage] || null;
+  const stock = product.variants?.[0]?.stock || 0;
+  const price = product.variants?.[0]?.price || 0;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-[#F7F5EF]">
+      <div className="site-container py-12 sm:py-16 lg:py-20">
         {/* Breadcrumb */}
-        <nav className="mb-8 text-sm text-gray-600">
-          <a href="/" className="hover:text-gray-900">Home</a>
-          <span className="mx-2">/</span>
-          <a href="/iphones" className="hover:text-gray-900">iPhones</a>
-          <span className="mx-2">/</span>
-          <span className="text-gray-900">{product.name}</span>
-        </nav>
+        <Link href="/iphones" className="inline-flex items-center text-[#5F3C18] hover:text-[#0E161B] mb-8 transition-colors">
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back to iPhones
+        </Link>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
-          {/* Images */}
-          <div className="space-y-4">
-            <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center">
-              {allImages.length > 0 && allImages[selectedImage] ? (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+          {/* Image Gallery */}
+          <div className="space-y-6">
+            <div className="aspect-square bg-white rounded-2xl overflow-hidden border border-[#CDB586]/30 shadow-lg">
+              {mainImage ? (
                 <img
-                  src={allImages[selectedImage].url as string}
-                  alt={product.name}
-                  className="w-full h-full object-cover rounded-lg"
+                  src={mainImage.url}
+                  alt={mainImage.alt || product.name}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               ) : (
-                <div className="text-6xl">📱</div>
+                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#EBE2C5] to-[#F7F5EF]">
+                  <div className="text-center">
+                    <div className="h-32 w-32 mx-auto mb-4 rounded-full bg-[#CDB586]/20 flex items-center justify-center">
+                      <ShoppingCart className="h-16 w-16 text-[#CDB586]/50" />
+                    </div>
+                    <p className="text-[#5F3C18]">No image available</p>
+                  </div>
+                </div>
               )}
             </div>
-            {allImages.length > 1 && (
-              <div className="grid grid-cols-4 gap-2">
-                {allImages.map((image: any, index: number) => (
+
+            {/* Thumbnail Gallery */}
+            {product.images && product.images.length > 1 && (
+              <div className="grid grid-cols-4 gap-3">
+                {product.images.map((image: any, index: number) => (
                   <button
-                    key={index}
+                    key={image.id}
                     onClick={() => setSelectedImage(index)}
-                    className={`aspect-square bg-gray-100 rounded-lg overflow-hidden border-2 ${
-                      selectedImage === index ? "border-black" : "border-transparent"
+                    className={`aspect-square rounded-lg overflow-hidden border-2 transition-all ${
+                      selectedImage === index ? 'border-[#CDB586] shadow-lg' : 'border-gray-200 hover:border-[#CDB586]/50'
                     }`}
                   >
                     <img
-                      src={image.url as string}
-                      alt={`${product.name} view ${index + 1}`}
+                      src={image.url}
+                      alt={image.alt || product.name}
                       className="w-full h-full object-cover"
+                      loading="lazy"
                     />
                   </button>
                 ))}
@@ -114,248 +117,130 @@ export default function ProductDetailPage() {
             )}
           </div>
 
-          {/* Product Info */}
-          <div className="space-y-6">
+          {/* Product Details */}
+          <div className="space-y-8">
             <div>
-              <Badge variant={conditionLabels[product.condition].variant} className="mb-4">
+              <Badge variant={conditionLabels[product.condition].variant} className="mb-3">
                 {conditionLabels[product.condition].label}
               </Badge>
-              <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
-                {product.name}
-              </h1>
-              <p className="text-lg text-gray-600">{product.model}</p>
+              <h1 className="text-3xl sm:text-4xl font-bold text-[#0E161B] mb-2 font-manrope">{product.name}</h1>
+              <p className="text-lg text-[#5F3C18]">{product.model}</p>
             </div>
 
-            {selectedVariant && (
-              <div className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <span className="text-3xl font-bold">
-                    {formatPrice(selectedVariant.price)}
-                  </span>
-                  {selectedVariant.comparePrice && (
-                    <span className="text-xl text-gray-500 line-through">
-                      {formatPrice(selectedVariant.comparePrice)}
-                    </span>
-                  )}
+            <div className="text-4xl font-bold text-[#0E161B]">
+              {formatPrice(price)}
+            </div>
+
+            {/* Stock Status */}
+            <div className="flex items-center gap-2">
+              {stock > 0 ? (
+                <div className="flex items-center text-green-600">
+                  <CheckCircle className="h-5 w-5 mr-1" />
+                  <span>In Stock ({stock} available)</span>
                 </div>
+              ) : (
+                <div className="flex items-center text-red-600">
+                  <XCircle className="h-5 w-5 mr-1" />
+                  <span>Out of Stock</span>
+                </div>
+              )}
+            </div>
 
-                {/* Variant Selection */}
-                {product.variants.length > 1 && (
-                  <div className="space-y-4">
-                    <div>
-                      <label className="text-sm font-medium mb-2 block">Storage</label>
-                      <div className="flex flex-wrap gap-2">
-                        {product.variants.map((variant: any) => (
-                          <button
-                            key={variant.id}
-                            onClick={() => setSelectedVariant(variant)}
-                            className={`px-4 py-2 rounded-lg border-2 ${
-                              selectedVariant.id === variant.id
-                                ? "border-black bg-black text-white"
-                                : "border-gray-300 hover:border-gray-400"
-                            }`}
-                          >
-                            {variant.storage}
-                          </button>
-                        ))}
+            {/* Description */}
+            {product.description && (
+              <div className="prose prose max-w-none">
+                <p>{product.description}</p>
+              </div>
+            )}
+
+            {/* Variants */}
+            {product.variants && product.variants.length > 0 && (
+              <div className="space-y-3">
+                <h3 className="font-semibold text-lg">Available Options</h3>
+                <div className="space-y-2">
+                  {product.variants.map((variant: any) => (
+                    <div
+                      key={variant.id}
+                      className="flex items-center justify-between p-3 border border-gray-200 rounded-lg"
+                    >
+                      <div>
+                        <span className="font-medium">{variant.storage}</span>
+                        {variant.colour && <span className="text-gray-600 ml-2">• {variant.colour}</span>}
+                      </div>
+                      <div className="font-semibold">
+                        {formatPrice(Number(variant.price))}
                       </div>
                     </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
-                    <div>
-                      <label className="text-sm font-medium mb-2 block">Colour</label>
-                      <div className="flex flex-wrap gap-2">
-                        {Array.from(new Set(product.variants.map((v: any) => v.colour))).map((colour: any) => (
-                          <button
-                            key={colour}
-                            onClick={() => {
-                              const variant = product.variants.find((v: any) => v.colour === colour);
-                              if (variant) setSelectedVariant(variant);
-                            }}
-                            className={`px-4 py-2 rounded-lg border-2 ${
-                              selectedVariant.colour === colour
-                                ? "border-black bg-black text-white"
-                                : "border-gray-300 hover:border-gray-400"
-                            }`}
-                          >
-                            {colour}
-                          </button>
-                        ))}
+            {/* Device Information */}
+            {product.devices && product.devices.length > 0 && (
+              <div className="space-y-3">
+                <h3 className="font-semibold text-lg">Device Information</h3>
+                <div className="space-y-2">
+                  {product.devices.map((device: any) => (
+                    <div key={device.id} className="p-3 border border-gray-200 rounded-lg">
+                      <div className="grid grid-cols-2 gap-2 text-sm">
+                        {device.imei && <div><span className="text-gray-600">IMEI:</span> {device.imei}</div>}
+                        {device.serialNumber && <div><span className="text-gray-600">Serial:</span> {device.serialNumber}</div>}
+                        {device.batteryHealth && <div><span className="text-gray-600">Battery:</span> {device.batteryHealth}%</div>}
+                        {device.icloudStatus && <div><span className="text-gray-600">iCloud:</span> {device.icloudStatus}</div>}
                       </div>
                     </div>
-                  </div>
-                )}
-
-                {/* Device Details */}
-                {selectedVariant.batteryHealth && (
-                  <div className="space-y-2 text-sm">
-                    <p><strong>Battery Health:</strong> {selectedVariant.batteryHealth}%</p>
-                    <p><strong>Availability:</strong> {selectedVariant.stock > 0 ? `${selectedVariant.stock} in stock` : "Out of stock"}</p>
-                  </div>
-                )}
+                  ))}
+                </div>
               </div>
             )}
 
             {/* Actions */}
-            <div className="flex flex-col gap-3">
-              <Button size="lg" className="w-full" disabled={!selectedVariant || selectedVariant.stock === 0}>
-                <ShoppingCart className="mr-2 h-5 w-5" />
-                Add to Cart
-              </Button>
-              <Button variant="whatsapp" size="lg" className="w-full" onClick={handleWhatsAppEnquiry}>
-                <Phone className="mr-2 h-5 w-5" />
-                Enquire on WhatsApp
-              </Button>
-              <div className="flex gap-3">
-                <Button variant="outline" className="flex-1">
-                  <Heart className="mr-2 h-4 w-4" />
-                  Wishlist
+            <div className="space-y-3">
+              <div className="flex gap-4">
+                <Button 
+                  className="flex-1 bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]"
+                  onClick={() => {
+                    const whatsappNumber = "263773227172"; // Artwell's WhatsApp (Zimbabwe format)
+                    const message = encodeURIComponent(
+                      `Hi Artwell, I'm interested in buying:\n\n` +
+                      `Product: ${product.name}\n` +
+                      `Model: ${product.model}\n` +
+                      `Condition: ${product.condition}\n` +
+                      `Price: ${formatPrice(price)}\n\n` +
+                      `I'd like to discuss purchasing this item.`
+                    );
+                    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+                  }}
+                >
+                  <ShoppingCart className="h-4 w-4 mr-2" />
+                  Contact Artwell
                 </Button>
-                <Button variant="outline" className="flex-1">
-                  <Share2 className="mr-2 h-4 w-4" />
-                  Share
+                <Button 
+                  className="flex-1 bg-[#25D366] text-white hover:bg-[#128C7E]"
+                  onClick={() => {
+                    const whatsappNumber = "263784502347"; // Sabeka's WhatsApp (Zimbabwe format)
+                    const message = encodeURIComponent(
+                      `Hi Sabeka, I'm interested in buying:\n\n` +
+                      `Product: ${product.name}\n` +
+                      `Model: ${product.model}\n` +
+                      `Condition: ${product.condition}\n` +
+                      `Price: ${formatPrice(price)}\n\n` +
+                      `I'd like to discuss purchasing this item.`
+                    );
+                    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+                  }}
+                >
+                  <MessageSquare className="h-4 w-4 mr-2" />
+                  Contact Sabeka
                 </Button>
               </div>
-            </div>
-
-            {/* Trust Badges */}
-            <div className="grid grid-cols-3 gap-4 pt-4 border-t">
-              <div className="text-center">
-                <Shield className="h-6 w-6 mx-auto mb-2 text-gray-600" />
-                <p className="text-xs text-gray-600">Quality Checked</p>
-              </div>
-              <div className="text-center">
-                <Truck className="h-6 w-6 mx-auto mb-2 text-gray-600" />
-                <p className="text-xs text-gray-600">Fast Delivery</p>
-              </div>
-              <div className="text-center">
-                <Clock className="h-6 w-6 mx-auto mb-2 text-gray-600" />
-                <p className="text-xs text-gray-600">Warranty</p>
-              </div>
+              <p className="text-sm text-gray-600 text-center">
+                Click to contact via WhatsApp for purchase negotiation
+              </p>
             </div>
           </div>
         </div>
-
-        {/* Product Details Tabs */}
-        <Tabs defaultValue="description" className="mb-12">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="description">Description</TabsTrigger>
-            <TabsTrigger value="specifications">Specifications</TabsTrigger>
-            <TabsTrigger value="includes">What's Included</TabsTrigger>
-            <TabsTrigger value="reviews">Reviews</TabsTrigger>
-          </TabsList>
-          <TabsContent value="description" className="mt-6">
-            <Card>
-              <CardContent className="pt-6">
-                <p className="text-gray-600">{product.description || "No description available."}</p>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          <TabsContent value="specifications" className="mt-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Specifications</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2 text-sm">
-                  <p><strong>Model:</strong> {product.model}</p>
-                  {selectedVariant && (
-                    <>
-                      <p><strong>Storage:</strong> {selectedVariant.storage}</p>
-                      <p><strong>Colour:</strong> {selectedVariant.colour}</p>
-                      {selectedVariant.batteryHealth && (
-                        <p><strong>Battery Health:</strong> {selectedVariant.batteryHealth}%</p>
-                      )}
-                    </>
-                  )}
-                  <p><strong>Condition:</strong> {conditionLabels[product.condition].label}</p>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          <TabsContent value="includes" className="mt-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>What's Included</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="list-disc list-inside space-y-1 text-sm text-gray-600">
-                  <li>iPhone Device</li>
-                  <li>Charging Cable</li>
-                  <li>Original Box (if boxed)</li>
-                  <li>Documentation</li>
-                </ul>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          <TabsContent value="reviews" className="mt-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Customer Reviews</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {product.reviews && product.reviews.length > 0 ? (
-                  <div className="space-y-4">
-                    {product.reviews.map((review: any) => (
-                      <div key={review.id} className="border-b pb-4 last:border-0">
-                        <div className="flex items-center gap-2 mb-2">
-                          <div className="flex">
-                            {[...Array(5)].map((_, i) => (
-                              <span key={i} className={i < review.rating ? "text-yellow-400" : "text-gray-300"}>★</span>
-                            ))}
-                          </div>
-                          <span className="font-medium">{review.name}</span>
-                        </div>
-                        {review.title && <p className="font-medium mb-1">{review.title}</p>}
-                        <p className="text-sm text-gray-600">{review.comment}</p>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-gray-600">No reviews yet.</p>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-
-        {/* Why Buy From iPhone Hub */}
-        <Card className="mb-12">
-          <CardHeader>
-            <CardTitle>Why Buy From iPhone Hub Masvingo?</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="flex items-start gap-3">
-                <Shield className="h-5 w-5 mt-1 text-gray-600" />
-                <div>
-                  <h4 className="font-medium mb-1">Authentic Devices</h4>
-                  <p className="text-sm text-gray-600">All devices are verified for authenticity.</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <Truck className="h-5 w-5 mt-1 text-gray-600" />
-                <div>
-                  <h4 className="font-medium mb-1">Fast Delivery</h4>
-                  <p className="text-sm text-gray-600">Quick delivery across Masvingo and Zimbabwe.</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <Clock className="h-5 w-5 mt-1 text-gray-600" />
-                <div>
-                  <h4 className="font-medium mb-1">Warranty Support</h4>
-                  <p className="text-sm text-gray-600">Peace of mind with our warranty coverage.</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <Phone className="h-5 w-5 mt-1 text-gray-600" />
-                <div>
-                  <h4 className="font-medium mb-1">Expert Support</h4>
-                  <p className="text-sm text-gray-600">Professional assistance when you need it.</p>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </div>
     </div>
   );

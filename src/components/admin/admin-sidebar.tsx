@@ -35,7 +35,10 @@ import {
   LogOut, 
   Search,
   Plus,
-  ExternalLink
+  ExternalLink,
+  DollarSign,
+  Bot,
+  X
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -48,6 +51,7 @@ const navigation = {
     { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
     { name: "Orders", href: "/admin/orders", icon: ShoppingBag },
     { name: "Products", href: "/admin/products", icon: Package },
+    { name: "Price Catalogue", href: "/admin/catalogue", icon: DollarSign },
     { name: "Inventory", href: "/admin/inventory", icon: Box },
     { name: "Customers", href: "/admin/customers", icon: Users },
   ],
@@ -89,6 +93,13 @@ const navigation = {
     { name: "Customers", href: "/admin/analytics/customers", icon: Users },
     { name: "Website", href: "/admin/analytics/website", icon: Globe },
   ],
+  AI_SUPPORT: [
+    { name: "Prowess Dashboard", href: "/admin/support", icon: Bot },
+    { name: "Conversations", href: "/admin/support/conversations", icon: MessageSquare },
+    { name: "Knowledge Base", href: "/admin/support/knowledge", icon: FileText },
+    { name: "Unanswered Questions", href: "/admin/support/unanswered", icon: FileSearch },
+    { name: "Analytics", href: "/admin/support/analytics", icon: Activity },
+  ],
   SYSTEM: [
     { name: "Notifications", href: "/admin/notifications", icon: Bell },
     { name: "Admin Users", href: "/admin/admin-users", icon: UserCog },
@@ -100,74 +111,110 @@ const navigation = {
 
 export function AdminSidebar() {
   const [collapsed, setCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
 
   return (
-    <div
-      className={cn(
-        "fixed left-0 top-0 z-40 h-screen bg-[#0E161B] border-r border-[#CDB586]/20 transition-all duration-300",
-        collapsed ? "w-20" : "w-64"
+    <>
+      {/* Mobile Backdrop */}
+      {mobileOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={() => setMobileOpen(false)}
+        />
       )}
-    >
-      {/* Logo */}
-      <div className="flex items-center justify-between h-20 px-4 border-b border-[#CDB586]/20">
-        {!collapsed && (
-          <div>
-            <p className="text-sm font-bold text-[#CDB586]">iPhone Hub</p>
-            <p className="text-xs text-[#EBE2C5]/60">Masvingo Admin</p>
-          </div>
-        )}
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setCollapsed(!collapsed)}
-          className="text-[#EBE2C5] hover:text-[#CDB586]"
-        >
-          <Menu className="h-5 w-5" />
-        </Button>
-      </div>
 
-      {/* Navigation */}
-      <div className="overflow-y-auto h-[calc(100vh-80px)] py-4">
-        {Object.entries(navigation).map(([section, items]) => (
-          <div key={section} className="mb-6">
-            {!collapsed && (
-              <p className="px-4 mb-2 text-xs font-semibold text-[#CDB586]/60 uppercase tracking-wider">
-                {section}
-              </p>
-            )}
-            {items.map((item) => {
-              const Icon = item.icon;
-              const isActive = pathname === item.href || pathname.startsWith(item.href + "?");
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={cn(
-                    "flex items-center gap-3 px-4 py-2.5 mx-2 rounded-lg transition-colors",
-                    isActive
-                      ? "bg-[#CDB586] text-[#0E161B]"
-                      : "text-[#EBE2C5]/80 hover:bg-[#CDB586]/10 hover:text-[#CDB586]"
-                  )}
-                >
-                  <Icon className="h-5 w-5 flex-shrink-0" />
-                  {!collapsed && <span className="text-sm font-medium">{item.name}</span>}
-                </Link>
-              );
-            })}
-          </div>
-        ))}
-      </div>
-    </div>
+      {/* Sidebar */}
+      <aside
+        className={cn(
+          "lg:relative fixed left-0 top-0 z-50 h-screen bg-[#0E161B] border-r border-[#CDB586]/20 transition-all duration-300 flex flex-col",
+          collapsed ? "w-20" : "w-64",
+          mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        )}
+      >
+        {/* Logo */}
+        <div className="flex items-center justify-between h-20 px-4 border-b border-[#CDB586]/20 flex-shrink-0">
+          {!collapsed && (
+            <div>
+              <p className="text-sm font-bold text-[#CDB586]">iPhone Hub</p>
+              <p className="text-xs text-[#EBE2C5]/60">Zimbabwe Admin</p>
+            </div>
+          )}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setCollapsed(!collapsed)}
+            className="text-[#EBE2C5] hover:text-[#CDB586] flex-shrink-0 hidden lg:flex"
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setMobileOpen(false)}
+            className="text-[#EBE2C5] hover:text-[#CDB586] flex-shrink-0 lg:hidden"
+          >
+            <X className="h-5 w-5" />
+          </Button>
+        </div>
+
+        {/* Navigation */}
+        <div className="flex-1 overflow-y-auto py-4 px-2">
+          {Object.entries(navigation).map(([section, items]) => (
+            <div key={section} className="mb-6">
+              {!collapsed && (
+                <p className="px-4 mb-2 text-xs font-semibold text-[#CDB586]/60 uppercase tracking-wider">
+                  {section}
+                </p>
+              )}
+              {items.map((item) => {
+                const Icon = item.icon;
+                const isActive = pathname === item.href || pathname.startsWith(item.href + "?");
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    onClick={() => setMobileOpen(false)}
+                    className={cn(
+                      "flex items-center gap-3 px-4 py-2.5 mx-2 rounded-lg transition-colors",
+                      isActive
+                        ? "bg-[#CDB586] text-[#0E161B]"
+                        : "text-[#EBE2C5]/80 hover:bg-[#CDB586]/10 hover:text-[#CDB586]"
+                    )}
+                  >
+                    <Icon className="h-5 w-5 flex-shrink-0" />
+                    {!collapsed && <span className="text-sm font-medium whitespace-nowrap">{item.name}</span>}
+                  </Link>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+      </aside>
+    </>
   );
 }
 
 export function AdminTopbar() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
-    <header className="sticky top-0 z-30 w-full border-b border-[#CDB586]/20 bg-[#0E161B]/95 backdrop-blur">
-      <div className="flex items-center justify-between h-16 px-6">
+    <header className="sticky top-0 z-30 w-full border-b border-[#CDB586]/20 bg-[#0E161B]/95 backdrop-blur flex-shrink-0">
+      <div className="flex items-center justify-between h-16 px-6 lg:px-8">
+        {/* Mobile Menu Button */}
+        <div className="lg:hidden mr-4 flex-shrink-0">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="text-[#EBE2C5] hover:text-[#CDB586]"
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
+        </div>
+
         {/* Search */}
-        <div className="flex-1 max-w-md">
+        <div className="flex-1 min-w-0 mr-4">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EBE2C5]/40" />
             <Input
@@ -178,17 +225,17 @@ export function AdminTopbar() {
         </div>
 
         {/* Right Actions */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 lg:gap-4 flex-shrink-0">
           {/* Quick Add */}
-          <Link href="/admin/(protected)/products/new">
-            <Button size="sm" className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]">
+          <Link href="/admin/products/new">
+            <Button size="sm" className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] hidden sm:flex whitespace-nowrap">
               <Plus className="h-4 w-4 mr-2" />
               Add Product
             </Button>
           </Link>
 
           {/* Website Preview */}
-          <Button variant="outline" size="sm" asChild className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586]/10">
+          <Button variant="outline" size="sm" asChild className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586]/10 hidden sm:flex whitespace-nowrap">
             <Link href="/" target="_blank">
               <ExternalLink className="h-4 w-4 mr-2" />
               View Website
@@ -196,21 +243,21 @@ export function AdminTopbar() {
           </Button>
 
           {/* Notifications */}
-          <Button variant="ghost" size="icon" className="text-[#EBE2C5] hover:text-[#CDB586] relative">
+          <Button variant="ghost" size="icon" className="text-[#EBE2C5] hover:text-[#CDB586] flex-shrink-0">
             <Bell className="h-5 w-5" />
             <span className="absolute top-1 right-1 h-2 w-2 bg-[#CDB586] rounded-full"></span>
           </Button>
 
           {/* Profile */}
           <Link href="/admin/(protected)/settings">
-            <Button variant="ghost" size="icon" className="text-[#EBE2C5] hover:text-[#CDB586]">
+            <Button variant="ghost" size="icon" className="text-[#EBE2C5] hover:text-[#CDB586] flex-shrink-0">
               <UserCog className="h-5 w-5" />
             </Button>
           </Link>
 
           {/* Logout */}
           <Link href="/api/auth/signout">
-            <Button variant="ghost" size="icon" className="text-[#EBE2C5] hover:text-[#CDB586]">
+            <Button variant="ghost" size="icon" className="text-[#EBE2C5] hover:text-[#CDB586] flex-shrink-0">
               <LogOut className="h-5 w-5" />
             </Button>
           </Link>

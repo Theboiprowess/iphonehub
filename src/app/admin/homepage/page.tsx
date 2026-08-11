@@ -27,6 +27,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AdminPageHeader } from "@/components/admin/admin-page-header";
 
 interface HomepageConfig {
   id?: string;
@@ -85,7 +86,7 @@ export default function HomepagePage() {
   const [config, setConfig] = useState<HomepageConfig>({
     heroHeading: "Find Your Perfect iPhone",
     heroSubtitle: "Boxed. Pre-Owned. Second-Hand.",
-    heroDescription: "Discover premium iPhones at the best prices in Masvingo",
+    heroDescription: "Discover premium iPhones at the best prices in Zimbabwe",
     heroCtaText: "SHOP iPHONES",
     heroCtaUrl: "/iphones",
     heroOverlay: false,
@@ -198,17 +199,17 @@ export default function HomepagePage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-[#EBE2C5] font-manrope">Homepage Management</h1>
-          <p className="text-[#EBE2C5]/60">Manage homepage content and sections</p>
+    <div className="space-y-8">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+        <div className="space-y-2 min-w-0 flex-1">
+          <h1 className="text-3xl lg:text-4xl font-bold text-[#0E161B] font-manrope">Homepage Management</h1>
+          <p className="text-[#5F3C18] text-base">Manage homepage content and sections</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-shrink-0 items-center gap-3">
           <Button
             variant="outline"
             onClick={() => window.open("/", "_blank")}
-            className="border-[#CDB586] text-[#EBE2C5]"
+            className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586]/10 flex-shrink-0"
           >
             <ExternalLink className="h-4 w-4 mr-2" />
             Preview
@@ -216,7 +217,7 @@ export default function HomepagePage() {
           <Button
             onClick={handleSave}
             disabled={saving}
-            className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]"
+            className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] flex-shrink-0"
           >
             {saving ? (
               <>
@@ -641,13 +642,13 @@ function BannerForm({ banner, onSave, onCancel }: { banner: Banner | null; onSav
           type="button"
           variant="outline"
           onClick={onCancel}
-          className="border-[#CDB586] text-[#0E161B]"
+          className="border-[#CDB586] text-[#0E161B] flex-shrink-0"
         >
           Cancel
         </Button>
         <Button
           type="submit"
-          className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]"
+          className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] flex-shrink-0"
         >
           Save Banner
         </Button>

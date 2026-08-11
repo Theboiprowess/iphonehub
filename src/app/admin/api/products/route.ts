@@ -315,6 +315,9 @@ export async function POST(request: NextRequest) {
     revalidatePath("/iphones");
     revalidatePath("/");
     revalidatePath("/admin/(protected)/products");
+    revalidatePath("/admin");
+    revalidatePath("/admin/api/dashboard");
+    revalidatePath("/api/products");
 
     return NextResponse.json(product, { status: 201 });
   } catch (error) {
@@ -489,6 +492,9 @@ export async function PUT(request: NextRequest) {
     revalidatePath(`/iphones/${slug}`);
     revalidatePath("/");
     revalidatePath("/admin/(protected)/products");
+    revalidatePath("/admin");
+    revalidatePath("/admin/api/dashboard");
+    revalidatePath("/api/products");
 
     return NextResponse.json(updatedProduct);
   } catch (error) {
@@ -563,6 +569,14 @@ export async function DELETE(request: NextRequest) {
         { productName: product.name, reason: "Has historical orders" }
       );
 
+      // Revalidate cache
+      revalidatePath("/iphones");
+      revalidatePath("/");
+      revalidatePath("/admin/(protected)/products");
+      revalidatePath("/admin");
+      revalidatePath("/admin/api/dashboard");
+      revalidatePath("/api/products");
+
       return NextResponse.json({ 
         message: "Product archived instead of deleted due to historical orders",
         archived: true
@@ -586,6 +600,9 @@ export async function DELETE(request: NextRequest) {
     revalidatePath("/iphones");
     revalidatePath("/");
     revalidatePath("/admin/(protected)/products");
+    revalidatePath("/admin");
+    revalidatePath("/admin/api/dashboard");
+    revalidatePath("/api/products");
 
     return NextResponse.json({ message: "Product deleted successfully" });
   } catch (error) {
