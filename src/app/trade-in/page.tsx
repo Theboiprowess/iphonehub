@@ -157,56 +157,62 @@ ${formData.notes}`;
   return (
     <div className="min-h-screen bg-[#F7F5EF]">
       {/* Hero Section */}
-      <div className="site-container section-spacing">
-        <SectionHeader 
-          title="Trade In Your iPhone. Upgrade With Confidence."
-          subtitle="Thinking about upgrading? Tell us about your current iPhone and our team can assess your device and discuss your trade-in options."
-        >
-          <div className="flex justify-center">
-            <div className="h-16 w-16 rounded-full bg-[#0E161B] text-[#CDB586] flex items-center justify-center gold-glow">
-              <ArrowRightLeft className="h-8 w-8" />
-            </div>
-          </div>
-        </SectionHeader>
-
-        {/* Visual Trade-In Process */}
-        <div className="max-w-5xl mx-auto mt-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="text-center p-6 bg-[#F7F5EF] border border-[#CDB586] rounded-lg hover:shadow-lg transition-all">
-              <div className="h-12 w-12 rounded-lg bg-[#0E161B] text-[#CDB586] flex items-center justify-center mx-auto mb-3">
-                <Smartphone className="h-6 w-6" />
+      <section className="section-spacing bg-[#0E161B] wood-texture">
+        <div className="site-container">
+          <SectionHeader 
+            title="Trade In Your iPhone. Upgrade With Confidence."
+            subtitle="Thinking about upgrading? Tell us about your current iPhone and our team can assess your device and discuss your trade-in options."
+          >
+            <div className="flex justify-center">
+              <div className="h-16 w-16 rounded-full bg-[#0E161B] text-[#CDB586] flex items-center justify-center gold-glow">
+                <ArrowRightLeft className="h-8 w-8" />
               </div>
-              <div className="text-2xl font-bold text-[#CDB586] mb-2">01</div>
-              <p className="text-sm text-[#5F3C18]">Tell Us About Your iPhone</p>
             </div>
-            <div className="text-center p-6 bg-[#F7F5EF] border border-[#CDB586] rounded-lg hover:shadow-lg transition-all">
-              <div className="h-12 w-12 rounded-lg bg-[#0E161B] text-[#CDB586] flex items-center justify-center mx-auto mb-3">
-                <Camera className="h-6 w-6" />
-              </div>
-              <div className="text-2xl font-bold text-[#CDB586] mb-2">02</div>
-              <p className="text-sm text-[#5F3C18]">Send Photos</p>
-            </div>
-            <div className="text-center p-6 bg-[#F7F5EF] border border-[#CDB586] rounded-lg hover:shadow-lg transition-all">
-              <div className="h-12 w-12 rounded-lg bg-[#0E161B] text-[#CDB586] flex items-center justify-center mx-auto mb-3">
-                <SearchCheck className="h-6 w-6" />
-              </div>
-              <div className="text-2xl font-bold text-[#CDB586] mb-2">03</div>
-              <p className="text-sm text-[#5F3C18]">Device Assessment</p>
-            </div>
-            <div className="text-center p-6 bg-[#F7F5EF] border border-[#CDB586] rounded-lg hover:shadow-lg transition-all">
-              <div className="h-12 w-12 rounded-lg bg-[#0E161B] text-[#CDB586] flex items-center justify-center mx-auto mb-3">
-                <ArrowUpRight className="h-6 w-6" />
-              </div>
-              <div className="text-2xl font-bold text-[#CDB586] mb-2">04</div>
-              <p className="text-sm text-[#5F3C18]">Upgrade</p>
-            </div>
-          </div>
+          </SectionHeader>
         </div>
+      </section>
 
-        {/* Multi-Step Form */}
-        <div className="max-w-3xl mx-auto mt-12">
+      {/* Visual Trade-In Process */}
+      <section className="section-spacing">
+        <div className="site-container">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <div className="text-center p-6 bg-[#F7F5EF] border border-[#CDB586] rounded-lg hover:shadow-lg transition-all">
+                <div className="h-12 w-12 rounded-lg bg-[#0E161B] text-[#CDB586] flex items-center justify-center mx-auto mb-3">
+                  <Smartphone className="h-6 w-6" />
+                </div>
+                <div className="text-2xl font-bold text-[#CDB586] mb-2">01</div>
+                <p className="text-sm text-[#5F3C18]">Tell Us About Your iPhone</p>
+              </div>
+              <div className="text-center p-6 bg-[#F7F5EF] border border-[#CDB586] rounded-lg hover:shadow-lg transition-all">
+                <div className="h-12 w-12 rounded-lg bg-[#0E161B] text-[#CDB586] flex items-center justify-center mx-auto mb-3">
+                  <Camera className="h-6 w-6" />
+                </div>
+                <div className="text-2xl font-bold text-[#CDB586] mb-2">02</div>
+                <p className="text-sm text-[#5F3C18]">Send Photos</p>
+              </div>
+              <div className="text-center p-6 bg-[#F7F5EF] border border-[#CDB586] rounded-lg hover:shadow-lg transition-all">
+                <div className="h-12 w-12 rounded-lg bg-[#0E161B] text-[#CDB586] flex items-center justify-center mx-auto mb-3">
+                  <SearchCheck className="h-6 w-6" />
+                </div>
+                <div className="text-2xl font-bold text-[#CDB586] mb-2">03</div>
+                <p className="text-sm text-[#5F3C18]">Device Assessment</p>
+              </div>
+              <div className="text-center p-6 bg-[#F7F5EF] border border-[#CDB586] rounded-lg hover:shadow-lg transition-all">
+                <div className="h-12 w-12 rounded-lg bg-[#0E161B] text-[#CDB586] flex items-center justify-center mx-auto mb-3">
+                  <ArrowUpRight className="h-6 w-6" />
+                </div>
+                <div className="text-2xl font-bold text-[#CDB586] mb-2">04</div>
+                <p className="text-sm text-[#5F3C18]">Upgrade</p>
+              </div>
+            </div>
+        </div>
+      </section>
+
+      {/* Multi-Step Form */}
+      <section className="section-spacing">
+        <div className="site-container">
           <Card className="bg-[#F7F5EF] border-[#CDB586]">
-              <CardHeader>
+                <CardHeader>
                 <CardTitle className="text-[#0E161B]">Trade-In Request</CardTitle>
                 <div className="flex items-center gap-2 mt-4">
                   {[1, 2, 3, 4, 5, 6].map((step) => (
@@ -571,11 +577,9 @@ ${formData.notes}`;
                 </form>
               </CardContent>
           </Card>
-        </div>
 
-        {/* Disclaimer */}
-        <div className="max-w-3xl mx-auto mt-12">
-          <Card className="bg-[#0E161B] border-[#CDB586]">
+          {/* Disclaimer */}
+          <Card className="bg-[#0E161B] border-[#CDB586] mt-8">
             <CardContent className="p-8">
               <h3 className="text-lg font-semibold text-[#CDB586] mb-2">Trade-In Valuation Disclaimer</h3>
               <p className="text-[#EBE2C5]/80 text-sm">
@@ -583,17 +587,15 @@ ${formData.notes}`;
               </p>
             </CardContent>
           </Card>
-        </div>
 
-        {/* WhatsApp CTA */}
-        <div className="max-w-3xl mx-auto mt-12">
-          <div className="text-center bg-[#0E161B] wood-texture rounded-2xl p-12">
+          {/* WhatsApp CTA */}
+          <div className="text-center bg-[#0E161B] wood-texture rounded-2xl p-12 mt-8">
             <h2 className="text-3xl font-bold mb-4 text-[#EBE2C5] font-manrope">
-              Trade-In Form Sent to Both CEOs
-            </h2>
-            <p className="text-lg text-[#EBE2C5]/80 mb-8 max-w-2xl mx-auto">
-              After completing the 6-step form, your trade-in request will be sent directly to both Artwell and Sabeka via WhatsApp for valuation.
-            </p>
+            Trade-In Form Sent to Both CEOs
+          </h2>
+          <p className="text-lg text-[#EBE2C5]/80 mb-8">
+            After completing the 6-step form, your trade-in request will be sent directly to both Artwell and Sabeka via WhatsApp for valuation.
+          </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 className="bg-[#0E161B] text-[#EBE2C5] border border-[#CDB586] hover:bg-[#1A1814]"
@@ -612,7 +614,7 @@ ${formData.notes}`;
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

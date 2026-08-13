@@ -19,7 +19,7 @@ export default function FAQPage() {
           subtitle="Find answers to common questions about our products and services"
         />
 
-        <div className="space-y-8 mt-12">
+        <div className="space-y-8">
           {/* General Questions */}
           <Card className="bg-[#F7F5EF] border-[#CDB586]">
             <CardHeader>

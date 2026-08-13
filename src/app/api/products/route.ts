@@ -14,6 +14,7 @@ export async function GET(request: NextRequest) {
 
     const where: any = {
       isActive: true,
+      status: 'PUBLISHED',
     };
 
     if (condition) {
@@ -21,9 +22,12 @@ export async function GET(request: NextRequest) {
       const conditionMap: Record<string, string> = {
         'boxed': 'BOXED',
         'pre-owned': 'PRE_OWNED',
-        'second-hand': 'SECOND_HAND'
+        'preowned': 'PRE_OWNED',
+        'second-hand': 'SECOND_HAND',
+        'secondhand': 'SECOND_HAND'
       };
-      where.condition = conditionMap[condition.toLowerCase()] || condition.toUpperCase();
+      const normalizedCondition = condition.toLowerCase().replace('_', '-');
+      where.condition = conditionMap[normalizedCondition] || condition.toUpperCase();
     }
 
     if (model) {
@@ -40,22 +44,19 @@ export async function GET(request: NextRequest) {
       ];
     }
 
-    if (minPrice || maxPrice) {
+    if (minPrice || maxPrice || storage) {
+      const variantConditions: any = {};
+      if (minPrice || maxPrice) {
+        variantConditions.price = {
+          ...(minPrice && { gte: parseFloat(minPrice) }),
+          ...(maxPrice && { lte: parseFloat(maxPrice) }),
+        };
+      }
+      if (storage) {
+        variantConditions.storage = storage;
+      }
       where.variants = {
-        some: {
-          price: {
-            ...(minPrice && { gte: parseFloat(minPrice) }),
-            ...(maxPrice && { lte: parseFloat(maxPrice) }),
-          },
-        },
-      };
-    }
-
-    if (storage) {
-      where.variants = {
-        some: {
-          storage: storage,
-        },
+        some: variantConditions,
       };
     }
 
@@ -80,6 +81,7 @@ export async function GET(request: NextRequest) {
         category: true,
         variants: {
           where: { isActive: true },
+          orderBy: { price: "asc" },
         },
         images: {
           orderBy: { order: "asc" },

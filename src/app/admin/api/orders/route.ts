@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Check permissions
-    await requirePermission(session.user.id, "ORDERS_VIEW");
+    await requirePermission((session.user as any).role, "ORDERS_VIEW");
 
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get("page") || "1");
@@ -105,7 +105,7 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    await requirePermission(session.user.id, "ORDERS_EDIT");
+    await requirePermission((session.user as any).role, "ORDERS_EDIT");
 
     const body = await request.json();
     const { id, status, paymentStatus, notes } = body;
@@ -210,7 +210,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    await requirePermission(session.user.id, "ORDERS_DELETE");
+    await requirePermission((session.user as any).role, "ORDERS_DELETE");
 
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");

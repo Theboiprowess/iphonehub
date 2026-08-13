@@ -251,6 +251,12 @@ npx prisma generate
 DATABASE_URL="postgresql://production-url"
 NEXTAUTH_SECRET="production-secret"
 NEXTAUTH_URL="https://your-domain.com"
+ECOCASH_MERCHANT_ID="your-ecocash-merchant-id"
+ECOCASH_API_KEY="your-ecocash-api-key"
+ECOCASH_API_SECRET="your-ecocash-api-secret"
+OPENAI_API_KEY="sk-your-openai-key"
+RESEND_API_KEY="re-your-resend-api-key"
+ADMIN_EMAIL="iphonehub@gmail.com"
 ```
 
 ## Troubleshooting
@@ -324,6 +330,69 @@ The WhatsApp message includes:
 - **Artwell (CEO):** +263773227172
 
 Both CEOs receive trade-in requests and can provide valuations directly to customers via WhatsApp.
+
+## Email Notification System
+
+### Overview
+The website includes an automated email notification system powered by Resend for order confirmations and admin notifications.
+
+### Features
+- **Order Confirmation Emails** - Sent to customers when they place an order
+- **Admin Order Notifications** - Sent to admin when a new order is received
+- **Payment Confirmation Emails** - Sent when EcoCash payment is approved
+- **Branded HTML Templates** - Professional iPhone Hub Masvingo branding
+- **Fire-and-Forget** - Non-blocking email sends that don't slow down order processing
+
+### Setup Requirements
+1. **Resend API Key** (Required)
+   - Get from https://resend.com/api-keys
+   - Add to `.env` as `RESEND_API_KEY=re-your-api-key`
+   - Add admin email as `ADMIN_EMAIL=iphonehub@gmail.com`
+
+2. **Verify Domain** (Recommended)
+   - Add your domain to Resend dashboard
+   - Configure DNS records for SPF/DKIM
+   - This improves email deliverability
+
+### Email Templates
+The system includes two HTML email templates:
+
+**Order Confirmation Email:**
+- Order number and customer greeting
+- Complete order items with storage, colour, quantity, and price
+- Order summary (subtotal, delivery fee, total)
+- Delivery information (method, city, address)
+- Payment information
+- Contact details (WhatsApp, email)
+
+**Admin Order Notification:**
+- Order number and total
+- Customer information (name, email, phone, WhatsApp, address)
+- Complete order items
+- Order notes (if any)
+- Direct link to admin order page
+
+### Email Triggers
+Emails are sent automatically in the following scenarios:
+
+1. **Order Creation** (`/api/orders` POST)
+   - Customer receives order confirmation
+   - Admin receives new order notification
+
+2. **Payment Approval** (`/api/payments/ecocash/webhook` POST)
+   - Customer receives payment confirmation when EcoCash payment is approved
+
+### Implementation
+Email functions are in `src/lib/email.ts`:
+- `sendOrderConfirmationEmail()` - Sends customer order confirmation
+- `sendAdminOrderNotification()` - Sends admin new order notification
+
+Emails are sent as non-blocking async operations to avoid slowing down order processing. If email sending fails, the error is logged but the order still succeeds.
+
+### Troubleshooting
+- If emails aren't sending: Check `RESEND_API_KEY` is set
+- If emails go to spam: Verify domain DNS records in Resend dashboard
+- Check console logs for email errors during development
 
 ## AI Customer Support System
 

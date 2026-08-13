@@ -65,7 +65,7 @@ export default function ContactPage() {
           <h1 className="text-4xl sm:text-5xl font-bold text-[#EBE2C5] font-manrope mb-4">
             Contact Us
           </h1>
-          <p className="text-lg text-[#EBE2C5]/80 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg text-[#EBE2C5]/80 leading-relaxed">
             Have questions? We're here to help. Reach out to our team via WhatsApp, phone, or send us a message.
           </p>
         </div>

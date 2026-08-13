@@ -99,22 +99,27 @@ export async function POST(req: NextRequest) {
       );
     }
     
-    // Get merchant number from settings
-    const settings = await prisma.siteSettings.findUnique({
-      where: { id: 'default' },
+    // Get receiving account by merchant number
+    const receivingAccount = await prisma.ecoCashReceivingAccount.findFirst({
+      where: { phoneNumber: transaction.merchantNumber, isActive: true },
     });
-    
-    const merchantNumber = (settings?.paymentConfig as any)?.merchantNumber || '';
-    const merchantName = settings?.businessName || 'iPhone Hub Zimbabwe';
-    
-    // Update transaction with merchant info
-    transaction.merchantNumber = merchantNumber;
-    transaction.merchantName = transaction.merchantName || merchantName;
+
+    if (!receivingAccount) {
+      console.warn('No active receiving account found for merchant number:', transaction.merchantNumber);
+      // Store the transaction anyway for manual review
+    }
+
+    // Update transaction with receiving account info
+    if (receivingAccount) {
+      transaction.merchantNumber = receivingAccount.phoneNumber;
+      transaction.merchantName = receivingAccount.name;
+    }
     
     // Store the transaction
     const ecoCashTransaction = await prisma.ecoCashTransaction.create({
       data: {
         transactionReference: transaction.transactionReference,
+        receivingAccountId: receivingAccount?.id,
         amount: transaction.amount,
         currency: transaction.currency,
         senderPhone: transaction.senderPhone,
@@ -152,19 +157,21 @@ export async function POST(req: NextRequest) {
  */
 async function matchPayment(ecoCashTransaction: any) {
   try {
-    // Find pending EcoCash payments with matching reference
+    // Find pending EcoCash payments with matching receiving account
     const payment = await prisma.payment.findFirst({
       where: {
         provider: 'ecocash',
         status: {
           in: ['AWAITING_PROOF', 'PROOF_SUBMITTED', 'MATCHING'] as any,
         },
+        receivingAccountId: ecoCashTransaction.receivingAccountId,
         OR: [
           { amount: ecoCashTransaction.amount },
         ],
       },
       include: {
         order: true,
+        receivingAccount: true,
       },
     });
     
@@ -231,6 +238,7 @@ async function matchPayment(ecoCashTransaction: any) {
           metadata: {
             transactionReference: ecoCashTransaction.transactionReference,
             matchReason: matchResult.reason,
+            receivingAccount: payment.receivingAccount?.name,
           },
         },
       });
@@ -261,6 +269,7 @@ async function matchPayment(ecoCashTransaction: any) {
           metadata: {
             transactionReference: ecoCashTransaction.transactionReference,
             mismatchReason: matchResult.reason,
+            receivingAccount: payment.receivingAccount?.name,
           },
         },
       });
@@ -280,6 +289,13 @@ async function verifyMatch(payment: any, transaction: any): Promise<{
   reason: string;
 }> {
   const errors: string[] = [];
+  
+  // Check receiving account match
+  if (payment.receivingAccountId && transaction.receivingAccountId) {
+    if (payment.receivingAccountId !== transaction.receivingAccountId) {
+      errors.push('Receiving account mismatch');
+    }
+  }
   
   // Check amount match (exact match required)
   const amountMatch = Math.abs(Number(payment.amount) - Number(transaction.amount)) < 0.01;

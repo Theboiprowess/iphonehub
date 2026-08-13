@@ -232,3 +232,14 @@ export const UnansweredStatus = {
 } as const
 
 export type UnansweredStatus = (typeof UnansweredStatus)[keyof typeof UnansweredStatus]
+
+
+export const AnnouncementType = {
+  PROMOTIONAL: 'PROMOTIONAL',
+  INFORMATIONAL: 'INFORMATIONAL',
+  STOCK: 'STOCK',
+  DELIVERY: 'DELIVERY',
+  URGENT: 'URGENT'
+} as const
+
+export type AnnouncementType = (typeof AnnouncementType)[keyof typeof AnnouncementType]

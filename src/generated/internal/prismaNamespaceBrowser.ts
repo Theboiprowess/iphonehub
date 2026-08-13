@@ -62,6 +62,7 @@ export const ModelName = {
   Device: 'Device',
   Order: 'Order',
   OrderItem: 'OrderItem',
+  EcoCashReceivingAccount: 'EcoCashReceivingAccount',
   Payment: 'Payment',
   EcoCashTransaction: 'EcoCashTransaction',
   PaymentProof: 'PaymentProof',
@@ -98,7 +99,8 @@ export const ModelName = {
   SupportEscalation: 'SupportEscalation',
   KnowledgeArticle: 'KnowledgeArticle',
   UnansweredQuestion: 'UnansweredQuestion',
-  SupportSettings: 'SupportSettings'
+  SupportSettings: 'SupportSettings',
+  Announcement: 'Announcement'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -274,6 +276,7 @@ export type DeviceScalarFieldEnum = (typeof DeviceScalarFieldEnum)[keyof typeof 
 export const OrderScalarFieldEnum = {
   id: 'id',
   orderNumber: 'orderNumber',
+  paymentReference: 'paymentReference',
   userId: 'userId',
   customerName: 'customerName',
   customerEmail: 'customerEmail',
@@ -310,9 +313,24 @@ export const OrderItemScalarFieldEnum = {
 export type OrderItemScalarFieldEnum = (typeof OrderItemScalarFieldEnum)[keyof typeof OrderItemScalarFieldEnum]
 
 
+export const EcoCashReceivingAccountScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  phoneNumber: 'phoneNumber',
+  isActive: 'isActive',
+  isDefault: 'isDefault',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EcoCashReceivingAccountScalarFieldEnum = (typeof EcoCashReceivingAccountScalarFieldEnum)[keyof typeof EcoCashReceivingAccountScalarFieldEnum]
+
+
 export const PaymentScalarFieldEnum = {
   id: 'id',
   orderId: 'orderId',
+  receivingAccountId: 'receivingAccountId',
   provider: 'provider',
   providerTransactionId: 'providerTransactionId',
   merchantReference: 'merchantReference',
@@ -334,6 +352,7 @@ export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeo
 export const EcoCashTransactionScalarFieldEnum = {
   id: 'id',
   transactionReference: 'transactionReference',
+  receivingAccountId: 'receivingAccountId',
   amount: 'amount',
   currency: 'currency',
   senderPhone: 'senderPhone',
@@ -413,6 +432,7 @@ export const ReviewScalarFieldEnum = {
   comment: 'comment',
   name: 'name',
   isApproved: 'isApproved',
+  adminResponse: 'adminResponse',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -976,6 +996,23 @@ export const SupportSettingsScalarFieldEnum = {
 } as const
 
 export type SupportSettingsScalarFieldEnum = (typeof SupportSettingsScalarFieldEnum)[keyof typeof SupportSettingsScalarFieldEnum]
+
+
+export const AnnouncementScalarFieldEnum = {
+  id: 'id',
+  message: 'message',
+  type: 'type',
+  isActive: 'isActive',
+  priority: 'priority',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  scrollingSpeed: 'scrollingSpeed',
+  displayDuration: 'displayDuration',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AnnouncementScalarFieldEnum = (typeof AnnouncementScalarFieldEnum)[keyof typeof AnnouncementScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -106,6 +106,22 @@ body {
   line-height: 1.7;
 }
 
+/* Override center alignment for specific elements */
+nav, nav *, 
+form, form *, 
+table, table td, table th,
+.grid, .flex, [class*="flex"],
+.text-left,
+input, select, textarea,
+button {
+  text-align: left;
+}
+
+/* Ensure section header subtitles are centered */
+.section-header-subtitle {
+  text-align: center !important;
+}
+
 /* Windows-specific fixes */
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
   body {
@@ -122,6 +138,29 @@ body {
   margin-right: auto;
   padding-left: 1rem;
   padding-right: 1rem;
+}
+
+/* Centered content container for content pages */
+.content-center {
+  text-align: center;
+}
+
+.content-center p,
+.content-center h1,
+.content-center h2,
+.content-center h3,
+.content-center h4,
+.content-center h5,
+.content-center h6,
+.content-center span,
+.content-center div:not(.grid):not(.flex):not([class*="flex"]),
+.content-center li {
+  text-align: center;
+}
+
+.content-center .grid,
+.content-center .flex {
+  text-align: left;
 }
 
 @media (min-width: 640px) {
@@ -154,28 +193,28 @@ body {
 
 /* Global Section Spacing */
 .section-spacing {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 
 @media (min-width: 640px) {
+  .section-spacing {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
+@media (min-width: 1024px) {
   .section-spacing {
     padding-top: 5rem;
     padding-bottom: 5rem;
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1280px) {
   .section-spacing {
     padding-top: 6rem;
     padding-bottom: 6rem;
-  }
-}
-
-@media (min-width: 1280px) {
-  .section-spacing {
-    padding-top: 7rem;
-    padding-bottom: 7rem;
   }
 }
 
@@ -311,6 +350,20 @@ body {
 
 .animate-slide-down {
   animation: slideDown 0.3s ease-out;
+}
+
+/* Ticker scroll animation */
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scrollLeft linear infinite;
 }
 
 /* Premium smoke background */

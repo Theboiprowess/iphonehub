@@ -6,13 +6,23 @@ import { modelToImageKey } from "@/lib/iphone-image-provider";
 // GET - Fetch all catalogue items
 export async function GET() {
   try {
+    console.log("ADMIN API: Fetching catalogue from database...");
     const catalogue = await prisma.priceCatalogue.findMany({
       orderBy: { order: 'asc' },
     });
+    console.log("ADMIN API: Fetched catalogue items:", catalogue.length);
+    console.log("ADMIN API: Sample items:", catalogue.slice(0, 3));
     return NextResponse.json(catalogue);
-  } catch (error) {
-    console.error("Failed to fetch catalogue:", error);
-    return NextResponse.json({ error: "Failed to fetch catalogue" }, { status: 500 });
+  } catch (error: any) {
+    console.error("ADMIN API: Failed to fetch catalogue:", error);
+    
+    // Check if table doesn't exist
+    if (error.code === 'P2021') {
+      console.error("ADMIN API: PriceCatalogue table doesn't exist");
+      return NextResponse.json({ error: "PriceCatalogue table doesn't exist. Please run migration first." }, { status: 500 });
+    }
+    
+    return NextResponse.json({ error: "Failed to fetch catalogue", details: String(error) }, { status: 500 });
   }
 }
 

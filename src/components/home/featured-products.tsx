@@ -97,6 +97,7 @@ export function FeaturedProducts() {
           <SectionHeader 
             title="Featured iPhones"
             subtitle="Our most popular devices right now"
+            className="text-center"
           />
           <div className="flex justify-center">
             <Loader2 className="h-8 w-8 animate-spin text-[#CAA45A]" />
@@ -112,15 +113,18 @@ export function FeaturedProducts() {
         <SectionHeader 
           title="Featured iPhones"
           subtitle="Our most popular devices right now"
+          className="text-center"
         >
-          <Link href="/catalogue">
-            <Button variant="outline" className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586] hover:text-[#0E161B] font-semibold">
-              View Price Catalogue
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
+          <div className="flex justify-center mt-4">
+            <Link href="/catalogue">
+              <Button variant="outline" className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586] hover:text-[#0E161B] font-semibold">
+                View Price Catalogue
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
         </SectionHeader>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {featuredProducts.map((product) => (
             <Card key={product.id} className="group hover:shadow-xl transition-all bg-[#F7F5EF] border-[#CDB586] overflow-hidden flex flex-col h-full">
               <CardHeader className="p-0 border-b border-[#CDB586]/20">

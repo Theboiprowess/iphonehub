@@ -37,6 +37,7 @@ export type EcoCashTransactionSumAggregateOutputType = {
 export type EcoCashTransactionMinAggregateOutputType = {
   id: string | null
   transactionReference: string | null
+  receivingAccountId: string | null
   amount: runtime.Decimal | null
   currency: string | null
   senderPhone: string | null
@@ -56,6 +57,7 @@ export type EcoCashTransactionMinAggregateOutputType = {
 export type EcoCashTransactionMaxAggregateOutputType = {
   id: string | null
   transactionReference: string | null
+  receivingAccountId: string | null
   amount: runtime.Decimal | null
   currency: string | null
   senderPhone: string | null
@@ -75,6 +77,7 @@ export type EcoCashTransactionMaxAggregateOutputType = {
 export type EcoCashTransactionCountAggregateOutputType = {
   id: number
   transactionReference: number
+  receivingAccountId: number
   amount: number
   currency: number
   senderPhone: number
@@ -104,6 +107,7 @@ export type EcoCashTransactionSumAggregateInputType = {
 export type EcoCashTransactionMinAggregateInputType = {
   id?: true
   transactionReference?: true
+  receivingAccountId?: true
   amount?: true
   currency?: true
   senderPhone?: true
@@ -123,6 +127,7 @@ export type EcoCashTransactionMinAggregateInputType = {
 export type EcoCashTransactionMaxAggregateInputType = {
   id?: true
   transactionReference?: true
+  receivingAccountId?: true
   amount?: true
   currency?: true
   senderPhone?: true
@@ -142,6 +147,7 @@ export type EcoCashTransactionMaxAggregateInputType = {
 export type EcoCashTransactionCountAggregateInputType = {
   id?: true
   transactionReference?: true
+  receivingAccountId?: true
   amount?: true
   currency?: true
   senderPhone?: true
@@ -248,6 +254,7 @@ export type EcoCashTransactionGroupByArgs<ExtArgs extends runtime.Types.Extensio
 export type EcoCashTransactionGroupByOutputType = {
   id: string
   transactionReference: string
+  receivingAccountId: string | null
   amount: runtime.Decimal
   currency: string
   senderPhone: string
@@ -290,6 +297,7 @@ export type EcoCashTransactionWhereInput = {
   NOT?: Prisma.EcoCashTransactionWhereInput | Prisma.EcoCashTransactionWhereInput[]
   id?: Prisma.StringFilter<"EcoCashTransaction"> | string
   transactionReference?: Prisma.StringFilter<"EcoCashTransaction"> | string
+  receivingAccountId?: Prisma.StringNullableFilter<"EcoCashTransaction"> | string | null
   amount?: Prisma.DecimalFilter<"EcoCashTransaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"EcoCashTransaction"> | string
   senderPhone?: Prisma.StringFilter<"EcoCashTransaction"> | string
@@ -305,11 +313,13 @@ export type EcoCashTransactionWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"EcoCashTransaction"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"EcoCashTransaction"> | Date | string
   payment?: Prisma.XOR<Prisma.PaymentNullableScalarRelationFilter, Prisma.PaymentWhereInput> | null
+  receivingAccount?: Prisma.XOR<Prisma.EcoCashReceivingAccountNullableScalarRelationFilter, Prisma.EcoCashReceivingAccountWhereInput> | null
 }
 
 export type EcoCashTransactionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   transactionReference?: Prisma.SortOrder
+  receivingAccountId?: Prisma.SortOrderInput | Prisma.SortOrder
   amount?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   senderPhone?: Prisma.SortOrder
@@ -325,6 +335,7 @@ export type EcoCashTransactionOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   payment?: Prisma.PaymentOrderByWithRelationInput
+  receivingAccount?: Prisma.EcoCashReceivingAccountOrderByWithRelationInput
 }
 
 export type EcoCashTransactionWhereUniqueInput = Prisma.AtLeast<{
@@ -334,6 +345,7 @@ export type EcoCashTransactionWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.EcoCashTransactionWhereInput | Prisma.EcoCashTransactionWhereInput[]
   OR?: Prisma.EcoCashTransactionWhereInput[]
   NOT?: Prisma.EcoCashTransactionWhereInput | Prisma.EcoCashTransactionWhereInput[]
+  receivingAccountId?: Prisma.StringNullableFilter<"EcoCashTransaction"> | string | null
   amount?: Prisma.DecimalFilter<"EcoCashTransaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"EcoCashTransaction"> | string
   senderPhone?: Prisma.StringFilter<"EcoCashTransaction"> | string
@@ -348,11 +360,13 @@ export type EcoCashTransactionWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"EcoCashTransaction"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"EcoCashTransaction"> | Date | string
   payment?: Prisma.XOR<Prisma.PaymentNullableScalarRelationFilter, Prisma.PaymentWhereInput> | null
+  receivingAccount?: Prisma.XOR<Prisma.EcoCashReceivingAccountNullableScalarRelationFilter, Prisma.EcoCashReceivingAccountWhereInput> | null
 }, "id" | "transactionReference" | "matchedPaymentId">
 
 export type EcoCashTransactionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   transactionReference?: Prisma.SortOrder
+  receivingAccountId?: Prisma.SortOrderInput | Prisma.SortOrder
   amount?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   senderPhone?: Prisma.SortOrder
@@ -380,6 +394,7 @@ export type EcoCashTransactionScalarWhereWithAggregatesInput = {
   NOT?: Prisma.EcoCashTransactionScalarWhereWithAggregatesInput | Prisma.EcoCashTransactionScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"EcoCashTransaction"> | string
   transactionReference?: Prisma.StringWithAggregatesFilter<"EcoCashTransaction"> | string
+  receivingAccountId?: Prisma.StringNullableWithAggregatesFilter<"EcoCashTransaction"> | string | null
   amount?: Prisma.DecimalWithAggregatesFilter<"EcoCashTransaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringWithAggregatesFilter<"EcoCashTransaction"> | string
   senderPhone?: Prisma.StringWithAggregatesFilter<"EcoCashTransaction"> | string
@@ -413,11 +428,13 @@ export type EcoCashTransactionCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   payment?: Prisma.PaymentCreateNestedOneWithoutEcoCashTransactionInput
+  receivingAccount?: Prisma.EcoCashReceivingAccountCreateNestedOneWithoutTransactionsInput
 }
 
 export type EcoCashTransactionUncheckedCreateInput = {
   id?: string
   transactionReference: string
+  receivingAccountId?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   senderPhone: string
@@ -451,11 +468,13 @@ export type EcoCashTransactionUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   payment?: Prisma.PaymentUpdateOneWithoutEcoCashTransactionNestedInput
+  receivingAccount?: Prisma.EcoCashReceivingAccountUpdateOneWithoutTransactionsNestedInput
 }
 
 export type EcoCashTransactionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   transactionReference?: Prisma.StringFieldUpdateOperationsInput | string
+  receivingAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   senderPhone?: Prisma.StringFieldUpdateOperationsInput | string
@@ -475,6 +494,7 @@ export type EcoCashTransactionUncheckedUpdateInput = {
 export type EcoCashTransactionCreateManyInput = {
   id?: string
   transactionReference: string
+  receivingAccountId?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   senderPhone: string
@@ -512,6 +532,7 @@ export type EcoCashTransactionUpdateManyMutationInput = {
 export type EcoCashTransactionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   transactionReference?: Prisma.StringFieldUpdateOperationsInput | string
+  receivingAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   senderPhone?: Prisma.StringFieldUpdateOperationsInput | string
@@ -528,6 +549,16 @@ export type EcoCashTransactionUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type EcoCashTransactionListRelationFilter = {
+  every?: Prisma.EcoCashTransactionWhereInput
+  some?: Prisma.EcoCashTransactionWhereInput
+  none?: Prisma.EcoCashTransactionWhereInput
+}
+
+export type EcoCashTransactionOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type EcoCashTransactionNullableScalarRelationFilter = {
   is?: Prisma.EcoCashTransactionWhereInput | null
   isNot?: Prisma.EcoCashTransactionWhereInput | null
@@ -536,6 +567,7 @@ export type EcoCashTransactionNullableScalarRelationFilter = {
 export type EcoCashTransactionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   transactionReference?: Prisma.SortOrder
+  receivingAccountId?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   senderPhone?: Prisma.SortOrder
@@ -559,6 +591,7 @@ export type EcoCashTransactionAvgOrderByAggregateInput = {
 export type EcoCashTransactionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   transactionReference?: Prisma.SortOrder
+  receivingAccountId?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   senderPhone?: Prisma.SortOrder
@@ -578,6 +611,7 @@ export type EcoCashTransactionMaxOrderByAggregateInput = {
 export type EcoCashTransactionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   transactionReference?: Prisma.SortOrder
+  receivingAccountId?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   senderPhone?: Prisma.SortOrder
@@ -596,6 +630,48 @@ export type EcoCashTransactionMinOrderByAggregateInput = {
 
 export type EcoCashTransactionSumOrderByAggregateInput = {
   amount?: Prisma.SortOrder
+}
+
+export type EcoCashTransactionCreateNestedManyWithoutReceivingAccountInput = {
+  create?: Prisma.XOR<Prisma.EcoCashTransactionCreateWithoutReceivingAccountInput, Prisma.EcoCashTransactionUncheckedCreateWithoutReceivingAccountInput> | Prisma.EcoCashTransactionCreateWithoutReceivingAccountInput[] | Prisma.EcoCashTransactionUncheckedCreateWithoutReceivingAccountInput[]
+  connectOrCreate?: Prisma.EcoCashTransactionCreateOrConnectWithoutReceivingAccountInput | Prisma.EcoCashTransactionCreateOrConnectWithoutReceivingAccountInput[]
+  createMany?: Prisma.EcoCashTransactionCreateManyReceivingAccountInputEnvelope
+  connect?: Prisma.EcoCashTransactionWhereUniqueInput | Prisma.EcoCashTransactionWhereUniqueInput[]
+}
+
+export type EcoCashTransactionUncheckedCreateNestedManyWithoutReceivingAccountInput = {
+  create?: Prisma.XOR<Prisma.EcoCashTransactionCreateWithoutReceivingAccountInput, Prisma.EcoCashTransactionUncheckedCreateWithoutReceivingAccountInput> | Prisma.EcoCashTransactionCreateWithoutReceivingAccountInput[] | Prisma.EcoCashTransactionUncheckedCreateWithoutReceivingAccountInput[]
+  connectOrCreate?: Prisma.EcoCashTransactionCreateOrConnectWithoutReceivingAccountInput | Prisma.EcoCashTransactionCreateOrConnectWithoutReceivingAccountInput[]
+  createMany?: Prisma.EcoCashTransactionCreateManyReceivingAccountInputEnvelope
+  connect?: Prisma.EcoCashTransactionWhereUniqueInput | Prisma.EcoCashTransactionWhereUniqueInput[]
+}
+
+export type EcoCashTransactionUpdateManyWithoutReceivingAccountNestedInput = {
+  create?: Prisma.XOR<Prisma.EcoCashTransactionCreateWithoutReceivingAccountInput, Prisma.EcoCashTransactionUncheckedCreateWithoutReceivingAccountInput> | Prisma.EcoCashTransactionCreateWithoutReceivingAccountInput[] | Prisma.EcoCashTransactionUncheckedCreateWithoutReceivingAccountInput[]
+  connectOrCreate?: Prisma.EcoCashTransactionCreateOrConnectWithoutReceivingAccountInput | Prisma.EcoCashTransactionCreateOrConnectWithoutReceivingAccountInput[]
+  upsert?: Prisma.EcoCashTransactionUpsertWithWhereUniqueWithoutReceivingAccountInput | Prisma.EcoCashTransactionUpsertWithWhereUniqueWithoutReceivingAccountInput[]
+  createMany?: Prisma.EcoCashTransactionCreateManyReceivingAccountInputEnvelope
+  set?: Prisma.EcoCashTransactionWhereUniqueInput | Prisma.EcoCashTransactionWhereUniqueInput[]
+  disconnect?: Prisma.EcoCashTransactionWhereUniqueInput | Prisma.EcoCashTransactionWhereUniqueInput[]
+  delete?: Prisma.EcoCashTransactionWhereUniqueInput | Prisma.EcoCashTransactionWhereUniqueInput[]
+  connect?: Prisma.EcoCashTransactionWhereUniqueInput | Prisma.EcoCashTransactionWhereUniqueInput[]
+  update?: Prisma.EcoCashTransactionUpdateWithWhereUniqueWithoutReceivingAccountInput | Prisma.EcoCashTransactionUpdateWithWhereUniqueWithoutReceivingAccountInput[]
+  updateMany?: Prisma.EcoCashTransactionUpdateManyWithWhereWithoutReceivingAccountInput | Prisma.EcoCashTransactionUpdateManyWithWhereWithoutReceivingAccountInput[]
+  deleteMany?: Prisma.EcoCashTransactionScalarWhereInput | Prisma.EcoCashTransactionScalarWhereInput[]
+}
+
+export type EcoCashTransactionUncheckedUpdateManyWithoutReceivingAccountNestedInput = {
+  create?: Prisma.XOR<Prisma.EcoCashTransactionCreateWithoutReceivingAccountInput, Prisma.EcoCashTransactionUncheckedCreateWithoutReceivingAccountInput> | Prisma.EcoCashTransactionCreateWithoutReceivingAccountInput[] | Prisma.EcoCashTransactionUncheckedCreateWithoutReceivingAccountInput[]
+  connectOrCreate?: Prisma.EcoCashTransactionCreateOrConnectWithoutReceivingAccountInput | Prisma.EcoCashTransactionCreateOrConnectWithoutReceivingAccountInput[]
+  upsert?: Prisma.EcoCashTransactionUpsertWithWhereUniqueWithoutReceivingAccountInput | Prisma.EcoCashTransactionUpsertWithWhereUniqueWithoutReceivingAccountInput[]
+  createMany?: Prisma.EcoCashTransactionCreateManyReceivingAccountInputEnvelope
+  set?: Prisma.EcoCashTransactionWhereUniqueInput | Prisma.EcoCashTransactionWhereUniqueInput[]
+  disconnect?: Prisma.EcoCashTransactionWhereUniqueInput | Prisma.EcoCashTransactionWhereUniqueInput[]
+  delete?: Prisma.EcoCashTransactionWhereUniqueInput | Prisma.EcoCashTransactionWhereUniqueInput[]
+  connect?: Prisma.EcoCashTransactionWhereUniqueInput | Prisma.EcoCashTransactionWhereUniqueInput[]
+  update?: Prisma.EcoCashTransactionUpdateWithWhereUniqueWithoutReceivingAccountInput | Prisma.EcoCashTransactionUpdateWithWhereUniqueWithoutReceivingAccountInput[]
+  updateMany?: Prisma.EcoCashTransactionUpdateManyWithWhereWithoutReceivingAccountInput | Prisma.EcoCashTransactionUpdateManyWithWhereWithoutReceivingAccountInput[]
+  deleteMany?: Prisma.EcoCashTransactionScalarWhereInput | Prisma.EcoCashTransactionScalarWhereInput[]
 }
 
 export type EcoCashTransactionCreateNestedOneWithoutPaymentInput = {
@@ -634,6 +710,93 @@ export type EnumEcoCashTransactionStatusFieldUpdateOperationsInput = {
   set?: $Enums.EcoCashTransactionStatus
 }
 
+export type EcoCashTransactionCreateWithoutReceivingAccountInput = {
+  id?: string
+  transactionReference: string
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  senderPhone: string
+  merchantNumber: string
+  merchantName?: string | null
+  transactionDate: Date | string
+  transactionTime: string
+  rawMessage: string
+  receivedAt?: Date | string
+  sourceDevice?: string | null
+  status?: $Enums.EcoCashTransactionStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  payment?: Prisma.PaymentCreateNestedOneWithoutEcoCashTransactionInput
+}
+
+export type EcoCashTransactionUncheckedCreateWithoutReceivingAccountInput = {
+  id?: string
+  transactionReference: string
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  senderPhone: string
+  merchantNumber: string
+  merchantName?: string | null
+  transactionDate: Date | string
+  transactionTime: string
+  rawMessage: string
+  receivedAt?: Date | string
+  sourceDevice?: string | null
+  status?: $Enums.EcoCashTransactionStatus
+  matchedPaymentId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type EcoCashTransactionCreateOrConnectWithoutReceivingAccountInput = {
+  where: Prisma.EcoCashTransactionWhereUniqueInput
+  create: Prisma.XOR<Prisma.EcoCashTransactionCreateWithoutReceivingAccountInput, Prisma.EcoCashTransactionUncheckedCreateWithoutReceivingAccountInput>
+}
+
+export type EcoCashTransactionCreateManyReceivingAccountInputEnvelope = {
+  data: Prisma.EcoCashTransactionCreateManyReceivingAccountInput | Prisma.EcoCashTransactionCreateManyReceivingAccountInput[]
+  skipDuplicates?: boolean
+}
+
+export type EcoCashTransactionUpsertWithWhereUniqueWithoutReceivingAccountInput = {
+  where: Prisma.EcoCashTransactionWhereUniqueInput
+  update: Prisma.XOR<Prisma.EcoCashTransactionUpdateWithoutReceivingAccountInput, Prisma.EcoCashTransactionUncheckedUpdateWithoutReceivingAccountInput>
+  create: Prisma.XOR<Prisma.EcoCashTransactionCreateWithoutReceivingAccountInput, Prisma.EcoCashTransactionUncheckedCreateWithoutReceivingAccountInput>
+}
+
+export type EcoCashTransactionUpdateWithWhereUniqueWithoutReceivingAccountInput = {
+  where: Prisma.EcoCashTransactionWhereUniqueInput
+  data: Prisma.XOR<Prisma.EcoCashTransactionUpdateWithoutReceivingAccountInput, Prisma.EcoCashTransactionUncheckedUpdateWithoutReceivingAccountInput>
+}
+
+export type EcoCashTransactionUpdateManyWithWhereWithoutReceivingAccountInput = {
+  where: Prisma.EcoCashTransactionScalarWhereInput
+  data: Prisma.XOR<Prisma.EcoCashTransactionUpdateManyMutationInput, Prisma.EcoCashTransactionUncheckedUpdateManyWithoutReceivingAccountInput>
+}
+
+export type EcoCashTransactionScalarWhereInput = {
+  AND?: Prisma.EcoCashTransactionScalarWhereInput | Prisma.EcoCashTransactionScalarWhereInput[]
+  OR?: Prisma.EcoCashTransactionScalarWhereInput[]
+  NOT?: Prisma.EcoCashTransactionScalarWhereInput | Prisma.EcoCashTransactionScalarWhereInput[]
+  id?: Prisma.StringFilter<"EcoCashTransaction"> | string
+  transactionReference?: Prisma.StringFilter<"EcoCashTransaction"> | string
+  receivingAccountId?: Prisma.StringNullableFilter<"EcoCashTransaction"> | string | null
+  amount?: Prisma.DecimalFilter<"EcoCashTransaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFilter<"EcoCashTransaction"> | string
+  senderPhone?: Prisma.StringFilter<"EcoCashTransaction"> | string
+  merchantNumber?: Prisma.StringFilter<"EcoCashTransaction"> | string
+  merchantName?: Prisma.StringNullableFilter<"EcoCashTransaction"> | string | null
+  transactionDate?: Prisma.DateTimeFilter<"EcoCashTransaction"> | Date | string
+  transactionTime?: Prisma.StringFilter<"EcoCashTransaction"> | string
+  rawMessage?: Prisma.StringFilter<"EcoCashTransaction"> | string
+  receivedAt?: Prisma.DateTimeFilter<"EcoCashTransaction"> | Date | string
+  sourceDevice?: Prisma.StringNullableFilter<"EcoCashTransaction"> | string | null
+  status?: Prisma.EnumEcoCashTransactionStatusFilter<"EcoCashTransaction"> | $Enums.EcoCashTransactionStatus
+  matchedPaymentId?: Prisma.StringNullableFilter<"EcoCashTransaction"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"EcoCashTransaction"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"EcoCashTransaction"> | Date | string
+}
+
 export type EcoCashTransactionCreateWithoutPaymentInput = {
   id?: string
   transactionReference: string
@@ -650,11 +813,13 @@ export type EcoCashTransactionCreateWithoutPaymentInput = {
   status?: $Enums.EcoCashTransactionStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  receivingAccount?: Prisma.EcoCashReceivingAccountCreateNestedOneWithoutTransactionsInput
 }
 
 export type EcoCashTransactionUncheckedCreateWithoutPaymentInput = {
   id?: string
   transactionReference: string
+  receivingAccountId?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   senderPhone: string
@@ -702,11 +867,13 @@ export type EcoCashTransactionUpdateWithoutPaymentInput = {
   status?: Prisma.EnumEcoCashTransactionStatusFieldUpdateOperationsInput | $Enums.EcoCashTransactionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receivingAccount?: Prisma.EcoCashReceivingAccountUpdateOneWithoutTransactionsNestedInput
 }
 
 export type EcoCashTransactionUncheckedUpdateWithoutPaymentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   transactionReference?: Prisma.StringFieldUpdateOperationsInput | string
+  receivingAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   senderPhone?: Prisma.StringFieldUpdateOperationsInput | string
@@ -722,11 +889,88 @@ export type EcoCashTransactionUncheckedUpdateWithoutPaymentInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type EcoCashTransactionCreateManyReceivingAccountInput = {
+  id?: string
+  transactionReference: string
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  senderPhone: string
+  merchantNumber: string
+  merchantName?: string | null
+  transactionDate: Date | string
+  transactionTime: string
+  rawMessage: string
+  receivedAt?: Date | string
+  sourceDevice?: string | null
+  status?: $Enums.EcoCashTransactionStatus
+  matchedPaymentId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type EcoCashTransactionUpdateWithoutReceivingAccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  transactionReference?: Prisma.StringFieldUpdateOperationsInput | string
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  senderPhone?: Prisma.StringFieldUpdateOperationsInput | string
+  merchantNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  merchantName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transactionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  transactionTime?: Prisma.StringFieldUpdateOperationsInput | string
+  rawMessage?: Prisma.StringFieldUpdateOperationsInput | string
+  receivedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sourceDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumEcoCashTransactionStatusFieldUpdateOperationsInput | $Enums.EcoCashTransactionStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  payment?: Prisma.PaymentUpdateOneWithoutEcoCashTransactionNestedInput
+}
+
+export type EcoCashTransactionUncheckedUpdateWithoutReceivingAccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  transactionReference?: Prisma.StringFieldUpdateOperationsInput | string
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  senderPhone?: Prisma.StringFieldUpdateOperationsInput | string
+  merchantNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  merchantName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transactionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  transactionTime?: Prisma.StringFieldUpdateOperationsInput | string
+  rawMessage?: Prisma.StringFieldUpdateOperationsInput | string
+  receivedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sourceDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumEcoCashTransactionStatusFieldUpdateOperationsInput | $Enums.EcoCashTransactionStatus
+  matchedPaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type EcoCashTransactionUncheckedUpdateManyWithoutReceivingAccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  transactionReference?: Prisma.StringFieldUpdateOperationsInput | string
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  senderPhone?: Prisma.StringFieldUpdateOperationsInput | string
+  merchantNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  merchantName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transactionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  transactionTime?: Prisma.StringFieldUpdateOperationsInput | string
+  rawMessage?: Prisma.StringFieldUpdateOperationsInput | string
+  receivedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sourceDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumEcoCashTransactionStatusFieldUpdateOperationsInput | $Enums.EcoCashTransactionStatus
+  matchedPaymentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 
 
 export type EcoCashTransactionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   transactionReference?: boolean
+  receivingAccountId?: boolean
   amount?: boolean
   currency?: boolean
   senderPhone?: boolean
@@ -742,11 +986,13 @@ export type EcoCashTransactionSelect<ExtArgs extends runtime.Types.Extensions.In
   createdAt?: boolean
   updatedAt?: boolean
   payment?: boolean | Prisma.EcoCashTransaction$paymentArgs<ExtArgs>
+  receivingAccount?: boolean | Prisma.EcoCashTransaction$receivingAccountArgs<ExtArgs>
 }, ExtArgs["result"]["ecoCashTransaction"]>
 
 export type EcoCashTransactionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   transactionReference?: boolean
+  receivingAccountId?: boolean
   amount?: boolean
   currency?: boolean
   senderPhone?: boolean
@@ -762,11 +1008,13 @@ export type EcoCashTransactionSelectCreateManyAndReturn<ExtArgs extends runtime.
   createdAt?: boolean
   updatedAt?: boolean
   payment?: boolean | Prisma.EcoCashTransaction$paymentArgs<ExtArgs>
+  receivingAccount?: boolean | Prisma.EcoCashTransaction$receivingAccountArgs<ExtArgs>
 }, ExtArgs["result"]["ecoCashTransaction"]>
 
 export type EcoCashTransactionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   transactionReference?: boolean
+  receivingAccountId?: boolean
   amount?: boolean
   currency?: boolean
   senderPhone?: boolean
@@ -782,11 +1030,13 @@ export type EcoCashTransactionSelectUpdateManyAndReturn<ExtArgs extends runtime.
   createdAt?: boolean
   updatedAt?: boolean
   payment?: boolean | Prisma.EcoCashTransaction$paymentArgs<ExtArgs>
+  receivingAccount?: boolean | Prisma.EcoCashTransaction$receivingAccountArgs<ExtArgs>
 }, ExtArgs["result"]["ecoCashTransaction"]>
 
 export type EcoCashTransactionSelectScalar = {
   id?: boolean
   transactionReference?: boolean
+  receivingAccountId?: boolean
   amount?: boolean
   currency?: boolean
   senderPhone?: boolean
@@ -803,25 +1053,30 @@ export type EcoCashTransactionSelectScalar = {
   updatedAt?: boolean
 }
 
-export type EcoCashTransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "transactionReference" | "amount" | "currency" | "senderPhone" | "merchantNumber" | "merchantName" | "transactionDate" | "transactionTime" | "rawMessage" | "receivedAt" | "sourceDevice" | "status" | "matchedPaymentId" | "createdAt" | "updatedAt", ExtArgs["result"]["ecoCashTransaction"]>
+export type EcoCashTransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "transactionReference" | "receivingAccountId" | "amount" | "currency" | "senderPhone" | "merchantNumber" | "merchantName" | "transactionDate" | "transactionTime" | "rawMessage" | "receivedAt" | "sourceDevice" | "status" | "matchedPaymentId" | "createdAt" | "updatedAt", ExtArgs["result"]["ecoCashTransaction"]>
 export type EcoCashTransactionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   payment?: boolean | Prisma.EcoCashTransaction$paymentArgs<ExtArgs>
+  receivingAccount?: boolean | Prisma.EcoCashTransaction$receivingAccountArgs<ExtArgs>
 }
 export type EcoCashTransactionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   payment?: boolean | Prisma.EcoCashTransaction$paymentArgs<ExtArgs>
+  receivingAccount?: boolean | Prisma.EcoCashTransaction$receivingAccountArgs<ExtArgs>
 }
 export type EcoCashTransactionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   payment?: boolean | Prisma.EcoCashTransaction$paymentArgs<ExtArgs>
+  receivingAccount?: boolean | Prisma.EcoCashTransaction$receivingAccountArgs<ExtArgs>
 }
 
 export type $EcoCashTransactionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "EcoCashTransaction"
   objects: {
     payment: Prisma.$PaymentPayload<ExtArgs> | null
+    receivingAccount: Prisma.$EcoCashReceivingAccountPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     transactionReference: string
+    receivingAccountId: string | null
     amount: runtime.Decimal
     currency: string
     senderPhone: string
@@ -1231,6 +1486,7 @@ readonly fields: EcoCashTransactionFieldRefs;
 export interface Prisma__EcoCashTransactionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   payment<T extends Prisma.EcoCashTransaction$paymentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EcoCashTransaction$paymentArgs<ExtArgs>>): Prisma.Prisma__PaymentClient<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  receivingAccount<T extends Prisma.EcoCashTransaction$receivingAccountArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EcoCashTransaction$receivingAccountArgs<ExtArgs>>): Prisma.Prisma__EcoCashReceivingAccountClient<runtime.Types.Result.GetResult<Prisma.$EcoCashReceivingAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1262,6 +1518,7 @@ export interface Prisma__EcoCashTransactionClient<T, Null = never, ExtArgs exten
 export interface EcoCashTransactionFieldRefs {
   readonly id: Prisma.FieldRef<"EcoCashTransaction", 'String'>
   readonly transactionReference: Prisma.FieldRef<"EcoCashTransaction", 'String'>
+  readonly receivingAccountId: Prisma.FieldRef<"EcoCashTransaction", 'String'>
   readonly amount: Prisma.FieldRef<"EcoCashTransaction", 'Decimal'>
   readonly currency: Prisma.FieldRef<"EcoCashTransaction", 'String'>
   readonly senderPhone: Prisma.FieldRef<"EcoCashTransaction", 'String'>
@@ -1693,6 +1950,25 @@ export type EcoCashTransaction$paymentArgs<ExtArgs extends runtime.Types.Extensi
    */
   include?: Prisma.PaymentInclude<ExtArgs> | null
   where?: Prisma.PaymentWhereInput
+}
+
+/**
+ * EcoCashTransaction.receivingAccount
+ */
+export type EcoCashTransaction$receivingAccountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EcoCashReceivingAccount
+   */
+  select?: Prisma.EcoCashReceivingAccountSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EcoCashReceivingAccount
+   */
+  omit?: Prisma.EcoCashReceivingAccountOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EcoCashReceivingAccountInclude<ExtArgs> | null
+  where?: Prisma.EcoCashReceivingAccountWhereInput
 }
 
 /**

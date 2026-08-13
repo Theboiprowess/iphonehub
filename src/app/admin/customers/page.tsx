@@ -23,6 +23,7 @@ import {
   MapPin
 } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { AdminPageContainer } from "@/components/admin/admin-page-container";
 import { formatPrice } from "@/lib/utils";
 
 type Customer = {
@@ -197,8 +198,9 @@ export default function CustomersPage() {
   }
 
   return (
-    <div className="space-y-8">
-      <AdminPageHeader title="Customers" subtitle="Manage customer accounts" />
+    <AdminPageContainer>
+      <div className="space-y-8">
+        <AdminPageHeader title="Customers" subtitle="Manage customer accounts" />
 
       {error && (
         <div className="p-4 bg-red-900/50 border border-red-500 rounded text-red-200">
@@ -464,5 +466,6 @@ export default function CustomersPage() {
         </CardContent>
       </Card>
     </div>
+    </AdminPageContainer>
   );
 }

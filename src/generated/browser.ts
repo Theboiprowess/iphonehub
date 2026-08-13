@@ -73,6 +73,11 @@ export type Order = Prisma.OrderModel
  */
 export type OrderItem = Prisma.OrderItemModel
 /**
+ * Model EcoCashReceivingAccount
+ * 
+ */
+export type EcoCashReceivingAccount = Prisma.EcoCashReceivingAccountModel
+/**
  * Model Payment
  * 
  */
@@ -257,3 +262,8 @@ export type UnansweredQuestion = Prisma.UnansweredQuestionModel
  * 
  */
 export type SupportSettings = Prisma.SupportSettingsModel
+/**
+ * Model Announcement
+ * 
+ */
+export type Announcement = Prisma.AnnouncementModel

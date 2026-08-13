@@ -123,12 +123,16 @@ export async function POST(req: NextRequest) {
       },
     });
     
-    // Check if merchant SMS already arrived
-    const ecoCashTransaction = await prisma.ecoCashTransaction.findUnique({
-      where: { transactionReference },
+    // Check if merchant SMS already arrived for this receiving account
+    const ecoCashTransaction = await prisma.ecoCashTransaction.findFirst({
+      where: {
+        transactionReference,
+        receivingAccountId: payment.receivingAccountId,
+        status: 'PENDING',
+      },
     });
     
-    if (ecoCashTransaction && ecoCashTransaction.status === 'PENDING') {
+    if (ecoCashTransaction) {
       // Trigger matching
       await matchWithTransaction(payment, ecoCashTransaction);
     }
@@ -155,6 +159,13 @@ async function matchWithTransaction(payment: any, transaction: any) {
   try {
     const errors: string[] = [];
     const paymentId = payment.id;
+    
+    // Check receiving account match
+    if (payment.receivingAccountId && transaction.receivingAccountId) {
+      if (payment.receivingAccountId !== transaction.receivingAccountId) {
+        errors.push('Receiving account mismatch');
+      }
+    }
     
     // Check amount match
     const amountMatch = Math.abs(Number(payment.amount) - Number(transaction.amount)) < 0.01;

@@ -20,7 +20,14 @@ export async function GET() {
       enquiries,
       newEnquiries,
       pendingReviews,
-      lowStockProducts
+      lowStockProducts,
+      pendingPaymentVerification,
+      verifiedPayments,
+      rejectedPayments,
+      manualReviewPayments,
+      todayEcoCashPayments,
+      totalVerifiedRevenue,
+      unmatchedSmsTransactions
     ] = await Promise.allSettled([
       // Total products count
       prisma.product.count(),
@@ -110,7 +117,68 @@ export async function GET() {
             }
           }
         }
-      })
+      }),
+
+      // Payment verification metrics
+      prisma.payment.count({
+        where: {
+          provider: 'ecocash',
+          status: { in: ['AWAITING_PROOF', 'PROOF_SUBMITTED', 'MATCHING'] }
+        }
+      }).catch(() => 0),
+
+      // Verified payments
+      prisma.payment.count({
+        where: {
+          provider: 'ecocash',
+          status: 'VERIFIED'
+        }
+      }).catch(() => 0),
+
+      // Rejected payments
+      prisma.payment.count({
+        where: {
+          provider: 'ecocash',
+          status: 'REJECTED'
+        }
+      }).catch(() => 0),
+
+      // Manual review payments
+      prisma.payment.count({
+        where: {
+          provider: 'ecocash',
+          status: 'MANUAL_REVIEW'
+        }
+      }).catch(() => 0),
+
+      // Today's EcoCash payments
+      prisma.payment.count({
+        where: {
+          provider: 'ecocash',
+          createdAt: {
+            gte: new Date(new Date().setHours(0, 0, 0, 0))
+          }
+        }
+      }).catch(() => 0),
+
+      // Total verified revenue
+      prisma.payment.aggregate({
+        where: {
+          provider: 'ecocash',
+          status: 'VERIFIED'
+        },
+        _sum: {
+          amount: true
+        }
+      }).catch(() => ({ _sum: { amount: 0 } })),
+
+      // Unmatched SMS transactions
+      prisma.ecoCashTransaction.count({
+        where: {
+          status: 'PENDING',
+          matchedPaymentId: null
+        }
+      }).catch(() => 0)
     ]);
 
     // Extract values from Promise.allSettled results
@@ -134,6 +202,13 @@ export async function GET() {
     const newEnquiriesVal = extractValue(newEnquiries, 0);
     const pendingReviewsVal = extractValue(pendingReviews, 0);
     const lowStockProductsVal = extractValue(lowStockProducts, []);
+    const pendingPaymentVerificationVal = extractValue(pendingPaymentVerification, 0);
+    const verifiedPaymentsVal = extractValue(verifiedPayments, 0);
+    const rejectedPaymentsVal = extractValue(rejectedPayments, 0);
+    const manualReviewPaymentsVal = extractValue(manualReviewPayments, 0);
+    const todayEcoCashPaymentsVal = extractValue(todayEcoCashPayments, 0);
+    const totalVerifiedRevenueVal = extractValue(totalVerifiedRevenue, { _sum: { amount: 0 } })._sum.amount || 0;
+    const unmatchedSmsTransactionsVal = extractValue(unmatchedSmsTransactions, 0);
 
     // Format low stock products
     const lowStockItems = lowStockProductsVal.map((item: any) => ({
@@ -201,7 +276,14 @@ export async function GET() {
       pendingReviews: pendingReviewsVal,
       lowStockProducts: lowStockItems,
       recentOrders,
-      recentCustomers
+      recentCustomers,
+      pendingPaymentVerification: pendingPaymentVerificationVal,
+      verifiedPayments: verifiedPaymentsVal,
+      rejectedPayments: rejectedPaymentsVal,
+      manualReviewPayments: manualReviewPaymentsVal,
+      todayEcoCashPayments: todayEcoCashPaymentsVal,
+      totalVerifiedRevenue: totalVerifiedRevenueVal,
+      unmatchedSmsTransactions: unmatchedSmsTransactionsVal
     }, {
       headers: {
         'Cache-Control': 'no-store, max-age=0'
@@ -227,6 +309,13 @@ export async function GET() {
       lowStockProducts: [],
       recentOrders: [],
       recentCustomers: [],
+      pendingPaymentVerification: 0,
+      verifiedPayments: 0,
+      rejectedPayments: 0,
+      manualReviewPayments: 0,
+      todayEcoCashPayments: 0,
+      totalVerifiedRevenue: 0,
+      unmatchedSmsTransactions: 0,
       error: "Using default data due to API error"
     });
   }

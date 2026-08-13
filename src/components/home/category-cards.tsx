@@ -52,20 +52,20 @@ export function CategoryCards() {
           title="Shop by Category"
           subtitle="Find the perfect iPhone that fits your budget and needs"
         />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {categories.map((category) => {
             const Icon = category.icon;
             return (
               <Link key={category.title} href={category.href}>
-                <Card className={`${category.bgClass} border ${category.accentClass} hover:shadow-xl transition-all group cursor-pointer h-full flex flex-col`}>
+                <Card className={`${category.bgClass} border ${category.accentClass} hover:shadow-xl transition-all group cursor-pointer h-full flex flex-col text-center`}>
                   <CardHeader className="p-6 pb-5 flex-1">
                     {/* Icon */}
-                    <div className={`h-14 w-14 rounded-xl ${category.iconBg} ${category.iconColor} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+                    <div className={`h-14 w-14 rounded-xl ${category.iconBg} ${category.iconColor} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform mx-auto`}>
                       <Icon className="h-7 w-7" />
                     </div>
                     <div className="space-y-3">
                       <CardTitle className="text-xl text-[#EBE2C5]">{category.title}</CardTitle>
-                      <div className="h-px w-12 bg-[#CDB586]/30"></div>
+                      <div className="h-px w-12 bg-[#CDB586]/30 mx-auto"></div>
                     </div>
                     <CardDescription className="text-[#EBE2C5]/90 text-base pt-3">{category.description}</CardDescription>
                   </CardHeader>

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { ecoCashProvider } from '@/lib/payment/ecocash-provider';
+import { sendOrderConfirmationEmail } from '@/lib/email';
 import crypto from 'crypto';
 
 /**
@@ -59,11 +60,7 @@ export async function POST(req: NextRequest) {
         ],
       },
       include: {
-        order: {
-          include: {
-            items: true,
-          },
-        },
+        order: true,
       },
     });
 
@@ -142,29 +139,134 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      // Update order to PAID
-      await prisma.order.update({
-        where: { id: payment.orderId },
-        data: {
-          status: 'PAID' as any,
-          paymentStatus: 'SUCCESS' as any,
-        },
-      });
-
-      // Reduce inventory
-      for (const item of payment.order.items) {
-        await prisma.productVariant.update({
-          where: { id: item.variantId },
-          data: {
-            stock: {
-              decrement: item.quantity,
+      // Use transaction to ensure atomic stock updates
+      await prisma.$transaction(async (tx) => {
+        // Fetch order with items for stock updates
+        const orderWithItems = await tx.order.findUnique({
+          where: { id: payment.orderId },
+          include: {
+            items: {
+              include: {
+                variant: true,
+              },
             },
           },
         });
-      }
 
-      // TODO: Send customer confirmation email/WhatsApp
-      // TODO: Send admin notification
+        if (!orderWithItems) {
+          throw new Error(`Order not found: ${payment.orderId}`);
+        }
+
+        // Update order to PAID
+        await tx.order.update({
+          where: { id: payment.orderId },
+          data: {
+            status: 'PAID' as any,
+            paymentStatus: 'SUCCESS' as any,
+          },
+        });
+
+        // Reduce inventory atomically
+        for (const item of orderWithItems.items) {
+          const variant = await tx.productVariant.findUnique({
+            where: { id: item.variantId },
+          });
+
+          if (!variant) {
+            throw new Error(`Variant not found: ${item.variantId}`);
+          }
+
+          if (variant.stock < item.quantity) {
+            throw new Error(`Insufficient stock for variant ${item.variantId}. Available: ${variant.stock}, Requested: ${item.quantity}`);
+          }
+
+          await tx.productVariant.update({
+            where: { id: item.variantId },
+            data: {
+              stock: {
+                decrement: item.quantity,
+              },
+            },
+          });
+
+          // Update inventory if it exists
+          const inventory = await tx.inventory.findUnique({
+            where: { variantId: item.variantId },
+          });
+
+          if (inventory) {
+            await tx.inventory.update({
+              where: { variantId: item.variantId },
+              data: {
+                currentStock: {
+                  decrement: item.quantity,
+                },
+                availableStock: {
+                  decrement: item.quantity,
+                },
+                soldStock: {
+                  increment: item.quantity,
+                },
+                lastStockUpdate: new Date(),
+              },
+            });
+
+            // Create inventory movement record
+            await tx.inventoryMovement.create({
+              data: {
+                inventoryId: inventory.id,
+                previousStock: inventory.currentStock,
+                newStock: inventory.currentStock - item.quantity,
+                difference: -item.quantity,
+                reason: 'STOCK_SOLD',
+                referenceId: payment.orderId,
+                notes: `Order payment approved`,
+              },
+            });
+          }
+        }
+      });
+
+      // Send payment confirmation email
+      const orderWithDetails = await prisma.order.findUnique({
+        where: { id: payment.orderId },
+        include: {
+          items: {
+            include: {
+              variant: {
+                include: {
+                  product: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      if (orderWithDetails) {
+        const emailItems = orderWithDetails.items.map((item) => ({
+          name: item.variant.product.name,
+          storage: item.variant.storage,
+          colour: item.variant.colour,
+          quantity: item.quantity,
+          price: Number(item.price),
+        }));
+
+        // Send customer confirmation (fire and forget)
+        sendOrderConfirmationEmail({
+          customerName: orderWithDetails.customerName,
+          customerEmail: orderWithDetails.customerEmail,
+          orderNumber: orderWithDetails.orderNumber,
+          items: emailItems,
+          subtotal: Number(orderWithDetails.subtotal),
+          deliveryFee: Number(orderWithDetails.deliveryFee),
+          total: Number(orderWithDetails.total),
+          deliveryMethod: orderWithDetails.deliveryMethod,
+          deliveryAddress: orderWithDetails.deliveryAddress || undefined,
+          city: orderWithDetails.city || undefined,
+          paymentMethod: orderWithDetails.paymentMethod,
+        }).catch((err) => console.error('Failed to send payment confirmation email:', err));
+      }
 
     } else if (['REJECTED', 'CANCELLED', 'EXPIRED'].includes(mappedStatus)) {
       await prisma.order.update({

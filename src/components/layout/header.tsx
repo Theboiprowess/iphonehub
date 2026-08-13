@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Search, Heart, Menu, X, Phone, House, Smartphone, Package, Headphones, Info, ChevronDown, Image as ImageIcon, DollarSign, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { CartDrawer } from "@/components/cart/cart-drawer";
 
 const mainNavigation = [
   { name: "Home", href: "/", icon: House },
@@ -149,9 +150,9 @@ export function Header() {
             {/* Desktop Icons */}
             <div className="hidden lg:flex items-center gap-1.5">
               <div className="relative">
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
+                <Button
+                  variant="ghost"
+                  size="icon"
                   className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 h-8 w-8"
                   onClick={() => setSearchOpen(!searchOpen)}
                 >
@@ -178,11 +179,17 @@ export function Header() {
               <Button variant="ghost" size="icon" className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 h-8 w-8">
                 <Heart className="h-3.5 w-3.5" />
               </Button>
+              <CartDrawer />
             </div>
-            
+
+            {/* Mobile Icons */}
+            <div className="flex lg:hidden items-center gap-1">
+              <CartDrawer />
+            </div>
+
             <Link href="/iphones">
-              <Button 
-                variant="primary" 
+              <Button
+                variant="primary"
                 size="sm"
                 className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] px-3 py-2 text-xs font-semibold whitespace-nowrap"
               >
@@ -222,6 +229,16 @@ export function Header() {
           <div className="lg:hidden fixed top-14 left-0 right-0 z-50 bg-[#0E161B] border-t border-[#CDB586]/30 animate-slide-down max-h-[calc(100dvh-3.5rem)] overflow-y-auto">
             <div className="px-4 py-8 sm:px-6">
               <div className="space-y-8 max-w-md mx-auto">
+                {/* Mobile Logo */}
+                <div className="flex items-center justify-center pb-6 border-b border-[#CDB586]/20">
+                  <Link href="/" onClick={closeMobileMenu} className="flex items-center gap-2">
+                    <span className="text-lg font-bold tracking-tight text-[#EBE2C5] font-manrope">
+                      iPhone Hub
+                      <br />
+                      <span className="text-[#CDB586]">Zimbabwe</span>
+                    </span>
+                  </Link>
+                </div>
                 {/* Main Navigation */}
                 <div>
                   <p className="text-sm font-bold text-[#CDB586] uppercase tracking-wider mb-4">Main Menu</p>

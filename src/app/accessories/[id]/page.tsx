@@ -1,13 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Heart, ShoppingCart, Share2, CheckCircle, XCircle, MessageSquare } from "lucide-react";
+import { ArrowLeft, Heart, ShoppingCart, Share2, CheckCircle, XCircle, MessageSquare, ShoppingBag } from "lucide-react";
 import Link from "next/link";
 import { formatPrice } from "@/lib/utils";
+import { useCart } from "@/lib/cart-context";
+import { CEOSelectionDialog } from "@/components/whatsapp/ceo-selection-dialog";
 
 const conditionLabels: Record<string, { label: string; variant: "boxed" | "preOwned" | "secondHand" }> = {
   BOXED: { label: "Boxed / Brand New", variant: "boxed" },
@@ -17,9 +19,14 @@ const conditionLabels: Record<string, { label: string; variant: "boxed" | "preOw
 
 export default function AccessoryDetailPage() {
   const params = useParams();
+  const router = useRouter();
+  const { addItem } = useCart();
   const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState<number>(0);
+  const [selectedVariant, setSelectedVariant] = useState<any>(null);
+  const [showWhatsAppDialog, setShowWhatsAppDialog] = useState(false);
+  const [addingToCart, setAddingToCart] = useState(false);
 
   useEffect(() => {
     if (params.id) {
@@ -34,6 +41,10 @@ export default function AccessoryDetailPage() {
       if (response.ok) {
         const data = await response.json();
         setProduct(data);
+        // Set first variant as default if available
+        if (data.variants && data.variants.length > 0) {
+          setSelectedVariant(data.variants[0]);
+        }
       }
     } catch (error) {
       console.error("Error fetching product:", error);
@@ -59,14 +70,38 @@ export default function AccessoryDetailPage() {
   }
 
   const mainImage = product.images?.[selectedImage] || null;
-  const stock = product.variants?.[0]?.stock || 0;
-  const price = product.variants?.[0]?.price || 0;
+  const stock = selectedVariant?.stock || 0;
+  const price = selectedVariant?.price || 0;
+
+  const handleAddToCart = () => {
+    if (!selectedVariant || stock <= 0) return;
+
+    addItem({
+      id: product.id,
+      variantId: selectedVariant.id,
+      name: product.name,
+      model: product.model,
+      storage: selectedVariant.storage,
+      colour: selectedVariant.colour,
+      price: Number(selectedVariant.price),
+      comparePrice: selectedVariant.comparePrice ? Number(selectedVariant.comparePrice) : undefined,
+      image: mainImage?.url,
+      condition: product.condition,
+    });
+  };
+
+  const handleBuyNow = () => {
+    if (!selectedVariant || stock <= 0) return;
+
+    handleAddToCart();
+    router.push("/checkout");
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="site-container py-8">
+    <div className="min-h-screen bg-[#F7F5EF]">
+      <div className="site-container py-12 sm:py-16 lg:py-20">
         {/* Breadcrumb */}
-        <Link href="/accessories" className="inline-flex items-center text-gray-600 hover:text-gray-900 mb-6">
+        <Link href="/accessories" className="inline-flex items-center text-[#5F3C18] hover:text-[#0E161B] mb-8 transition-colors">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Accessories
         </Link>
@@ -113,16 +148,16 @@ export default function AccessoryDetailPage() {
           </div>
 
           {/* Product Details */}
-          <div className="space-y-6">
+          <div className="space-y-8">
             <div>
-              <Badge variant={conditionLabels[product.condition].variant} className="mb-2">
+              <Badge variant={conditionLabels[product.condition].variant} className="mb-3">
                 {conditionLabels[product.condition].label}
               </Badge>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
-              <p className="text-lg text-gray-600">{product.model}</p>
+              <h1 className="text-3xl sm:text-4xl font-bold text-[#0E161B] mb-2 font-manrope">{product.name}</h1>
+              <p className="text-lg text-[#5F3C18]">{product.model}</p>
             </div>
 
-            <div className="text-3xl font-bold text-gray-900">
+            <div className="text-4xl font-bold text-[#0E161B]">
               {formatPrice(price)}
             </div>
 
@@ -154,18 +189,25 @@ export default function AccessoryDetailPage() {
                 <h3 className="font-semibold text-lg">Available Options</h3>
                 <div className="space-y-2">
                   {product.variants.map((variant: any) => (
-                    <div
+                    <button
                       key={variant.id}
-                      className="flex items-center justify-between p-3 border border-gray-200 rounded-lg"
+                      onClick={() => setSelectedVariant(variant)}
+                      disabled={variant.stock <= 0}
+                      className={`w-full flex items-center justify-between p-4 border-2 rounded-lg transition-all ${
+                        selectedVariant?.id === variant.id
+                          ? 'border-[#CDB586] bg-[#CDB586]/10'
+                          : 'border-gray-200 hover:border-[#CDB586]/50'
+                      } ${variant.stock <= 0 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                     >
-                      <div>
-                        <span className="font-medium">{variant.storage}</span>
-                        {variant.colour && <span className="text-gray-600 ml-2">• {variant.colour}</span>}
+                      <div className="text-left">
+                        <span className="font-medium text-[#0E161B]">{variant.storage}</span>
+                        {variant.colour && <span className="text-[#5F3C18] ml-2">• {variant.colour}</span>}
+                        {variant.stock <= 0 && <span className="text-red-600 ml-2 text-sm">(Out of Stock)</span>}
                       </div>
-                      <div className="font-semibold">
+                      <div className="font-semibold text-[#0E161B]">
                         {formatPrice(Number(variant.price))}
                       </div>
-                    </div>
+                    </button>
                   ))}
                 </div>
               </div>
@@ -191,49 +233,51 @@ export default function AccessoryDetailPage() {
             )}
 
             {/* Actions */}
-            <div className="space-y-3">
-              <div className="flex gap-4">
-                <Button 
-                  className="flex-1 bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]"
-                  onClick={() => {
-                    const whatsappNumber = "263773227172"; // Artwell's WhatsApp (Zimbabwe format)
-                    const message = encodeURIComponent(
-                      `Hi Artwell, I'm interested in buying:\n\n` +
-                      `Product: ${product.name}\n` +
-                      `Model: ${product.model}\n` +
-                      `Condition: ${product.condition}\n` +
-                      `Price: ${formatPrice(price)}\n\n` +
-                      `I'd like to discuss purchasing this item.`
-                    );
-                    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
-                  }}
+            <div className="space-y-4">
+              <div className="flex gap-3">
+                <Button
+                  className="flex-1 h-12 bg-[#0E161B] text-[#EBE2C5] hover:bg-[#1A1A20]"
+                  onClick={handleAddToCart}
+                  disabled={!selectedVariant || stock <= 0 || addingToCart}
                 >
                   <ShoppingCart className="h-4 w-4 mr-2" />
-                  Contact Artwell
+                  {addingToCart ? "Adding..." : "Add to Cart"}
                 </Button>
-                <Button 
-                  className="flex-1 bg-[#25D366] text-white hover:bg-[#128C7E]"
-                  onClick={() => {
-                    const whatsappNumber = "263784502347"; // Sabeka's WhatsApp (Zimbabwe format)
-                    const message = encodeURIComponent(
-                      `Hi Sabeka, I'm interested in buying:\n\n` +
-                      `Product: ${product.name}\n` +
-                      `Model: ${product.model}\n` +
-                      `Condition: ${product.condition}\n` +
-                      `Price: ${formatPrice(price)}\n\n` +
-                      `I'd like to discuss purchasing this item.`
-                    );
-                    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
-                  }}
+                <Button
+                  className="flex-1 h-12 bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]"
+                  onClick={handleBuyNow}
+                  disabled={!selectedVariant || stock <= 0}
                 >
-                  <MessageSquare className="h-4 w-4 mr-2" />
-                  Contact Sabeka
+                  <ShoppingBag className="h-4 w-4 mr-2" />
+                  Buy Now
                 </Button>
               </div>
-              <p className="text-sm text-gray-600 text-center">
-                Click to contact via WhatsApp for purchase negotiation
-              </p>
+
+              <Button
+                className="w-full h-12 bg-[#25D366] text-white hover:bg-[#128C7E]"
+                onClick={() => setShowWhatsAppDialog(true)}
+              >
+                <MessageSquare className="h-4 w-4 mr-2" />
+                Chat on WhatsApp
+              </Button>
+
+              {stock <= 0 && (
+                <p className="text-sm text-red-600 text-center font-medium">
+                  This item is currently out of stock
+                </p>
+              )}
             </div>
+
+            {/* WhatsApp CEO Selection Dialog */}
+            <CEOSelectionDialog
+              open={showWhatsAppDialog}
+              onOpenChange={setShowWhatsAppDialog}
+              productName={product.name}
+              productVariant={selectedVariant ? `${selectedVariant.storage} • ${selectedVariant.colour}` : undefined}
+              price={formatPrice(price)}
+              context="product"
+              onBuyOnline={handleBuyNow}
+            />
           </div>
         </div>
       </div>

@@ -4,8 +4,7 @@ export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-[#F7F5EF] py-12">
       <div className="site-container">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold mb-8 text-[#0E161B] font-manrope">Privacy Policy</h1>
+          <h1 className="text-3xl font-bold mb-8 text-[#0E161B] font-manrope text-center">Privacy Policy</h1>
 
         <Card className="bg-[#F7F5EF] border-[#CDB586]">
           <CardContent className="pt-6 space-y-6">
@@ -52,7 +51,6 @@ export default function PrivacyPage() {
             </section>
           </CardContent>
         </Card>
-        </div>
       </div>
     </div>
   );

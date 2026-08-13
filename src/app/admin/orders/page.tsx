@@ -28,6 +28,7 @@ import {
   AlertTriangle
 } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { AdminPageContainer } from "@/components/admin/admin-page-container";
 import { formatPrice } from "@/lib/utils";
 
 type Order = {
@@ -248,8 +249,9 @@ export default function OrdersPage() {
   }
 
   return (
-    <div className="space-y-8">
-      <AdminPageHeader title="Orders" subtitle="Manage customer orders" />
+    <AdminPageContainer>
+      <div className="space-y-8">
+        <AdminPageHeader title="Orders" subtitle="Manage customer orders" />
 
       {error && (
         <div className="p-4 bg-red-900/50 border border-red-500 rounded text-red-200">
@@ -320,6 +322,8 @@ export default function OrdersPage() {
                   <tr className="border-b border-[#CDB586]/20">
                     <th className="text-left p-4 font-semibold text-[#0E161B]">Order #</th>
                     <th className="text-left p-4 font-semibold text-[#0E161B]">Customer</th>
+                    <th className="text-left p-4 font-semibold text-[#0E161B]">Contact</th>
+                    <th className="text-left p-4 font-semibold text-[#0E161B]">Delivery</th>
                     <th className="text-left p-4 font-semibold text-[#0E161B]">Total</th>
                     <th className="text-left p-4 font-semibold text-[#0E161B]">Status</th>
                     <th className="text-left p-4 font-semibold text-[#0E161B]">Payment</th>
@@ -336,6 +340,24 @@ export default function OrdersPage() {
                       <td className="p-4">
                         <div className="text-[#0E161B]">{order.customerName}</div>
                         <div className="text-sm text-[#5F3C18]/60">{order.customerEmail}</div>
+                      </td>
+                      <td className="p-4">
+                        <div className="flex items-center gap-2 text-sm">
+                          <Phone className="h-3 w-3 text-[#5F3C18]" />
+                          <span className="text-[#0E161B]">{order.customerPhone}</span>
+                        </div>
+                        {order.customerWhatsapp && (
+                          <div className="flex items-center gap-2 text-sm mt-1">
+                            <Phone className="h-3 w-3 text-[#5F3C18]" />
+                            <span className="text-[#0E161B]">{order.customerWhatsapp}</span>
+                          </div>
+                        )}
+                      </td>
+                      <td className="p-4">
+                        <div className="text-sm text-[#0E161B]">
+                          <div className="font-medium capitalize">{order.deliveryMethod}</div>
+                          {order.city && <div className="text-[#5F3C18]/60">{order.city}</div>}
+                        </div>
                       </td>
                       <td className="p-4">
                         <div className="font-semibold text-[#0E161B]">{formatPrice(order.total)}</div>
@@ -382,12 +404,25 @@ export default function OrdersPage() {
                                       {selectedOrder.customerWhatsapp && (
                                         <div><strong>WhatsApp:</strong> {selectedOrder.customerWhatsapp}</div>
                                       )}
+                                      {selectedOrder.deliveryMethod && (
+                                        <div><strong>Delivery Method:</strong> <span className="capitalize">{selectedOrder.deliveryMethod}</span></div>
+                                      )}
+                                      {selectedOrder.city && (
+                                        <div><strong>City:</strong> {selectedOrder.city}</div>
+                                      )}
                                       {selectedOrder.deliveryAddress && (
                                         <div className="flex items-start gap-2">
                                           <MapPin className="h-4 w-4 mt-0.5" />
                                           <div>
                                             <strong>Address:</strong> {selectedOrder.deliveryAddress}
-                                            {selectedOrder.city && `, ${selectedOrder.city}`}
+                                          </div>
+                                        </div>
+                                      )}
+                                      {selectedOrder.orderNotes && (
+                                        <div className="flex items-start gap-2">
+                                          <AlertTriangle className="h-4 w-4 mt-0.5" />
+                                          <div>
+                                            <strong>Notes:</strong> {selectedOrder.orderNotes}
                                           </div>
                                         </div>
                                       )}
@@ -532,5 +567,6 @@ export default function OrdersPage() {
         </CardContent>
       </Card>
     </div>
+    </AdminPageContainer>
   );
 }

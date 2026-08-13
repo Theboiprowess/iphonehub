@@ -10,17 +10,27 @@ export default function CataloguePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Try to fetch from API first, fall back to localStorage
+    // Try to fetch from public API first, fall back to localStorage
     async function fetchCatalogue() {
       try {
-        const response = await fetch('/admin/api/catalogue');
+        console.log('Fetching catalogue from API...');
+        const response = await fetch('/api/catalogue');
+        console.log('API response status:', response.status);
+        
+        if (!response.ok) {
+          throw new Error(`API responded with status ${response.status}`);
+        }
+        
         const data = await response.json();
+        console.log('Catalogue data fetched:', data);
         setCatalogue(data);
       } catch (error) {
         console.error('Failed to fetch catalogue from API:', error);
+        
         // Fall back to localStorage
         const localData = localStorage.getItem('catalogueData');
         if (localData) {
+          console.log('Using localStorage fallback');
           setCatalogue(JSON.parse(localData));
         }
       } finally {
@@ -32,17 +42,21 @@ export default function CataloguePage() {
 
   // Group by series
   const groupedBySeries = catalogue.reduce((acc, item) => {
-    if (!acc[item.series]) {
-      acc[item.series] = [];
+    const series = item.series || 'Other';
+    if (!acc[series]) {
+      acc[series] = [];
     }
-    acc[item.series].push(item);
+    acc[series].push(item);
     return acc;
   }, {} as Record<string, any[]>);
 
   if (loading) {
     return (
       <div className="min-h-screen bg-[#F7F5EF] flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-[#CAA45A]" />
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin text-[#CAA45A] mx-auto mb-4" />
+          <p className="text-[#5F3C18]">Loading catalogue...</p>
+        </div>
       </div>
     );
   }
@@ -58,13 +72,15 @@ export default function CataloguePage() {
         </div>
 
           {/* Catalogue */}
-          <div className="space-y-12 mt-12">
+          <div className="space-y-12">
             {Object.keys(groupedBySeries).length === 0 ? (
               <div className="bg-white rounded-2xl shadow-lg p-8 text-center">
                 <p className="text-[#5F3C18]">Price catalogue coming soon. Please check back later!</p>
               </div>
             ) : (
-              Object.entries(groupedBySeries).map(([series, items]) => (
+              Object.entries(groupedBySeries).map(([series, items]) => {
+                if (!items || (items as any[]).length === 0) return null;
+                return (
                 <div key={series} className="bg-white rounded-2xl shadow-lg p-6 sm:p-8">
                   <h2 className="text-2xl font-bold text-[#0E161B] mb-6 font-manrope flex items-center gap-2">
                     <img 
@@ -77,19 +93,27 @@ export default function CataloguePage() {
                     {series}
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {(items as any[]).map((item: any) => (
-                      <CatalogueProductCard
-                        key={item.id || Math.random()}
-                        model={item.model}
-                        storage={item.storage}
-                        price={Number(item.price)}
-                        imageKey={item.imageKey}
-                        imageOverride={item.imageOverride}
-                      />
-                    ))}
+                    {(items as any[]).map((item: any) => {
+                      try {
+                        return (
+                          <CatalogueProductCard
+                            key={item.id || Math.random()}
+                            model={item.model || 'iPhone'}
+                            storage={item.storage || 'N/A'}
+                            price={Number(item.price) || 0}
+                            imageKey={item.imageKey}
+                            imageOverride={item.imageOverride}
+                          />
+                        );
+                      } catch (error) {
+                        console.error('Error rendering catalogue item:', item, error);
+                        return null;
+                      }
+                    })}
                   </div>
                 </div>
-              ))
+                );
+              })
             )}
           </div>
 

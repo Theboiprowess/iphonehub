@@ -22,7 +22,7 @@ function EcoCashPaymentContent() {
       fetchOrderDetails();
     }
   }, [orderId]);
-  
+
   const fetchOrderDetails = async () => {
     setLoading(true);
     try {
@@ -30,12 +30,22 @@ function EcoCashPaymentContent() {
       if (response.ok) {
         const data = await response.json();
         setOrder(data);
-        
+
         // Fetch payment details
         const paymentResponse = await fetch(`/api/payments/${orderId}`);
         if (paymentResponse.ok) {
           const paymentData = await paymentResponse.json();
           setPayment(paymentData);
+
+          // Check payment status and redirect if already completed
+          if (paymentData.status === 'APPROVED' || paymentData.status === 'VERIFIED') {
+            router.push(`/checkout/success?orderId=${orderId}`);
+            return;
+          }
+          if (paymentData.status === 'REJECTED' || paymentData.status === 'FAILED') {
+            router.push(`/checkout/failure?orderId=${orderId}`);
+            return;
+          }
         }
       }
     } catch (error) {

@@ -23,6 +23,7 @@ import {
   Warehouse
 } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { AdminPageContainer } from "@/components/admin/admin-page-container";
 import { formatPrice } from "@/lib/utils";
 
 type InventoryItem = {
@@ -176,8 +177,9 @@ export default function InventoryPage() {
   }
 
   return (
-    <div className="space-y-8">
-      <AdminPageHeader title="Inventory" subtitle="Manage inventory and stock" />
+    <AdminPageContainer>
+      <div className="space-y-8">
+        <AdminPageHeader title="Inventory" subtitle="Manage inventory and stock" />
 
       {error && (
         <div className="p-4 bg-red-900/50 border border-red-500 rounded text-red-200">
@@ -460,5 +462,6 @@ export default function InventoryPage() {
         </CardContent>
       </Card>
     </div>
+    </AdminPageContainer>
   );
 }

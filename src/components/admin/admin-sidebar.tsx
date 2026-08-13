@@ -38,7 +38,8 @@ import {
   ExternalLink,
   DollarSign,
   Bot,
-  X
+  X,
+  CheckCircle
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -57,20 +58,21 @@ const navigation = {
   ],
   SHOP: [
     { name: "iPhones", href: "/admin/iphones", icon: Smartphone },
-    { name: "Boxed iPhones", href: "/admin/iphones?condition=boxed", icon: Smartphone },
-    { name: "Pre-Owned", href: "/admin/iphones?condition=pre-owned", icon: Smartphone },
-    { name: "Second-Hand", href: "/admin/iphones?condition=second-hand", icon: Smartphone },
+    { name: "Boxed iPhones", href: "/admin/iphones/boxed", icon: Smartphone },
+    { name: "Pre-Owned", href: "/admin/iphones/pre-owned", icon: Smartphone },
+    { name: "Second-Hand", href: "/admin/iphones/second-hand", icon: Smartphone },
     { name: "Accessories", href: "/admin/accessories", icon: Headphones },
     { name: "Categories", href: "/admin/categories", icon: Tag },
     { name: "Promotions", href: "/admin/promotions", icon: Star },
   ],
   CUSTOMER: [
-    { name: "Trade-In Requests", href: "/admin/trade-ins", icon: MessageSquare },
+    { name: "Trade-In Requests", href: "/admin/trade-in", icon: MessageSquare },
     { name: "Enquiries", href: "/admin/enquiries", icon: MessageSquare },
     { name: "Reviews", href: "/admin/reviews", icon: Star },
     { name: "Wishlist", href: "/admin/wishlist", icon: Heart },
   ],
   WEBSITE: [
+    { name: "Announcements", href: "/admin/announcements", icon: Activity },
     { name: "Homepage", href: "/admin/homepage", icon: Home },
     { name: "About Us", href: "/admin/about", icon: Info },
     { name: "Contact", href: "/admin/contact", icon: FileText },
@@ -81,6 +83,8 @@ const navigation = {
   ],
   BUSINESS: [
     { name: "Payments", href: "/admin/payments", icon: CreditCard },
+    { name: "Payment Verification", href: "/admin/payment-verification", icon: CheckCircle },
+    { name: "EcoCash Accounts", href: "/admin/ecocash-accounts", icon: Smartphone },
     { name: "Delivery", href: "/admin/delivery", icon: Truck },
     { name: "Warranty", href: "/admin/warranty", icon: Shield },
     { name: "Returns", href: "/admin/returns", icon: RotateCcw },
@@ -109,61 +113,66 @@ const navigation = {
   ],
 };
 
-export function AdminSidebar() {
-  const [collapsed, setCollapsed] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+export function AdminSidebar({ mobileOpen: controlledMobileOpen, setMobileOpen: controlledSetMobileOpen, collapsed: controlledCollapsed, setCollapsed: controlledSetCollapsed }: { mobileOpen?: boolean; setMobileOpen?: (open: boolean) => void; collapsed?: boolean; setCollapsed?: (collapsed: boolean) => void }) {
+  const [internalCollapsed, setInternalCollapsed] = useState(true);
+  const [internalMobileOpen, setInternalMobileOpen] = useState(false);
   const pathname = usePathname();
+
+  const isMobileOpen = controlledMobileOpen !== undefined ? controlledMobileOpen : internalMobileOpen;
+  const handleMobileOpen = controlledSetMobileOpen || setInternalMobileOpen;
+  const isCollapsed = controlledCollapsed !== undefined ? controlledCollapsed : internalCollapsed;
+  const handleCollapsed = controlledSetCollapsed || setInternalCollapsed;
 
   return (
     <>
-      {/* Mobile Backdrop */}
-      {mobileOpen && (
+      {/* Mobile Backdrop - Only shows on mobile when menu is open */}
+      {isMobileOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
-          onClick={() => setMobileOpen(false)}
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden backdrop-blur-sm"
+          onClick={() => handleMobileOpen(false)}
         />
       )}
 
       {/* Sidebar */}
       <aside
         className={cn(
-          "lg:relative fixed left-0 top-0 z-50 h-screen bg-[#0E161B] border-r border-[#CDB586]/20 transition-all duration-300 flex flex-col",
-          collapsed ? "w-20" : "w-64",
-          mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+          "lg:relative fixed left-0 top-0 z-50 h-screen bg-gradient-to-b from-[#0E161B] to-[#1A1A20] border-r border-[#CDB586]/20 transition-all duration-300 flex flex-col shadow-2xl lg:static flex-shrink-0",
+          isCollapsed ? "w-16" : "w-[260px]",
+          isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
         {/* Logo */}
-        <div className="flex items-center justify-between h-20 px-4 border-b border-[#CDB586]/20 flex-shrink-0">
-          {!collapsed && (
+        <div className="flex items-center justify-between h-14 px-4 border-b border-[#CDB586]/20 flex-shrink-0 bg-[#CDB586]/5">
+          {!isCollapsed && (
             <div>
-              <p className="text-sm font-bold text-[#CDB586]">iPhone Hub</p>
-              <p className="text-xs text-[#EBE2C5]/60">Zimbabwe Admin</p>
+              <p className="text-sm font-bold text-[#CDB586] tracking-wide">iPhone Hub</p>
+              <p className="text-xs text-[#EBE2C5]/60 mt-0.5">Zimbabwe Admin</p>
             </div>
           )}
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => setCollapsed(!collapsed)}
-            className="text-[#EBE2C5] hover:text-[#CDB586] flex-shrink-0 hidden lg:flex"
+            onClick={() => handleCollapsed(!isCollapsed)}
+            className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 flex-shrink-0 transition-colors hidden lg:flex"
           >
-            <Menu className="h-5 w-5" />
+            <Menu className="h-4 w-4" />
           </Button>
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => setMobileOpen(false)}
-            className="text-[#EBE2C5] hover:text-[#CDB586] flex-shrink-0 lg:hidden"
+            onClick={() => handleMobileOpen(false)}
+            className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 flex-shrink-0 lg:hidden transition-colors"
           >
-            <X className="h-5 w-5" />
+            <X className="h-4 w-4" />
           </Button>
         </div>
 
         {/* Navigation */}
-        <div className="flex-1 overflow-y-auto py-4 px-2">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden py-3 px-2">
           {Object.entries(navigation).map(([section, items]) => (
-            <div key={section} className="mb-6">
-              {!collapsed && (
-                <p className="px-4 mb-2 text-xs font-semibold text-[#CDB586]/60 uppercase tracking-wider">
+            <div key={section} className="mb-3">
+              {!isCollapsed && (
+                <p className="px-4 mb-2 text-xs font-semibold text-[#CDB586]/70 uppercase tracking-wider">
                   {section}
                 </p>
               )}
@@ -174,16 +183,16 @@ export function AdminSidebar() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    onClick={() => setMobileOpen(false)}
+                    onClick={() => handleMobileOpen(false)}
                     className={cn(
-                      "flex items-center gap-3 px-4 py-2.5 mx-2 rounded-lg transition-colors",
+                      "flex items-center gap-3 px-4 py-2.5 mx-2 rounded-lg transition-all duration-200 group",
                       isActive
-                        ? "bg-[#CDB586] text-[#0E161B]"
-                        : "text-[#EBE2C5]/80 hover:bg-[#CDB586]/10 hover:text-[#CDB586]"
+                        ? "bg-[#CDB586] text-[#0E161B] shadow-md"
+                        : "text-[#EBE2C5]/70 hover:bg-[#CDB586]/10 hover:text-[#CDB586]"
                     )}
                   >
                     <Icon className="h-5 w-5 flex-shrink-0" />
-                    {!collapsed && <span className="text-sm font-medium whitespace-nowrap">{item.name}</span>}
+                    {!isCollapsed && <span className="text-sm font-medium whitespace-nowrap overflow-hidden text-ellipsis">{item.name}</span>}
                   </Link>
                 );
               })}
@@ -195,70 +204,68 @@ export function AdminSidebar() {
   );
 }
 
-export function AdminTopbar() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+export function AdminTopbar({ onMobileMenuToggle }: { onMobileMenuToggle?: () => void }) {
   return (
-    <header className="sticky top-0 z-30 w-full border-b border-[#CDB586]/20 bg-[#0E161B]/95 backdrop-blur flex-shrink-0">
-      <div className="flex items-center justify-between h-16 px-6 lg:px-8">
+    <header className="sticky top-0 z-30 w-full border-b border-[#CDB586]/20 bg-gradient-to-r from-[#0E161B]/95 to-[#1A1A20]/95 backdrop-blur flex-shrink-0 shadow-sm">
+      <div className="flex items-center justify-between h-14 px-4 sm:px-6 lg:px-8 gap-4">
         {/* Mobile Menu Button */}
-        <div className="lg:hidden mr-4 flex-shrink-0">
+        <div className="flex-shrink-0">
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-[#EBE2C5] hover:text-[#CDB586]"
+            onClick={onMobileMenuToggle}
+            className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 transition-colors"
           >
-            <Menu className="h-5 w-5" />
+            <Menu className="h-4 w-4" />
           </Button>
         </div>
 
         {/* Search */}
-        <div className="flex-1 min-w-0 mr-4">
+        <div className="flex-1 min-w-0 max-w-2xl hidden sm:block">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EBE2C5]/40" />
             <Input
               placeholder="Search products, orders, customers..."
-              className="bg-[#F7F5EF]/5 border-[#CDB586]/20 text-[#EBE2C5] placeholder:text-[#EBE2C5]/40 pl-10"
+              className="bg-[#F7F5EF]/10 border-[#CDB586]/30 text-[#EBE2C5] placeholder:text-[#EBE2C5]/40 pl-10 focus:ring-2 focus:ring-[#CDB586]/50 focus:border-[#CDB586]/50 h-9 w-full"
             />
           </div>
         </div>
 
         {/* Right Actions */}
-        <div className="flex items-center gap-3 lg:gap-4 flex-shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           {/* Quick Add */}
           <Link href="/admin/products/new">
-            <Button size="sm" className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] hidden sm:flex whitespace-nowrap">
-              <Plus className="h-4 w-4 mr-2" />
+            <Button size="sm" className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] hidden sm:flex whitespace-nowrap h-8 px-3 text-xs font-medium shadow-sm">
+              <Plus className="h-3.5 w-3.5 mr-1.5" />
               Add Product
             </Button>
           </Link>
 
           {/* Website Preview */}
-          <Button variant="outline" size="sm" asChild className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586]/10 hidden sm:flex whitespace-nowrap">
+          <Button variant="outline" size="sm" asChild className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586]/10 hidden sm:flex whitespace-nowrap h-8 px-3 text-xs font-medium">
             <Link href="/" target="_blank">
-              <ExternalLink className="h-4 w-4 mr-2" />
+              <ExternalLink className="h-3.5 w-3.5 mr-1.5" />
               View Website
             </Link>
           </Button>
 
           {/* Notifications */}
-          <Button variant="ghost" size="icon" className="text-[#EBE2C5] hover:text-[#CDB586] flex-shrink-0">
-            <Bell className="h-5 w-5" />
+          <Button variant="ghost" size="icon" className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 flex-shrink-0 h-8 w-8 transition-colors relative">
+            <Bell className="h-4 w-4" />
             <span className="absolute top-1 right-1 h-2 w-2 bg-[#CDB586] rounded-full"></span>
           </Button>
 
           {/* Profile */}
           <Link href="/admin/(protected)/settings">
-            <Button variant="ghost" size="icon" className="text-[#EBE2C5] hover:text-[#CDB586] flex-shrink-0">
-              <UserCog className="h-5 w-5" />
+            <Button variant="ghost" size="icon" className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 flex-shrink-0 h-8 w-8 transition-colors">
+              <UserCog className="h-4 w-4" />
             </Button>
           </Link>
 
           {/* Logout */}
           <Link href="/api/auth/signout">
-            <Button variant="ghost" size="icon" className="text-[#EBE2C5] hover:text-[#CDB586] flex-shrink-0">
-              <LogOut className="h-5 w-5" />
+            <Button variant="ghost" size="icon" className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 flex-shrink-0 h-8 w-8 transition-colors">
+              <LogOut className="h-4 w-4" />
             </Button>
           </Link>
         </div>

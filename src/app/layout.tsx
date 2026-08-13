@@ -8,6 +8,7 @@ import { WhatsAppFloat } from "@/components/whatsapp-float";
 import { ThemeProvider } from "@/components/theme-provider";
 import { GoldSmokeBackground } from "@/components/gold-smoke-background";
 import { ChatWidget } from "@/components/support/chat-widget";
+import { AnnouncementTicker } from "@/components/announcement-ticker";
 import { headers } from "next/headers";
 
 const manrope = Manrope({
@@ -54,7 +55,7 @@ export const metadata: Metadata = {
     siteName: "iPhone Hub Zimbabwe",
     images: [
       {
-        url: "/logo.jpeg",
+        url: "/hero-iphone.jpg.jpg",
         width: 400,
         height: 400,
         alt: "iPhone Hub Zimbabwe Logo",
@@ -65,7 +66,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "iPhone Hub Zimbabwe | Buy Boxed, Pre-Owned & Second-Hand iPhones",
     description: "Shop quality boxed, pre-owned and second-hand iPhones from iPhone Hub Zimbabwe. Based in Masvingo and serving customers across Zimbabwe with transparent pricing and trusted service.",
-    images: ["/logo.jpeg"],
+    images: ["/hero-iphone.jpg.jpg"],
   },
   robots: {
     index: true,
@@ -97,6 +98,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <ThemeProvider>
           <CartProvider>
             {!isAdminRoute && <Header />}
+            {!isAdminRoute && <AnnouncementTicker />}
             <main className="flex-1 relative z-10 w-full">{children}</main>
             {!isAdminRoute && (
               <div className="relative z-10 w-full pt-16 sm:pt-20 lg:pt-24">

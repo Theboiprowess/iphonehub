@@ -4,7 +4,7 @@ import { Phone, Mail, MapPin, MessageCircle, Share2, Download } from "lucide-rea
 export function Footer() {
   return (
     <footer className="bg-[#0E161B] wood-texture">
-      <div className="site-container py-10 sm:py-12 lg:py-16 px-4 sm:px-6">
+      <div className="site-container py-10 sm:py-12 lg:py-16">
         {/* Main Navigation Section */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-12 mb-8 sm:mb-12">
           {/* Company Info - Full width on mobile */}

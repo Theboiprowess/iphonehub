@@ -24,6 +24,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { formatPrice } from "@/lib/utils";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { AdminPageContainer } from "@/components/admin/admin-page-container";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<any[]>([]);
@@ -193,13 +194,14 @@ export default function ProductsPage() {
   });
 
   return (
-    <div className="space-y-8">
-      <AdminPageHeader 
-        title="Products"
-        subtitle="Manage your product catalogue"
-        actionHref="/admin/products/new"
-        actionText="Add Product"
-      />
+    <AdminPageContainer>
+      <div className="space-y-8">
+        <AdminPageHeader 
+          title="Products"
+          subtitle="Manage your product catalogue"
+          actionHref="/admin/products/new"
+          actionText="Add Product"
+        />
 
       {/* Quick Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
@@ -269,5 +271,6 @@ export default function ProductsPage() {
         </div>
       )}
     </div>
+    </AdminPageContainer>
   );
 }

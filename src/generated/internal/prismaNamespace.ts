@@ -408,6 +408,7 @@ export const ModelName = {
   Device: 'Device',
   Order: 'Order',
   OrderItem: 'OrderItem',
+  EcoCashReceivingAccount: 'EcoCashReceivingAccount',
   Payment: 'Payment',
   EcoCashTransaction: 'EcoCashTransaction',
   PaymentProof: 'PaymentProof',
@@ -444,7 +445,8 @@ export const ModelName = {
   SupportEscalation: 'SupportEscalation',
   KnowledgeArticle: 'KnowledgeArticle',
   UnansweredQuestion: 'UnansweredQuestion',
-  SupportSettings: 'SupportSettings'
+  SupportSettings: 'SupportSettings',
+  Announcement: 'Announcement'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -460,7 +462,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "category" | "product" | "productVariant" | "productImage" | "device" | "order" | "orderItem" | "payment" | "ecoCashTransaction" | "paymentProof" | "paymentAuditLog" | "wishlist" | "wishlistItem" | "review" | "blogPost" | "blogCategory" | "blogCategoryPost" | "blogTag" | "blogTagPost" | "enquiry" | "tradeInEnquiry" | "reservation" | "promotion" | "siteSettings" | "notification" | "auditLog" | "media" | "navigationItem" | "fAQ" | "inventory" | "inventoryMovement" | "homepageConfig" | "trustFeature" | "homepageBanner" | "article" | "aboutUs" | "contactInfo" | "priceCatalogue" | "supportConversation" | "supportMessage" | "supportEscalation" | "knowledgeArticle" | "unansweredQuestion" | "supportSettings"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "category" | "product" | "productVariant" | "productImage" | "device" | "order" | "orderItem" | "ecoCashReceivingAccount" | "payment" | "ecoCashTransaction" | "paymentProof" | "paymentAuditLog" | "wishlist" | "wishlistItem" | "review" | "blogPost" | "blogCategory" | "blogCategoryPost" | "blogTag" | "blogTagPost" | "enquiry" | "tradeInEnquiry" | "reservation" | "promotion" | "siteSettings" | "notification" | "auditLog" | "media" | "navigationItem" | "fAQ" | "inventory" | "inventoryMovement" | "homepageConfig" | "trustFeature" | "homepageBanner" | "article" | "aboutUs" | "contactInfo" | "priceCatalogue" | "supportConversation" | "supportMessage" | "supportEscalation" | "knowledgeArticle" | "unansweredQuestion" | "supportSettings" | "announcement"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1275,6 +1277,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.OrderItemCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.OrderItemCountAggregateOutputType> | number
+        }
+      }
+    }
+    EcoCashReceivingAccount: {
+      payload: Prisma.$EcoCashReceivingAccountPayload<ExtArgs>
+      fields: Prisma.EcoCashReceivingAccountFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EcoCashReceivingAccountFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EcoCashReceivingAccountPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EcoCashReceivingAccountFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EcoCashReceivingAccountPayload>
+        }
+        findFirst: {
+          args: Prisma.EcoCashReceivingAccountFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EcoCashReceivingAccountPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EcoCashReceivingAccountFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EcoCashReceivingAccountPayload>
+        }
+        findMany: {
+          args: Prisma.EcoCashReceivingAccountFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EcoCashReceivingAccountPayload>[]
+        }
+        create: {
+          args: Prisma.EcoCashReceivingAccountCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EcoCashReceivingAccountPayload>
+        }
+        createMany: {
+          args: Prisma.EcoCashReceivingAccountCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EcoCashReceivingAccountCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EcoCashReceivingAccountPayload>[]
+        }
+        delete: {
+          args: Prisma.EcoCashReceivingAccountDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EcoCashReceivingAccountPayload>
+        }
+        update: {
+          args: Prisma.EcoCashReceivingAccountUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EcoCashReceivingAccountPayload>
+        }
+        deleteMany: {
+          args: Prisma.EcoCashReceivingAccountDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EcoCashReceivingAccountUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EcoCashReceivingAccountUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EcoCashReceivingAccountPayload>[]
+        }
+        upsert: {
+          args: Prisma.EcoCashReceivingAccountUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EcoCashReceivingAccountPayload>
+        }
+        aggregate: {
+          args: Prisma.EcoCashReceivingAccountAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEcoCashReceivingAccount>
+        }
+        groupBy: {
+          args: Prisma.EcoCashReceivingAccountGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EcoCashReceivingAccountGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EcoCashReceivingAccountCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EcoCashReceivingAccountCountAggregateOutputType> | number
         }
       }
     }
@@ -4016,6 +4092,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Announcement: {
+      payload: Prisma.$AnnouncementPayload<ExtArgs>
+      fields: Prisma.AnnouncementFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AnnouncementFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AnnouncementFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+        }
+        findFirst: {
+          args: Prisma.AnnouncementFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AnnouncementFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+        }
+        findMany: {
+          args: Prisma.AnnouncementFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementPayload>[]
+        }
+        create: {
+          args: Prisma.AnnouncementCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+        }
+        createMany: {
+          args: Prisma.AnnouncementCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AnnouncementCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementPayload>[]
+        }
+        delete: {
+          args: Prisma.AnnouncementDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+        }
+        update: {
+          args: Prisma.AnnouncementUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+        }
+        deleteMany: {
+          args: Prisma.AnnouncementDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AnnouncementUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AnnouncementUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementPayload>[]
+        }
+        upsert: {
+          args: Prisma.AnnouncementUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+        }
+        aggregate: {
+          args: Prisma.AnnouncementAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAnnouncement>
+        }
+        groupBy: {
+          args: Prisma.AnnouncementGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AnnouncementGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AnnouncementCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AnnouncementCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -4212,6 +4362,7 @@ export type DeviceScalarFieldEnum = (typeof DeviceScalarFieldEnum)[keyof typeof 
 export const OrderScalarFieldEnum = {
   id: 'id',
   orderNumber: 'orderNumber',
+  paymentReference: 'paymentReference',
   userId: 'userId',
   customerName: 'customerName',
   customerEmail: 'customerEmail',
@@ -4248,9 +4399,24 @@ export const OrderItemScalarFieldEnum = {
 export type OrderItemScalarFieldEnum = (typeof OrderItemScalarFieldEnum)[keyof typeof OrderItemScalarFieldEnum]
 
 
+export const EcoCashReceivingAccountScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  phoneNumber: 'phoneNumber',
+  isActive: 'isActive',
+  isDefault: 'isDefault',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EcoCashReceivingAccountScalarFieldEnum = (typeof EcoCashReceivingAccountScalarFieldEnum)[keyof typeof EcoCashReceivingAccountScalarFieldEnum]
+
+
 export const PaymentScalarFieldEnum = {
   id: 'id',
   orderId: 'orderId',
+  receivingAccountId: 'receivingAccountId',
   provider: 'provider',
   providerTransactionId: 'providerTransactionId',
   merchantReference: 'merchantReference',
@@ -4272,6 +4438,7 @@ export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeo
 export const EcoCashTransactionScalarFieldEnum = {
   id: 'id',
   transactionReference: 'transactionReference',
+  receivingAccountId: 'receivingAccountId',
   amount: 'amount',
   currency: 'currency',
   senderPhone: 'senderPhone',
@@ -4351,6 +4518,7 @@ export const ReviewScalarFieldEnum = {
   comment: 'comment',
   name: 'name',
   isApproved: 'isApproved',
+  adminResponse: 'adminResponse',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -4916,6 +5084,23 @@ export const SupportSettingsScalarFieldEnum = {
 export type SupportSettingsScalarFieldEnum = (typeof SupportSettingsScalarFieldEnum)[keyof typeof SupportSettingsScalarFieldEnum]
 
 
+export const AnnouncementScalarFieldEnum = {
+  id: 'id',
+  message: 'message',
+  type: 'type',
+  isActive: 'isActive',
+  priority: 'priority',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  scrollingSpeed: 'scrollingSpeed',
+  displayDuration: 'displayDuration',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AnnouncementScalarFieldEnum = (typeof AnnouncementScalarFieldEnum)[keyof typeof AnnouncementScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -5305,6 +5490,20 @@ export type EnumUnansweredStatusFieldRefInput<$PrismaModel> = FieldRefInputType<
 export type ListEnumUnansweredStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UnansweredStatus[]'>
     
 
+
+/**
+ * Reference to a field of type 'AnnouncementType'
+ */
+export type EnumAnnouncementTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AnnouncementType'>
+    
+
+
+/**
+ * Reference to a field of type 'AnnouncementType[]'
+ */
+export type ListEnumAnnouncementTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AnnouncementType[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -5467,6 +5666,7 @@ export type GlobalOmitConfig = {
   device?: Prisma.DeviceOmit
   order?: Prisma.OrderOmit
   orderItem?: Prisma.OrderItemOmit
+  ecoCashReceivingAccount?: Prisma.EcoCashReceivingAccountOmit
   payment?: Prisma.PaymentOmit
   ecoCashTransaction?: Prisma.EcoCashTransactionOmit
   paymentProof?: Prisma.PaymentProofOmit
@@ -5504,6 +5704,7 @@ export type GlobalOmitConfig = {
   knowledgeArticle?: Prisma.KnowledgeArticleOmit
   unansweredQuestion?: Prisma.UnansweredQuestionOmit
   supportSettings?: Prisma.SupportSettingsOmit
+  announcement?: Prisma.AnnouncementOmit
 }
 
 /* Types for Logging */

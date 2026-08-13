@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    await requirePermission(session.user.id, "PRODUCTS_VIEW");
+    await requirePermission((session.user as any).role, "PRODUCTS_VIEW");
 
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get("page") || "1");
@@ -102,7 +102,7 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    await requirePermission(session.user.id, "PRODUCTS_EDIT");
+    await requirePermission((session.user as any).role, "PRODUCTS_EDIT");
 
     const body = await request.json();
     const { variantId, adjustment, reason, notes } = body;

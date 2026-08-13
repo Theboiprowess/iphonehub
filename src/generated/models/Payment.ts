@@ -37,6 +37,7 @@ export type PaymentSumAggregateOutputType = {
 export type PaymentMinAggregateOutputType = {
   id: string | null
   orderId: string | null
+  receivingAccountId: string | null
   provider: string | null
   providerTransactionId: string | null
   merchantReference: string | null
@@ -54,6 +55,7 @@ export type PaymentMinAggregateOutputType = {
 export type PaymentMaxAggregateOutputType = {
   id: string | null
   orderId: string | null
+  receivingAccountId: string | null
   provider: string | null
   providerTransactionId: string | null
   merchantReference: string | null
@@ -71,6 +73,7 @@ export type PaymentMaxAggregateOutputType = {
 export type PaymentCountAggregateOutputType = {
   id: number
   orderId: number
+  receivingAccountId: number
   provider: number
   providerTransactionId: number
   merchantReference: number
@@ -99,6 +102,7 @@ export type PaymentSumAggregateInputType = {
 export type PaymentMinAggregateInputType = {
   id?: true
   orderId?: true
+  receivingAccountId?: true
   provider?: true
   providerTransactionId?: true
   merchantReference?: true
@@ -116,6 +120,7 @@ export type PaymentMinAggregateInputType = {
 export type PaymentMaxAggregateInputType = {
   id?: true
   orderId?: true
+  receivingAccountId?: true
   provider?: true
   providerTransactionId?: true
   merchantReference?: true
@@ -133,6 +138,7 @@ export type PaymentMaxAggregateInputType = {
 export type PaymentCountAggregateInputType = {
   id?: true
   orderId?: true
+  receivingAccountId?: true
   provider?: true
   providerTransactionId?: true
   merchantReference?: true
@@ -238,6 +244,7 @@ export type PaymentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type PaymentGroupByOutputType = {
   id: string
   orderId: string
+  receivingAccountId: string | null
   provider: string
   providerTransactionId: string | null
   merchantReference: string | null
@@ -279,6 +286,7 @@ export type PaymentWhereInput = {
   NOT?: Prisma.PaymentWhereInput | Prisma.PaymentWhereInput[]
   id?: Prisma.StringFilter<"Payment"> | string
   orderId?: Prisma.StringFilter<"Payment"> | string
+  receivingAccountId?: Prisma.StringNullableFilter<"Payment"> | string | null
   provider?: Prisma.StringFilter<"Payment"> | string
   providerTransactionId?: Prisma.StringNullableFilter<"Payment"> | string | null
   merchantReference?: Prisma.StringNullableFilter<"Payment"> | string | null
@@ -293,6 +301,7 @@ export type PaymentWhereInput = {
   metadata?: Prisma.JsonNullableFilter<"Payment">
   rawResponse?: Prisma.StringNullableFilter<"Payment"> | string | null
   order?: Prisma.XOR<Prisma.OrderScalarRelationFilter, Prisma.OrderWhereInput>
+  receivingAccount?: Prisma.XOR<Prisma.EcoCashReceivingAccountNullableScalarRelationFilter, Prisma.EcoCashReceivingAccountWhereInput> | null
   ecoCashTransaction?: Prisma.XOR<Prisma.EcoCashTransactionNullableScalarRelationFilter, Prisma.EcoCashTransactionWhereInput> | null
   proofs?: Prisma.PaymentProofListRelationFilter
   auditLogs?: Prisma.PaymentAuditLogListRelationFilter
@@ -301,6 +310,7 @@ export type PaymentWhereInput = {
 export type PaymentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
+  receivingAccountId?: Prisma.SortOrderInput | Prisma.SortOrder
   provider?: Prisma.SortOrder
   providerTransactionId?: Prisma.SortOrderInput | Prisma.SortOrder
   merchantReference?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -315,6 +325,7 @@ export type PaymentOrderByWithRelationInput = {
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
   rawResponse?: Prisma.SortOrderInput | Prisma.SortOrder
   order?: Prisma.OrderOrderByWithRelationInput
+  receivingAccount?: Prisma.EcoCashReceivingAccountOrderByWithRelationInput
   ecoCashTransaction?: Prisma.EcoCashTransactionOrderByWithRelationInput
   proofs?: Prisma.PaymentProofOrderByRelationAggregateInput
   auditLogs?: Prisma.PaymentAuditLogOrderByRelationAggregateInput
@@ -328,6 +339,7 @@ export type PaymentWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.PaymentWhereInput | Prisma.PaymentWhereInput[]
   OR?: Prisma.PaymentWhereInput[]
   NOT?: Prisma.PaymentWhereInput | Prisma.PaymentWhereInput[]
+  receivingAccountId?: Prisma.StringNullableFilter<"Payment"> | string | null
   provider?: Prisma.StringFilter<"Payment"> | string
   amount?: Prisma.DecimalFilter<"Payment"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"Payment"> | string
@@ -340,6 +352,7 @@ export type PaymentWhereUniqueInput = Prisma.AtLeast<{
   metadata?: Prisma.JsonNullableFilter<"Payment">
   rawResponse?: Prisma.StringNullableFilter<"Payment"> | string | null
   order?: Prisma.XOR<Prisma.OrderScalarRelationFilter, Prisma.OrderWhereInput>
+  receivingAccount?: Prisma.XOR<Prisma.EcoCashReceivingAccountNullableScalarRelationFilter, Prisma.EcoCashReceivingAccountWhereInput> | null
   ecoCashTransaction?: Prisma.XOR<Prisma.EcoCashTransactionNullableScalarRelationFilter, Prisma.EcoCashTransactionWhereInput> | null
   proofs?: Prisma.PaymentProofListRelationFilter
   auditLogs?: Prisma.PaymentAuditLogListRelationFilter
@@ -348,6 +361,7 @@ export type PaymentWhereUniqueInput = Prisma.AtLeast<{
 export type PaymentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
+  receivingAccountId?: Prisma.SortOrderInput | Prisma.SortOrder
   provider?: Prisma.SortOrder
   providerTransactionId?: Prisma.SortOrderInput | Prisma.SortOrder
   merchantReference?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -374,6 +388,7 @@ export type PaymentScalarWhereWithAggregatesInput = {
   NOT?: Prisma.PaymentScalarWhereWithAggregatesInput | Prisma.PaymentScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Payment"> | string
   orderId?: Prisma.StringWithAggregatesFilter<"Payment"> | string
+  receivingAccountId?: Prisma.StringNullableWithAggregatesFilter<"Payment"> | string | null
   provider?: Prisma.StringWithAggregatesFilter<"Payment"> | string
   providerTransactionId?: Prisma.StringNullableWithAggregatesFilter<"Payment"> | string | null
   merchantReference?: Prisma.StringNullableWithAggregatesFilter<"Payment"> | string | null
@@ -405,6 +420,7 @@ export type PaymentCreateInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rawResponse?: string | null
   order: Prisma.OrderCreateNestedOneWithoutPaymentInput
+  receivingAccount?: Prisma.EcoCashReceivingAccountCreateNestedOneWithoutPaymentsInput
   ecoCashTransaction?: Prisma.EcoCashTransactionCreateNestedOneWithoutPaymentInput
   proofs?: Prisma.PaymentProofCreateNestedManyWithoutPaymentInput
   auditLogs?: Prisma.PaymentAuditLogCreateNestedManyWithoutPaymentInput
@@ -413,6 +429,7 @@ export type PaymentCreateInput = {
 export type PaymentUncheckedCreateInput = {
   id?: string
   orderId: string
+  receivingAccountId?: string | null
   provider?: string
   providerTransactionId?: string | null
   merchantReference?: string | null
@@ -447,6 +464,7 @@ export type PaymentUpdateInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rawResponse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.OrderUpdateOneRequiredWithoutPaymentNestedInput
+  receivingAccount?: Prisma.EcoCashReceivingAccountUpdateOneWithoutPaymentsNestedInput
   ecoCashTransaction?: Prisma.EcoCashTransactionUpdateOneWithoutPaymentNestedInput
   proofs?: Prisma.PaymentProofUpdateManyWithoutPaymentNestedInput
   auditLogs?: Prisma.PaymentAuditLogUpdateManyWithoutPaymentNestedInput
@@ -455,6 +473,7 @@ export type PaymentUpdateInput = {
 export type PaymentUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   orderId?: Prisma.StringFieldUpdateOperationsInput | string
+  receivingAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   providerTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   merchantReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -476,6 +495,7 @@ export type PaymentUncheckedUpdateInput = {
 export type PaymentCreateManyInput = {
   id?: string
   orderId: string
+  receivingAccountId?: string | null
   provider?: string
   providerTransactionId?: string | null
   merchantReference?: string | null
@@ -511,6 +531,7 @@ export type PaymentUpdateManyMutationInput = {
 export type PaymentUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   orderId?: Prisma.StringFieldUpdateOperationsInput | string
+  receivingAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   providerTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   merchantReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -531,9 +552,20 @@ export type PaymentNullableScalarRelationFilter = {
   isNot?: Prisma.PaymentWhereInput | null
 }
 
+export type PaymentListRelationFilter = {
+  every?: Prisma.PaymentWhereInput
+  some?: Prisma.PaymentWhereInput
+  none?: Prisma.PaymentWhereInput
+}
+
+export type PaymentOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type PaymentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
+  receivingAccountId?: Prisma.SortOrder
   provider?: Prisma.SortOrder
   providerTransactionId?: Prisma.SortOrder
   merchantReference?: Prisma.SortOrder
@@ -556,6 +588,7 @@ export type PaymentAvgOrderByAggregateInput = {
 export type PaymentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
+  receivingAccountId?: Prisma.SortOrder
   provider?: Prisma.SortOrder
   providerTransactionId?: Prisma.SortOrder
   merchantReference?: Prisma.SortOrder
@@ -573,6 +606,7 @@ export type PaymentMaxOrderByAggregateInput = {
 export type PaymentMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
+  receivingAccountId?: Prisma.SortOrder
   provider?: Prisma.SortOrder
   providerTransactionId?: Prisma.SortOrder
   merchantReference?: Prisma.SortOrder
@@ -626,6 +660,48 @@ export type PaymentUncheckedUpdateOneWithoutOrderNestedInput = {
   delete?: Prisma.PaymentWhereInput | boolean
   connect?: Prisma.PaymentWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.PaymentUpdateToOneWithWhereWithoutOrderInput, Prisma.PaymentUpdateWithoutOrderInput>, Prisma.PaymentUncheckedUpdateWithoutOrderInput>
+}
+
+export type PaymentCreateNestedManyWithoutReceivingAccountInput = {
+  create?: Prisma.XOR<Prisma.PaymentCreateWithoutReceivingAccountInput, Prisma.PaymentUncheckedCreateWithoutReceivingAccountInput> | Prisma.PaymentCreateWithoutReceivingAccountInput[] | Prisma.PaymentUncheckedCreateWithoutReceivingAccountInput[]
+  connectOrCreate?: Prisma.PaymentCreateOrConnectWithoutReceivingAccountInput | Prisma.PaymentCreateOrConnectWithoutReceivingAccountInput[]
+  createMany?: Prisma.PaymentCreateManyReceivingAccountInputEnvelope
+  connect?: Prisma.PaymentWhereUniqueInput | Prisma.PaymentWhereUniqueInput[]
+}
+
+export type PaymentUncheckedCreateNestedManyWithoutReceivingAccountInput = {
+  create?: Prisma.XOR<Prisma.PaymentCreateWithoutReceivingAccountInput, Prisma.PaymentUncheckedCreateWithoutReceivingAccountInput> | Prisma.PaymentCreateWithoutReceivingAccountInput[] | Prisma.PaymentUncheckedCreateWithoutReceivingAccountInput[]
+  connectOrCreate?: Prisma.PaymentCreateOrConnectWithoutReceivingAccountInput | Prisma.PaymentCreateOrConnectWithoutReceivingAccountInput[]
+  createMany?: Prisma.PaymentCreateManyReceivingAccountInputEnvelope
+  connect?: Prisma.PaymentWhereUniqueInput | Prisma.PaymentWhereUniqueInput[]
+}
+
+export type PaymentUpdateManyWithoutReceivingAccountNestedInput = {
+  create?: Prisma.XOR<Prisma.PaymentCreateWithoutReceivingAccountInput, Prisma.PaymentUncheckedCreateWithoutReceivingAccountInput> | Prisma.PaymentCreateWithoutReceivingAccountInput[] | Prisma.PaymentUncheckedCreateWithoutReceivingAccountInput[]
+  connectOrCreate?: Prisma.PaymentCreateOrConnectWithoutReceivingAccountInput | Prisma.PaymentCreateOrConnectWithoutReceivingAccountInput[]
+  upsert?: Prisma.PaymentUpsertWithWhereUniqueWithoutReceivingAccountInput | Prisma.PaymentUpsertWithWhereUniqueWithoutReceivingAccountInput[]
+  createMany?: Prisma.PaymentCreateManyReceivingAccountInputEnvelope
+  set?: Prisma.PaymentWhereUniqueInput | Prisma.PaymentWhereUniqueInput[]
+  disconnect?: Prisma.PaymentWhereUniqueInput | Prisma.PaymentWhereUniqueInput[]
+  delete?: Prisma.PaymentWhereUniqueInput | Prisma.PaymentWhereUniqueInput[]
+  connect?: Prisma.PaymentWhereUniqueInput | Prisma.PaymentWhereUniqueInput[]
+  update?: Prisma.PaymentUpdateWithWhereUniqueWithoutReceivingAccountInput | Prisma.PaymentUpdateWithWhereUniqueWithoutReceivingAccountInput[]
+  updateMany?: Prisma.PaymentUpdateManyWithWhereWithoutReceivingAccountInput | Prisma.PaymentUpdateManyWithWhereWithoutReceivingAccountInput[]
+  deleteMany?: Prisma.PaymentScalarWhereInput | Prisma.PaymentScalarWhereInput[]
+}
+
+export type PaymentUncheckedUpdateManyWithoutReceivingAccountNestedInput = {
+  create?: Prisma.XOR<Prisma.PaymentCreateWithoutReceivingAccountInput, Prisma.PaymentUncheckedCreateWithoutReceivingAccountInput> | Prisma.PaymentCreateWithoutReceivingAccountInput[] | Prisma.PaymentUncheckedCreateWithoutReceivingAccountInput[]
+  connectOrCreate?: Prisma.PaymentCreateOrConnectWithoutReceivingAccountInput | Prisma.PaymentCreateOrConnectWithoutReceivingAccountInput[]
+  upsert?: Prisma.PaymentUpsertWithWhereUniqueWithoutReceivingAccountInput | Prisma.PaymentUpsertWithWhereUniqueWithoutReceivingAccountInput[]
+  createMany?: Prisma.PaymentCreateManyReceivingAccountInputEnvelope
+  set?: Prisma.PaymentWhereUniqueInput | Prisma.PaymentWhereUniqueInput[]
+  disconnect?: Prisma.PaymentWhereUniqueInput | Prisma.PaymentWhereUniqueInput[]
+  delete?: Prisma.PaymentWhereUniqueInput | Prisma.PaymentWhereUniqueInput[]
+  connect?: Prisma.PaymentWhereUniqueInput | Prisma.PaymentWhereUniqueInput[]
+  update?: Prisma.PaymentUpdateWithWhereUniqueWithoutReceivingAccountInput | Prisma.PaymentUpdateWithWhereUniqueWithoutReceivingAccountInput[]
+  updateMany?: Prisma.PaymentUpdateManyWithWhereWithoutReceivingAccountInput | Prisma.PaymentUpdateManyWithWhereWithoutReceivingAccountInput[]
+  deleteMany?: Prisma.PaymentScalarWhereInput | Prisma.PaymentScalarWhereInput[]
 }
 
 export type PaymentCreateNestedOneWithoutEcoCashTransactionInput = {
@@ -687,6 +763,7 @@ export type PaymentCreateWithoutOrderInput = {
   completedAt?: Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rawResponse?: string | null
+  receivingAccount?: Prisma.EcoCashReceivingAccountCreateNestedOneWithoutPaymentsInput
   ecoCashTransaction?: Prisma.EcoCashTransactionCreateNestedOneWithoutPaymentInput
   proofs?: Prisma.PaymentProofCreateNestedManyWithoutPaymentInput
   auditLogs?: Prisma.PaymentAuditLogCreateNestedManyWithoutPaymentInput
@@ -694,6 +771,7 @@ export type PaymentCreateWithoutOrderInput = {
 
 export type PaymentUncheckedCreateWithoutOrderInput = {
   id?: string
+  receivingAccountId?: string | null
   provider?: string
   providerTransactionId?: string | null
   merchantReference?: string | null
@@ -743,6 +821,7 @@ export type PaymentUpdateWithoutOrderInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rawResponse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  receivingAccount?: Prisma.EcoCashReceivingAccountUpdateOneWithoutPaymentsNestedInput
   ecoCashTransaction?: Prisma.EcoCashTransactionUpdateOneWithoutPaymentNestedInput
   proofs?: Prisma.PaymentProofUpdateManyWithoutPaymentNestedInput
   auditLogs?: Prisma.PaymentAuditLogUpdateManyWithoutPaymentNestedInput
@@ -750,6 +829,7 @@ export type PaymentUpdateWithoutOrderInput = {
 
 export type PaymentUncheckedUpdateWithoutOrderInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  receivingAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   providerTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   merchantReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -768,6 +848,96 @@ export type PaymentUncheckedUpdateWithoutOrderInput = {
   auditLogs?: Prisma.PaymentAuditLogUncheckedUpdateManyWithoutPaymentNestedInput
 }
 
+export type PaymentCreateWithoutReceivingAccountInput = {
+  id?: string
+  provider?: string
+  providerTransactionId?: string | null
+  merchantReference?: string | null
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  customerPhone: string
+  status?: $Enums.PaymentStatus
+  failureReason?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  completedAt?: Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  rawResponse?: string | null
+  order: Prisma.OrderCreateNestedOneWithoutPaymentInput
+  ecoCashTransaction?: Prisma.EcoCashTransactionCreateNestedOneWithoutPaymentInput
+  proofs?: Prisma.PaymentProofCreateNestedManyWithoutPaymentInput
+  auditLogs?: Prisma.PaymentAuditLogCreateNestedManyWithoutPaymentInput
+}
+
+export type PaymentUncheckedCreateWithoutReceivingAccountInput = {
+  id?: string
+  orderId: string
+  provider?: string
+  providerTransactionId?: string | null
+  merchantReference?: string | null
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  customerPhone: string
+  status?: $Enums.PaymentStatus
+  failureReason?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  completedAt?: Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  rawResponse?: string | null
+  ecoCashTransaction?: Prisma.EcoCashTransactionUncheckedCreateNestedOneWithoutPaymentInput
+  proofs?: Prisma.PaymentProofUncheckedCreateNestedManyWithoutPaymentInput
+  auditLogs?: Prisma.PaymentAuditLogUncheckedCreateNestedManyWithoutPaymentInput
+}
+
+export type PaymentCreateOrConnectWithoutReceivingAccountInput = {
+  where: Prisma.PaymentWhereUniqueInput
+  create: Prisma.XOR<Prisma.PaymentCreateWithoutReceivingAccountInput, Prisma.PaymentUncheckedCreateWithoutReceivingAccountInput>
+}
+
+export type PaymentCreateManyReceivingAccountInputEnvelope = {
+  data: Prisma.PaymentCreateManyReceivingAccountInput | Prisma.PaymentCreateManyReceivingAccountInput[]
+  skipDuplicates?: boolean
+}
+
+export type PaymentUpsertWithWhereUniqueWithoutReceivingAccountInput = {
+  where: Prisma.PaymentWhereUniqueInput
+  update: Prisma.XOR<Prisma.PaymentUpdateWithoutReceivingAccountInput, Prisma.PaymentUncheckedUpdateWithoutReceivingAccountInput>
+  create: Prisma.XOR<Prisma.PaymentCreateWithoutReceivingAccountInput, Prisma.PaymentUncheckedCreateWithoutReceivingAccountInput>
+}
+
+export type PaymentUpdateWithWhereUniqueWithoutReceivingAccountInput = {
+  where: Prisma.PaymentWhereUniqueInput
+  data: Prisma.XOR<Prisma.PaymentUpdateWithoutReceivingAccountInput, Prisma.PaymentUncheckedUpdateWithoutReceivingAccountInput>
+}
+
+export type PaymentUpdateManyWithWhereWithoutReceivingAccountInput = {
+  where: Prisma.PaymentScalarWhereInput
+  data: Prisma.XOR<Prisma.PaymentUpdateManyMutationInput, Prisma.PaymentUncheckedUpdateManyWithoutReceivingAccountInput>
+}
+
+export type PaymentScalarWhereInput = {
+  AND?: Prisma.PaymentScalarWhereInput | Prisma.PaymentScalarWhereInput[]
+  OR?: Prisma.PaymentScalarWhereInput[]
+  NOT?: Prisma.PaymentScalarWhereInput | Prisma.PaymentScalarWhereInput[]
+  id?: Prisma.StringFilter<"Payment"> | string
+  orderId?: Prisma.StringFilter<"Payment"> | string
+  receivingAccountId?: Prisma.StringNullableFilter<"Payment"> | string | null
+  provider?: Prisma.StringFilter<"Payment"> | string
+  providerTransactionId?: Prisma.StringNullableFilter<"Payment"> | string | null
+  merchantReference?: Prisma.StringNullableFilter<"Payment"> | string | null
+  amount?: Prisma.DecimalFilter<"Payment"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFilter<"Payment"> | string
+  customerPhone?: Prisma.StringFilter<"Payment"> | string
+  status?: Prisma.EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
+  failureReason?: Prisma.StringNullableFilter<"Payment"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Payment"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Payment"> | Date | string
+  completedAt?: Prisma.DateTimeNullableFilter<"Payment"> | Date | string | null
+  metadata?: Prisma.JsonNullableFilter<"Payment">
+  rawResponse?: Prisma.StringNullableFilter<"Payment"> | string | null
+}
+
 export type PaymentCreateWithoutEcoCashTransactionInput = {
   id?: string
   provider?: string
@@ -784,6 +954,7 @@ export type PaymentCreateWithoutEcoCashTransactionInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rawResponse?: string | null
   order: Prisma.OrderCreateNestedOneWithoutPaymentInput
+  receivingAccount?: Prisma.EcoCashReceivingAccountCreateNestedOneWithoutPaymentsInput
   proofs?: Prisma.PaymentProofCreateNestedManyWithoutPaymentInput
   auditLogs?: Prisma.PaymentAuditLogCreateNestedManyWithoutPaymentInput
 }
@@ -791,6 +962,7 @@ export type PaymentCreateWithoutEcoCashTransactionInput = {
 export type PaymentUncheckedCreateWithoutEcoCashTransactionInput = {
   id?: string
   orderId: string
+  receivingAccountId?: string | null
   provider?: string
   providerTransactionId?: string | null
   merchantReference?: string | null
@@ -840,6 +1012,7 @@ export type PaymentUpdateWithoutEcoCashTransactionInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rawResponse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.OrderUpdateOneRequiredWithoutPaymentNestedInput
+  receivingAccount?: Prisma.EcoCashReceivingAccountUpdateOneWithoutPaymentsNestedInput
   proofs?: Prisma.PaymentProofUpdateManyWithoutPaymentNestedInput
   auditLogs?: Prisma.PaymentAuditLogUpdateManyWithoutPaymentNestedInput
 }
@@ -847,6 +1020,7 @@ export type PaymentUpdateWithoutEcoCashTransactionInput = {
 export type PaymentUncheckedUpdateWithoutEcoCashTransactionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   orderId?: Prisma.StringFieldUpdateOperationsInput | string
+  receivingAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   providerTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   merchantReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -880,6 +1054,7 @@ export type PaymentCreateWithoutProofsInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rawResponse?: string | null
   order: Prisma.OrderCreateNestedOneWithoutPaymentInput
+  receivingAccount?: Prisma.EcoCashReceivingAccountCreateNestedOneWithoutPaymentsInput
   ecoCashTransaction?: Prisma.EcoCashTransactionCreateNestedOneWithoutPaymentInput
   auditLogs?: Prisma.PaymentAuditLogCreateNestedManyWithoutPaymentInput
 }
@@ -887,6 +1062,7 @@ export type PaymentCreateWithoutProofsInput = {
 export type PaymentUncheckedCreateWithoutProofsInput = {
   id?: string
   orderId: string
+  receivingAccountId?: string | null
   provider?: string
   providerTransactionId?: string | null
   merchantReference?: string | null
@@ -936,6 +1112,7 @@ export type PaymentUpdateWithoutProofsInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rawResponse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.OrderUpdateOneRequiredWithoutPaymentNestedInput
+  receivingAccount?: Prisma.EcoCashReceivingAccountUpdateOneWithoutPaymentsNestedInput
   ecoCashTransaction?: Prisma.EcoCashTransactionUpdateOneWithoutPaymentNestedInput
   auditLogs?: Prisma.PaymentAuditLogUpdateManyWithoutPaymentNestedInput
 }
@@ -943,6 +1120,7 @@ export type PaymentUpdateWithoutProofsInput = {
 export type PaymentUncheckedUpdateWithoutProofsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   orderId?: Prisma.StringFieldUpdateOperationsInput | string
+  receivingAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   providerTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   merchantReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -976,6 +1154,7 @@ export type PaymentCreateWithoutAuditLogsInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rawResponse?: string | null
   order: Prisma.OrderCreateNestedOneWithoutPaymentInput
+  receivingAccount?: Prisma.EcoCashReceivingAccountCreateNestedOneWithoutPaymentsInput
   ecoCashTransaction?: Prisma.EcoCashTransactionCreateNestedOneWithoutPaymentInput
   proofs?: Prisma.PaymentProofCreateNestedManyWithoutPaymentInput
 }
@@ -983,6 +1162,7 @@ export type PaymentCreateWithoutAuditLogsInput = {
 export type PaymentUncheckedCreateWithoutAuditLogsInput = {
   id?: string
   orderId: string
+  receivingAccountId?: string | null
   provider?: string
   providerTransactionId?: string | null
   merchantReference?: string | null
@@ -1032,11 +1212,72 @@ export type PaymentUpdateWithoutAuditLogsInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   rawResponse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.OrderUpdateOneRequiredWithoutPaymentNestedInput
+  receivingAccount?: Prisma.EcoCashReceivingAccountUpdateOneWithoutPaymentsNestedInput
   ecoCashTransaction?: Prisma.EcoCashTransactionUpdateOneWithoutPaymentNestedInput
   proofs?: Prisma.PaymentProofUpdateManyWithoutPaymentNestedInput
 }
 
 export type PaymentUncheckedUpdateWithoutAuditLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  orderId?: Prisma.StringFieldUpdateOperationsInput | string
+  receivingAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provider?: Prisma.StringFieldUpdateOperationsInput | string
+  providerTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  merchantReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  customerPhone?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  failureReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  rawResponse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ecoCashTransaction?: Prisma.EcoCashTransactionUncheckedUpdateOneWithoutPaymentNestedInput
+  proofs?: Prisma.PaymentProofUncheckedUpdateManyWithoutPaymentNestedInput
+}
+
+export type PaymentCreateManyReceivingAccountInput = {
+  id?: string
+  orderId: string
+  provider?: string
+  providerTransactionId?: string | null
+  merchantReference?: string | null
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  customerPhone: string
+  status?: $Enums.PaymentStatus
+  failureReason?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  completedAt?: Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  rawResponse?: string | null
+}
+
+export type PaymentUpdateWithoutReceivingAccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.StringFieldUpdateOperationsInput | string
+  providerTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  merchantReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  customerPhone?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  failureReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  rawResponse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order?: Prisma.OrderUpdateOneRequiredWithoutPaymentNestedInput
+  ecoCashTransaction?: Prisma.EcoCashTransactionUpdateOneWithoutPaymentNestedInput
+  proofs?: Prisma.PaymentProofUpdateManyWithoutPaymentNestedInput
+  auditLogs?: Prisma.PaymentAuditLogUpdateManyWithoutPaymentNestedInput
+}
+
+export type PaymentUncheckedUpdateWithoutReceivingAccountInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   orderId?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1054,6 +1295,25 @@ export type PaymentUncheckedUpdateWithoutAuditLogsInput = {
   rawResponse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ecoCashTransaction?: Prisma.EcoCashTransactionUncheckedUpdateOneWithoutPaymentNestedInput
   proofs?: Prisma.PaymentProofUncheckedUpdateManyWithoutPaymentNestedInput
+  auditLogs?: Prisma.PaymentAuditLogUncheckedUpdateManyWithoutPaymentNestedInput
+}
+
+export type PaymentUncheckedUpdateManyWithoutReceivingAccountInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  orderId?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.StringFieldUpdateOperationsInput | string
+  providerTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  merchantReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  customerPhone?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  failureReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  rawResponse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1099,6 +1359,7 @@ export type PaymentCountOutputTypeCountAuditLogsArgs<ExtArgs extends runtime.Typ
 export type PaymentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   orderId?: boolean
+  receivingAccountId?: boolean
   provider?: boolean
   providerTransactionId?: boolean
   merchantReference?: boolean
@@ -1113,6 +1374,7 @@ export type PaymentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   metadata?: boolean
   rawResponse?: boolean
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
+  receivingAccount?: boolean | Prisma.Payment$receivingAccountArgs<ExtArgs>
   ecoCashTransaction?: boolean | Prisma.Payment$ecoCashTransactionArgs<ExtArgs>
   proofs?: boolean | Prisma.Payment$proofsArgs<ExtArgs>
   auditLogs?: boolean | Prisma.Payment$auditLogsArgs<ExtArgs>
@@ -1122,6 +1384,7 @@ export type PaymentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type PaymentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   orderId?: boolean
+  receivingAccountId?: boolean
   provider?: boolean
   providerTransactionId?: boolean
   merchantReference?: boolean
@@ -1136,11 +1399,13 @@ export type PaymentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   metadata?: boolean
   rawResponse?: boolean
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
+  receivingAccount?: boolean | Prisma.Payment$receivingAccountArgs<ExtArgs>
 }, ExtArgs["result"]["payment"]>
 
 export type PaymentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   orderId?: boolean
+  receivingAccountId?: boolean
   provider?: boolean
   providerTransactionId?: boolean
   merchantReference?: boolean
@@ -1155,11 +1420,13 @@ export type PaymentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   metadata?: boolean
   rawResponse?: boolean
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
+  receivingAccount?: boolean | Prisma.Payment$receivingAccountArgs<ExtArgs>
 }, ExtArgs["result"]["payment"]>
 
 export type PaymentSelectScalar = {
   id?: boolean
   orderId?: boolean
+  receivingAccountId?: boolean
   provider?: boolean
   providerTransactionId?: boolean
   merchantReference?: boolean
@@ -1175,9 +1442,10 @@ export type PaymentSelectScalar = {
   rawResponse?: boolean
 }
 
-export type PaymentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "orderId" | "provider" | "providerTransactionId" | "merchantReference" | "amount" | "currency" | "customerPhone" | "status" | "failureReason" | "createdAt" | "updatedAt" | "completedAt" | "metadata" | "rawResponse", ExtArgs["result"]["payment"]>
+export type PaymentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "orderId" | "receivingAccountId" | "provider" | "providerTransactionId" | "merchantReference" | "amount" | "currency" | "customerPhone" | "status" | "failureReason" | "createdAt" | "updatedAt" | "completedAt" | "metadata" | "rawResponse", ExtArgs["result"]["payment"]>
 export type PaymentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
+  receivingAccount?: boolean | Prisma.Payment$receivingAccountArgs<ExtArgs>
   ecoCashTransaction?: boolean | Prisma.Payment$ecoCashTransactionArgs<ExtArgs>
   proofs?: boolean | Prisma.Payment$proofsArgs<ExtArgs>
   auditLogs?: boolean | Prisma.Payment$auditLogsArgs<ExtArgs>
@@ -1185,15 +1453,18 @@ export type PaymentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
 }
 export type PaymentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
+  receivingAccount?: boolean | Prisma.Payment$receivingAccountArgs<ExtArgs>
 }
 export type PaymentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
+  receivingAccount?: boolean | Prisma.Payment$receivingAccountArgs<ExtArgs>
 }
 
 export type $PaymentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Payment"
   objects: {
     order: Prisma.$OrderPayload<ExtArgs>
+    receivingAccount: Prisma.$EcoCashReceivingAccountPayload<ExtArgs> | null
     ecoCashTransaction: Prisma.$EcoCashTransactionPayload<ExtArgs> | null
     proofs: Prisma.$PaymentProofPayload<ExtArgs>[]
     auditLogs: Prisma.$PaymentAuditLogPayload<ExtArgs>[]
@@ -1201,6 +1472,7 @@ export type $PaymentPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     orderId: string
+    receivingAccountId: string | null
     provider: string
     providerTransactionId: string | null
     merchantReference: string | null
@@ -1609,6 +1881,7 @@ readonly fields: PaymentFieldRefs;
 export interface Prisma__PaymentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   order<T extends Prisma.OrderDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrderDefaultArgs<ExtArgs>>): Prisma.Prisma__OrderClient<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  receivingAccount<T extends Prisma.Payment$receivingAccountArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Payment$receivingAccountArgs<ExtArgs>>): Prisma.Prisma__EcoCashReceivingAccountClient<runtime.Types.Result.GetResult<Prisma.$EcoCashReceivingAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   ecoCashTransaction<T extends Prisma.Payment$ecoCashTransactionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Payment$ecoCashTransactionArgs<ExtArgs>>): Prisma.Prisma__EcoCashTransactionClient<runtime.Types.Result.GetResult<Prisma.$EcoCashTransactionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   proofs<T extends Prisma.Payment$proofsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Payment$proofsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentProofPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   auditLogs<T extends Prisma.Payment$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Payment$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentAuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -1643,6 +1916,7 @@ export interface Prisma__PaymentClient<T, Null = never, ExtArgs extends runtime.
 export interface PaymentFieldRefs {
   readonly id: Prisma.FieldRef<"Payment", 'String'>
   readonly orderId: Prisma.FieldRef<"Payment", 'String'>
+  readonly receivingAccountId: Prisma.FieldRef<"Payment", 'String'>
   readonly provider: Prisma.FieldRef<"Payment", 'String'>
   readonly providerTransactionId: Prisma.FieldRef<"Payment", 'String'>
   readonly merchantReference: Prisma.FieldRef<"Payment", 'String'>
@@ -2054,6 +2328,25 @@ export type PaymentDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Payments to delete.
    */
   limit?: number
+}
+
+/**
+ * Payment.receivingAccount
+ */
+export type Payment$receivingAccountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EcoCashReceivingAccount
+   */
+  select?: Prisma.EcoCashReceivingAccountSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EcoCashReceivingAccount
+   */
+  omit?: Prisma.EcoCashReceivingAccountOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EcoCashReceivingAccountInclude<ExtArgs> | null
+  where?: Prisma.EcoCashReceivingAccountWhereInput
 }
 
 /**

@@ -221,6 +221,7 @@ model Device {
 model Order {
   id              String      @id @default(cuid())
   orderNumber     String      @unique
+  paymentReference String     @unique // Unique payment reference for customer
   userId          String?
   customerName    String
   customerEmail   String
@@ -247,6 +248,7 @@ model Order {
   @@index([userId])
   @@index([status])
   @@index([paymentStatus])
+  @@index([paymentReference])
   @@index([createdAt])
 }
 
@@ -290,9 +292,28 @@ model OrderItem {
   variant ProductVariant @relation(fields: [variantId], references: [id])
 }
 
+// EcoCash Receiving Accounts (CEO/business EcoCash numbers)
+model EcoCashReceivingAccount {
+  id          String   @id @default(cuid())
+  name        String   // e.g., "CEO 1 - Artwell", "CEO 2 - Sabeka"
+  phoneNumber String   @unique // EcoCash number
+  isActive    Boolean  @default(true)
+  isDefault   Boolean  @default(false) // Default account for new orders
+  notes       String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  payments          Payment[]
+  transactions       EcoCashTransaction[]
+
+  @@index([isActive])
+  @@index([isDefault])
+}
+
 model Payment {
   id                    String   @id @default(cuid())
   orderId               String   @unique
+  receivingAccountId    String?  // Link to specific EcoCash receiving account
   provider              String   @default("ecocash")
   providerTransactionId String?  @unique
   merchantReference     String?  @unique
@@ -307,7 +328,8 @@ model Payment {
   metadata              Json?
   rawResponse           String?  @db.Text
 
-  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  order             Order                  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  receivingAccount  EcoCashReceivingAccount? @relation(fields: [receivingAccountId], references: [id])
   ecoCashTransaction EcoCashTransaction?
   proofs PaymentProof[]
   auditLogs PaymentAuditLog[]
@@ -315,6 +337,7 @@ model Payment {
   @@index([status])
   @@index([providerTransactionId])
   @@index([merchantReference])
+  @@index([receivingAccountId])
   @@index([createdAt])
 }
 
@@ -322,6 +345,7 @@ model Payment {
 model EcoCashTransaction {
   id                    String   @id @default(cuid())
   transactionReference String   @unique
+  receivingAccountId    String?  // Link to receiving account
   amount                Decimal  @db.Decimal(10, 2)
   currency              String   @default("USD")
   senderPhone           String
@@ -337,7 +361,8 @@ model EcoCashTransaction {
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 
-  payment Payment? @relation(fields: [matchedPaymentId], references: [id])
+  payment            Payment?                @relation(fields: [matchedPaymentId], references: [id])
+  receivingAccount   EcoCashReceivingAccount? @relation(fields: [receivingAccountId], references: [id])
 
   @@index([transactionReference])
   @@index([amount])
@@ -345,6 +370,7 @@ model EcoCashTransaction {
   @@index([receivedAt])
   @@index([status])
   @@index([matchedPaymentId])
+  @@index([receivingAccountId])
 }
 
 enum EcoCashTransactionStatus {
@@ -1097,6 +1123,28 @@ model SupportSettings {
   rateLimitPerMinute  Int      @default(10)
   rateLimitPerHour    Int      @default(100)
   updatedAt           DateTime @updatedAt
+}
+
+model Announcement {
+  id          String           @id @default(cuid())
+  message     String
+  type        AnnouncementType @default(INFORMATIONAL)
+  isActive    Boolean          @default(true)
+  priority    Int              @default(0)
+  startDate   DateTime?
+  endDate     DateTime?
+  scrollingSpeed Int           @default(30)
+  displayDuration Int           @default(0)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+enum AnnouncementType {
+  PROMOTIONAL
+  INFORMATIONAL
+  STOCK
+  DELIVERY
+  URGENT
 }
 
 
