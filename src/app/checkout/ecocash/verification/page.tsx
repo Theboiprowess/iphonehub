@@ -2,7 +2,8 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { Button, LinkButton } from "@/components/ui/button";
+import { CtaGroup } from "@/components/ui/cta-group";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatPrice } from "@/lib/utils";
 import { Loader2, CheckCircle, Clock, AlertCircle, RefreshCw } from "lucide-react";
@@ -200,43 +201,65 @@ function EcoCashVerificationContent() {
               )}
 
               {/* Actions */}
-              <div className="flex gap-3">
+              <CtaGroup>
                 {payment?.status === 'AWAITING_PROOF' && (
-                  <Button
-                    onClick={() => router.push(`/checkout/ecocash/proof?orderId=${orderId}`)}
-                    className="flex-1 bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]"
+                  <LinkButton
+                    href={`/checkout/ecocash/proof?orderId=${orderId}`}
+                    variant="primary"
+                    goldGlow
+                    className="flex-1"
                   >
                     Submit Proof
-                  </Button>
+                  </LinkButton>
                 )}
                 
                 {(payment?.status === 'VERIFIED' || payment?.status === 'APPROVED') && (
-                  <Button
-                    onClick={() => router.push(`/checkout/success?orderId=${orderId}`)}
-                    className="flex-1 bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]"
-                  >
-                    View Order
-                  </Button>
+                  <>
+                    <LinkButton
+                      href={`/checkout/success?orderId=${orderId}`}
+                      variant="primary"
+                      goldGlow
+                      className="flex-1"
+                    >
+                      View Order
+                    </LinkButton>
+                    <LinkButton
+                      href="/thank-you"
+                      variant="tertiary"
+                      className="flex-1"
+                    >
+                      Thank You
+                    </LinkButton>
+                  </>
                 )}
                 
                 {(payment?.status === 'MISMATCH' || payment?.status === 'MANUAL_REVIEW' || payment?.status === 'REJECTED') && (
-                  <Button
-                    onClick={() => router.push('/contact')}
-                    variant="outline"
-                    className="flex-1 border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586]/10"
-                  >
-                    Contact Support
-                  </Button>
+                  <>
+                    <LinkButton
+                      href="/contact"
+                      variant="secondary"
+                      className="flex-1"
+                    >
+                      Contact Support
+                    </LinkButton>
+                    <LinkButton
+                      href="/thank-you"
+                      variant="tertiary"
+                      className="flex-1"
+                    >
+                      Thank You
+                    </LinkButton>
+                  </>
                 )}
                 
-                <Button
-                  onClick={() => router.push(`/order/${orderId}`)}
-                  variant="outline"
-                  className="flex-1 border-gray-300 text-gray-600 hover:bg-gray-50"
+                <LinkButton
+                  href={`/order/${orderId}`}
+                  variant="tertiary"
+                  className="flex-1"
                 >
                   View Order Details
-                </Button>
-              </div>
+                </LinkButton>
+              </CtaGroup>
 
               {/* Refresh Button */}
               {payment?.status === 'PROOF_SUBMITTED' || payment?.status === 'MATCHING' ? (

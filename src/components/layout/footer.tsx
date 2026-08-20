@@ -1,24 +1,34 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Phone, Mail, MapPin, MessageCircle, Share2, Download } from "lucide-react";
 
 export function Footer() {
   return (
     <footer className="bg-[#0E161B] wood-texture">
-      <div className="site-container py-10 sm:py-12 lg:py-16">
+      <div className="site-container py-12 sm:py-16 lg:py-20">
         {/* Main Navigation Section */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-12 mb-8 sm:mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 mb-12 sm:mb-16 min-w-0">
           {/* Company Info - Full width on mobile */}
-          <div className="space-y-4 sm:col-span-2 lg:col-span-1">
-            <div className="space-y-3">
-              <h3 className="text-lg font-bold text-[#CDB586] font-manrope">
-                iPhone Hub Zimbabwe
-              </h3>
+          <div className="space-y-6 sm:col-span-2 lg:col-span-1 min-w-0">
+            <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                <Image
+                  src="/logo icon.jpeg"
+                  alt="iPhone Hub Zimbabwe"
+                  width={56}
+                  height={56}
+                  className="h-14 w-14 rounded-lg object-contain"
+                />
+                <h3 className="text-lg font-bold text-[#CDB586] font-manrope">
+                  iPhone Hub Zimbabwe
+                </h3>
+              </div>
               <div className="h-px w-12 bg-[#CDB586]/30"></div>
             </div>
             <p className="text-[#EBE2C5]/80 text-sm leading-relaxed">
               Based in Masvingo, serving customers across Zimbabwe with quality boxed, pre-owned, and second-hand iPhones.
             </p>
-            <div className="flex space-x-4 pt-2">
+            <div className="flex space-x-4 pt-4">
               <Link 
                 href="#" 
                 className="text-[#EBE2C5]/60 hover:text-[#CDB586] transition-colors"
@@ -30,14 +40,14 @@ export function Footer() {
           </div>
 
           {/* Shop + Company - Side by side on mobile */}
-          <div className="grid grid-cols-2 gap-6 sm:col-span-2 lg:col-span-2">
+          <div className="grid grid-cols-2 gap-8 sm:col-span-2 lg:col-span-2 min-w-0">
             {/* Shop */}
-            <div className="space-y-4">
-              <div className="space-y-3">
+            <div className="space-y-6 min-w-0">
+              <div className="space-y-4">
                 <h4 className="text-sm font-semibold text-[#CDB586] font-manrope uppercase tracking-wider">Shop</h4>
                 <div className="h-px w-12 bg-[#CDB586]/30"></div>
               </div>
-              <ul className="space-y-2.5">
+              <ul className="space-y-3">
                 <li>
                   <Link href="/iphones" className="text-sm text-[#EBE2C5]/80 hover:text-[#CDB586] transition-colors">
                     All iPhones
@@ -72,12 +82,12 @@ export function Footer() {
             </div>
 
             {/* Company */}
-            <div className="space-y-4">
-              <div className="space-y-3">
+            <div className="space-y-6 min-w-0">
+              <div className="space-y-4">
                 <h4 className="text-sm font-semibold text-[#CDB586] font-manrope uppercase tracking-wider">Company</h4>
                 <div className="h-px w-12 bg-[#CDB586]/30"></div>
               </div>
-              <ul className="space-y-2.5">
+              <ul className="space-y-3">
                 <li>
                   <Link href="/about" className="text-sm text-[#EBE2C5]/80 hover:text-[#CDB586] transition-colors">
                     About Us
@@ -108,12 +118,12 @@ export function Footer() {
           </div>
 
           {/* Contact - Full width on mobile, separate column on tablet/desktop */}
-          <div className="space-y-4 sm:col-span-2 lg:col-span-1">
-            <div className="space-y-3">
+          <div className="space-y-6 sm:col-span-2 lg:col-span-1 min-w-0">
+            <div className="space-y-4">
               <h4 className="text-sm font-semibold text-[#CDB586] font-manrope uppercase tracking-wider">Contact</h4>
               <div className="h-px w-12 bg-[#CDB586]/30"></div>
             </div>
-            <ul className="space-y-3">
+            <ul className="space-y-4">
               <li className="flex items-start gap-3 text-sm text-[#EBE2C5]/80">
                 <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0 text-[#CDB586]" />
                 <span>Masvingo, Zimbabwe</span>
@@ -155,12 +165,12 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-[#CDB586]/20 pt-6">
+        <div className="border-t border-[#CDB586]/20 pt-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="text-sm text-[#EBE2C5]/60">
               © {new Date().getFullYear()} iPhone Hub Zimbabwe. All rights reserved.
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-6">
               <Link
                 href="/privacy"
                 className="text-sm text-[#EBE2C5]/60 hover:text-[#CDB586] transition-colors"
@@ -177,7 +187,7 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div className="h-16"></div>
+      <div className="h-20"></div>
     </footer>
   );
 }

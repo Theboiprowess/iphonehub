@@ -8,6 +8,9 @@ import { CatalogueProductCard } from "@/components/catalogue-product-card";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
 import { AdminPageContainer } from "@/components/admin/admin-page-container";
+import { AdminCard } from "@/components/admin/admin-card";
+import { SearchToolbar } from "@/components/admin/search-toolbar";
+import { EmptyState } from "@/components/admin/empty-state";
 
 export default function CatalogueAdminPage() {
   const [loading, setLoading] = useState(true);
@@ -184,15 +187,17 @@ export default function CatalogueAdminPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <Loader2 className="h-8 w-8 animate-spin text-[#CAA45A]" />
-      </div>
+      <AdminPageContainer>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <Loader2 className="h-8 w-8 animate-spin text-[#CAA45A]" />
+        </div>
+      </AdminPageContainer>
     );
   }
 
   return (
     <AdminPageContainer>
-      <div className="space-y-6">
+      <div className="space-y-6 admin-page-container text-center">
         {/* Header */}
         <AdminPageHeader 
           title="Price Catalogue"
@@ -200,21 +205,12 @@ export default function CatalogueAdminPage() {
         />
 
       {/* Toolbar */}
-      <div className="bg-white rounded-xl shadow-sm border border-[#CDB586]/20 p-4">
-        <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
-          {/* Search */}
-          <div className="relative flex-1 min-w-0 max-w-2xl w-full">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5F3C18]/40" />
-            <Input
-              placeholder="Search catalogue..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 h-10 w-full"
-            />
-          </div>
-
-          {/* Actions */}
-          <div className="flex items-center gap-3 flex-shrink-0 flex-wrap">
+      <SearchToolbar
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="Search catalogue..."
+        filters={
+          <>
             <select
               value={selectedSeries}
               onChange={(e) => setSelectedSeries(e.target.value)}
@@ -238,89 +234,81 @@ export default function CatalogueAdminPage() {
               <Plus className="h-4 w-4 mr-2" />
               Add Item
             </Button>
-          </div>
-        </div>
-      </div>
+          </>
+        }
+      />
 
       {/* Empty State */}
       {catalogue.length === 0 ? (
-        <div className="bg-gradient-to-br from-white to-[#F7F5EF] rounded-2xl shadow-lg border border-[#CDB586]/30 p-16 text-center">
-          <div className="inline-flex items-center justify-center w-24 h-24 rounded-2xl bg-gradient-to-br from-[#CDB586]/20 to-[#CDB586]/10 mb-8 shadow-lg">
-            <Package className="h-12 w-12 text-[#CAA45A]" />
-          </div>
-          <h3 className="text-3xl font-bold text-[#0E161B] mb-4 font-manrope">No catalogue items yet</h3>
-          <p className="text-[#5F3C18] mb-10 max-w-lg mx-auto text-lg leading-relaxed">
-            Start building your iPhone price catalogue by adding your first item. This will help you manage pricing and inventory professionally.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              onClick={handleMigrate}
-              disabled={migrating}
-              variant="outline"
-              className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586]/10 h-12 px-8 text-base font-semibold"
-            >
-              {migrating ? 'Updating Schema...' : 'Update Database Schema'}
-            </Button>
-            <Button
-              onClick={() => setShowImportModal(true)}
-              variant="outline"
-              className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586]/10 h-12 px-8 text-base font-semibold"
-            >
-              Import Items
-            </Button>
-            <Button className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] h-12 px-8 text-base font-semibold shadow-md">
-              <Plus className="h-5 w-5 mr-2" />
-              Add Catalogue Item
-            </Button>
-          </div>
-        </div>
+        <AdminCard>
+          <EmptyState
+            icon={Package}
+            title="No catalogue items yet"
+            description="Start building your iPhone price catalogue by adding your first item. This will help you manage pricing and inventory professionally."
+            actions={
+              <>
+                <Button 
+                  onClick={handleMigrate}
+                  disabled={migrating}
+                  variant="outline"
+                  className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586]/10 h-12 px-8 text-base font-semibold"
+                >
+                  {migrating ? 'Updating Schema...' : 'Update Database Schema'}
+                </Button>
+                <Button
+                  onClick={() => setShowImportModal(true)}
+                  variant="outline"
+                  className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586]/10 h-12 px-8 text-base font-semibold"
+                >
+                  Import Items
+                </Button>
+                <Button className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] h-12 px-8 text-base font-semibold shadow-md">
+                  <Plus className="h-5 w-5 mr-2" />
+                  Add Catalogue Item
+                </Button>
+              </>
+            }
+          />
+        </AdminCard>
       ) : (
         /* Catalogue Display */
         <div className="space-y-6">
           {Object.entries(groupedBySeries).map(([series, items]: [string, any[]]) => (
-            <div key={series} className="bg-white rounded-2xl shadow-sm border border-[#CDB586]/20 overflow-hidden">
-              <div className="px-6 py-4 border-b border-[#CDB586]/20 bg-[#F7F5EF]/30">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-bold text-[#0E161B] font-manrope">{series}</h2>
-                  <span className="text-sm text-[#5F3C18] font-medium px-3 py-1 bg-[#CDB586]/20 rounded-full">{items.length} items</span>
-                </div>
-              </div>
-              <div className="p-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5">
-                  {items.map((item: any) => (
-                    <div key={item.id} className="relative group min-w-0">
-                      <CatalogueProductCard
-                        model={item.model}
-                        storage={item.storage}
-                        price={Number(item.price)}
-                        imageKey={item.imageKey}
-                        imageOverride={item.imageOverride}
-                      />
-                      {/* Actions overlay */}
-                      <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button size="icon" variant="secondary" className="bg-white/90 backdrop-blur shadow-md hover:bg-white h-8 w-8">
-                              <MoreVertical className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem>
-                              <Edit className="h-4 w-4 mr-2" />
-                              Edit
-                            </DropdownMenuItem>
-                            <DropdownMenuItem className="text-red-600">
-                              <Trash2 className="h-4 w-4 mr-2" />
-                              Delete
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </div>
+            <AdminCard key={series} title={series} subtitle={`${items.length} items`}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5">
+                {items.map((item: any) => (
+                  <div key={item.id} className="relative group min-w-0">
+                    <CatalogueProductCard
+                      model={item.model}
+                      storage={item.storage}
+                      price={Number(item.price)}
+                      imageKey={item.imageKey}
+                      imageOverride={item.imageOverride}
+                    />
+                    {/* Actions overlay */}
+                    <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button size="icon" variant="secondary" className="bg-white/90 backdrop-blur shadow-md hover:bg-white h-8 w-8">
+                            <MoreVertical className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem>
+                            <Edit className="h-4 w-4 mr-2" />
+                            Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem className="text-red-600">
+                            <Trash2 className="h-4 w-4 mr-2" />
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
-            </div>
+            </AdminCard>
           ))}
         </div>
       )}

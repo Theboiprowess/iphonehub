@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { ecoCashProvider } from '@/lib/payment/ecocash-provider';
-import { sendOrderConfirmationEmail } from '@/lib/email';
+import { sendOrderConfirmationEmail, sendPaymentSuccessEmail } from '@/lib/email';
 import crypto from 'crypto';
 
 /**
@@ -227,45 +227,20 @@ export async function POST(req: NextRequest) {
         }
       });
 
-      // Send payment confirmation email
+      // Send payment success email
       const orderWithDetails = await prisma.order.findUnique({
         where: { id: payment.orderId },
-        include: {
-          items: {
-            include: {
-              variant: {
-                include: {
-                  product: true,
-                },
-              },
-            },
-          },
-        },
       });
 
       if (orderWithDetails) {
-        const emailItems = orderWithDetails.items.map((item) => ({
-          name: item.variant.product.name,
-          storage: item.variant.storage,
-          colour: item.variant.colour,
-          quantity: item.quantity,
-          price: Number(item.price),
-        }));
-
-        // Send customer confirmation (fire and forget)
-        sendOrderConfirmationEmail({
+        // Send payment success email (fire and forget)
+        sendPaymentSuccessEmail({
           customerName: orderWithDetails.customerName,
           customerEmail: orderWithDetails.customerEmail,
           orderNumber: orderWithDetails.orderNumber,
-          items: emailItems,
-          subtotal: Number(orderWithDetails.subtotal),
-          deliveryFee: Number(orderWithDetails.deliveryFee),
-          total: Number(orderWithDetails.total),
-          deliveryMethod: orderWithDetails.deliveryMethod,
-          deliveryAddress: orderWithDetails.deliveryAddress || undefined,
-          city: orderWithDetails.city || undefined,
-          paymentMethod: orderWithDetails.paymentMethod,
-        }).catch((err) => console.error('Failed to send payment confirmation email:', err));
+          orderTotal: Number(orderWithDetails.total),
+          paymentDate: new Date().toISOString(),
+        }).catch((err) => console.error('Failed to send payment success email:', err));
       }
 
     } else if (['REJECTED', 'CANCELLED', 'EXPIRED'].includes(mappedStatus)) {

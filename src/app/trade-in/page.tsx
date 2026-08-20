@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { CtaGroup } from "@/components/ui/cta-group";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,6 +14,7 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { Smartphone, ArrowRight, ArrowLeft, Upload, MessageCircle, Phone, ArrowRightLeft, Camera, SearchCheck, ArrowUpRight } from "lucide-react";
 
 export default function TradeInPage() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -110,33 +113,8 @@ ${formData.notes}`;
           window.open(`https://wa.me/${number}?text=${encodeURIComponent(tradeInMessage)}`, "_blank");
         });
 
-        alert("Trade-in request submitted successfully! Both CEOs have been notified via WhatsApp.");
-        // Reset form
-        setCurrentStep(1);
-        setFormData({
-          name: "",
-          phone: "",
-          whatsapp: "",
-          email: "",
-          currentModel: "",
-          storage: "",
-          colour: "",
-          batteryHealth: "",
-          condition: "",
-          powersOn: false,
-          touchscreenWorking: false,
-          camerasWorking: false,
-          faceIdWorking: false,
-          chargingPortWorking: false,
-          allButtonsWorking: false,
-          hasOriginalBox: false,
-          hasChargingCable: false,
-          hasCharger: false,
-          hasReceipt: false,
-          otherAccessories: "",
-          photos: [] as File[],
-          notes: "",
-        });
+        // Redirect to thank-you page
+        router.push("/thank-you");
       } else {
         alert("Failed to submit trade-in request. Please try again.");
       }
@@ -175,33 +153,33 @@ ${formData.notes}`;
       {/* Visual Trade-In Process */}
       <section className="section-spacing">
         <div className="site-container">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <div className="text-center p-6 bg-[#F7F5EF] border border-[#CDB586] rounded-lg hover:shadow-lg transition-all">
-                <div className="h-12 w-12 rounded-lg bg-[#0E161B] text-[#CDB586] flex items-center justify-center mx-auto mb-3">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 lg:gap-8 min-w-0">
+              <div className="text-center p-8 bg-[#F7F5EF] border border-[#CDB586] rounded-lg hover:shadow-lg transition-all flex flex-col items-center">
+                <div className="h-12 w-12 rounded-lg bg-[#0E161B] text-[#CDB586] flex items-center justify-center mb-4">
                   <Smartphone className="h-6 w-6" />
                 </div>
-                <div className="text-2xl font-bold text-[#CDB586] mb-2">01</div>
+                <div className="text-2xl font-bold text-[#CDB586] mb-3">01</div>
                 <p className="text-sm text-[#5F3C18]">Tell Us About Your iPhone</p>
               </div>
-              <div className="text-center p-6 bg-[#F7F5EF] border border-[#CDB586] rounded-lg hover:shadow-lg transition-all">
-                <div className="h-12 w-12 rounded-lg bg-[#0E161B] text-[#CDB586] flex items-center justify-center mx-auto mb-3">
+              <div className="text-center p-8 bg-[#F7F5EF] border border-[#CDB586] rounded-lg hover:shadow-lg transition-all flex flex-col items-center">
+                <div className="h-12 w-12 rounded-lg bg-[#0E161B] text-[#CDB586] flex items-center justify-center mb-4">
                   <Camera className="h-6 w-6" />
                 </div>
-                <div className="text-2xl font-bold text-[#CDB586] mb-2">02</div>
+                <div className="text-2xl font-bold text-[#CDB586] mb-3">02</div>
                 <p className="text-sm text-[#5F3C18]">Send Photos</p>
               </div>
-              <div className="text-center p-6 bg-[#F7F5EF] border border-[#CDB586] rounded-lg hover:shadow-lg transition-all">
-                <div className="h-12 w-12 rounded-lg bg-[#0E161B] text-[#CDB586] flex items-center justify-center mx-auto mb-3">
+              <div className="text-center p-8 bg-[#F7F5EF] border border-[#CDB586] rounded-lg hover:shadow-lg transition-all flex flex-col items-center">
+                <div className="h-12 w-12 rounded-lg bg-[#0E161B] text-[#CDB586] flex items-center justify-center mb-4">
                   <SearchCheck className="h-6 w-6" />
                 </div>
-                <div className="text-2xl font-bold text-[#CDB586] mb-2">03</div>
+                <div className="text-2xl font-bold text-[#CDB586] mb-3">03</div>
                 <p className="text-sm text-[#5F3C18]">Device Assessment</p>
               </div>
-              <div className="text-center p-6 bg-[#F7F5EF] border border-[#CDB586] rounded-lg hover:shadow-lg transition-all">
-                <div className="h-12 w-12 rounded-lg bg-[#0E161B] text-[#CDB586] flex items-center justify-center mx-auto mb-3">
+              <div className="text-center p-8 bg-[#F7F5EF] border border-[#CDB586] rounded-lg hover:shadow-lg transition-all flex flex-col items-center">
+                <div className="h-12 w-12 rounded-lg bg-[#0E161B] text-[#CDB586] flex items-center justify-center mb-4">
                   <ArrowUpRight className="h-6 w-6" />
                 </div>
-                <div className="text-2xl font-bold text-[#CDB586] mb-2">04</div>
+                <div className="text-2xl font-bold text-[#CDB586] mb-3">04</div>
                 <p className="text-sm text-[#5F3C18]">Upgrade</p>
               </div>
             </div>
@@ -212,8 +190,8 @@ ${formData.notes}`;
       <section className="section-spacing">
         <div className="site-container">
           <Card className="bg-[#F7F5EF] border-[#CDB586]">
-                <CardHeader>
-                <CardTitle className="text-[#0E161B]">Trade-In Request</CardTitle>
+                <CardHeader className="pb-6 trade-in-card-header">
+                <CardTitle className="text-[#0E161B] text-xl">Trade-In Request</CardTitle>
                 <div className="flex items-center gap-2 mt-4">
                   {[1, 2, 3, 4, 5, 6].map((step) => (
                     <div
@@ -224,48 +202,52 @@ ${formData.notes}`;
                     />
                   ))}
                 </div>
-                <p className="text-sm text-[#5F3C18] mt-2">Step {currentStep} of 6</p>
+                <p className="text-sm text-[#5F3C18] mt-3">Step {currentStep} of 6</p>
               </CardHeader>
-              <CardContent className="pt-6">
+              <CardContent className="pt-8">
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Step 1: Customer Information */}
                   {currentStep === 1 && (
-                    <div className="space-y-4">
+                    <div className="space-y-6 trade-in-step-container">
                       <h3 className="text-xl font-semibold text-[#0E161B]">Customer Information</h3>
                       <div>
-                        <Label htmlFor="name" className="text-[#5F3C18]">Full Name *</Label>
+                        <Label htmlFor="name" className="text-[#5F3C18] mb-2 block">Full Name *</Label>
                         <Input
                           id="name"
                           required
+                          className="h-11 trade-in-form-input"
                           value={formData.name}
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         />
                       </div>
                       <div>
-                        <Label htmlFor="phone" className="text-[#5F3C18]">Phone Number *</Label>
+                        <Label htmlFor="phone" className="text-[#5F3C18] mb-2 block">Phone Number *</Label>
                         <Input
                           id="phone"
                           type="tel"
                           required
+                          className="h-11 trade-in-form-input"
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         />
                       </div>
                       <div>
-                        <Label htmlFor="whatsapp" className="text-[#5F3C18]">WhatsApp Number</Label>
+                        <Label htmlFor="whatsapp" className="text-[#5F3C18] mb-2 block">WhatsApp Number</Label>
                         <Input
                           id="whatsapp"
                           type="tel"
+                          className="h-11 trade-in-form-input"
                           value={formData.whatsapp}
                           onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
                         />
                       </div>
                       <div>
-                        <Label htmlFor="email" className="text-[#5F3C18]">Email *</Label>
+                        <Label htmlFor="email" className="text-[#5F3C18] mb-2 block">Email *</Label>
                         <Input
                           id="email"
                           type="email"
                           required
+                          className="h-11 trade-in-form-input"
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         />
@@ -275,15 +257,15 @@ ${formData.notes}`;
 
                   {/* Step 2: Device */}
                   {currentStep === 2 && (
-                    <div className="space-y-4">
+                    <div className="space-y-6 trade-in-step-container">
                       <h3 className="text-xl font-semibold text-[#0E161B]">Device Information</h3>
                       <div>
-                        <Label htmlFor="currentModel" className="text-[#5F3C18]">iPhone Model *</Label>
+                        <Label htmlFor="currentModel" className="text-[#5F3C18] mb-2 block">iPhone Model *</Label>
                         <Select
                           value={formData.currentModel}
                           onValueChange={(value) => setFormData({ ...formData, currentModel: value })}
                         >
-                          <SelectTrigger>
+                          <SelectTrigger className="h-11 trade-in-form-select">
                             <SelectValue placeholder="Select your iPhone model" />
                           </SelectTrigger>
                           <SelectContent>
@@ -316,12 +298,12 @@ ${formData.notes}`;
                         </Select>
                       </div>
                       <div>
-                        <Label htmlFor="storage" className="text-[#5F3C18]">Storage *</Label>
+                        <Label htmlFor="storage" className="text-[#5F3C18] mb-2 block">Storage *</Label>
                         <Select
                           value={formData.storage}
                           onValueChange={(value) => setFormData({ ...formData, storage: value })}
                         >
-                          <SelectTrigger>
+                          <SelectTrigger className="h-11 trade-in-form-select">
                             <SelectValue placeholder="Select storage" />
                           </SelectTrigger>
                           <SelectContent>
@@ -333,12 +315,12 @@ ${formData.notes}`;
                         </Select>
                       </div>
                       <div>
-                        <Label htmlFor="colour" className="text-[#5F3C18]">Colour *</Label>
+                        <Label htmlFor="colour" className="text-[#5F3C18] mb-2 block">Colour *</Label>
                         <Select
                           value={formData.colour}
                           onValueChange={(value) => setFormData({ ...formData, colour: value })}
                         >
-                          <SelectTrigger>
+                          <SelectTrigger className="h-11 trade-in-form-select">
                             <SelectValue placeholder="Select colour" />
                           </SelectTrigger>
                           <SelectContent>
@@ -359,13 +341,14 @@ ${formData.notes}`;
                         </Select>
                       </div>
                       <div>
-                        <Label htmlFor="batteryHealth" className="text-[#5F3C18]">Battery Health (%) *</Label>
+                        <Label htmlFor="batteryHealth" className="text-[#5F3C18] mb-2 block">Battery Health (%) *</Label>
                         <Input
                           id="batteryHealth"
                           type="number"
                           min="0"
                           max="100"
                           required
+                          className="h-11 trade-in-form-input"
                           value={formData.batteryHealth}
                           onChange={(e) => setFormData({ ...formData, batteryHealth: e.target.value })}
                         />
@@ -376,7 +359,7 @@ ${formData.notes}`;
                           value={formData.condition}
                           onValueChange={(value) => setFormData({ ...formData, condition: value })}
                         >
-                          <SelectTrigger>
+                          <SelectTrigger className="trade-in-form-select">
                             <SelectValue placeholder="Select condition" />
                           </SelectTrigger>
                           <SelectContent>
@@ -392,7 +375,7 @@ ${formData.notes}`;
 
                   {/* Step 3: Device Status */}
                   {currentStep === 3 && (
-                    <div className="space-y-4">
+                    <div className="space-y-4 trade-in-step-container">
                       <h3 className="text-xl font-semibold text-[#0E161B]">Device Status</h3>
                       <div className="space-y-3">
                         <div className="flex items-center gap-3">
@@ -449,7 +432,7 @@ ${formData.notes}`;
 
                   {/* Step 4: Accessories */}
                   {currentStep === 4 && (
-                    <div className="space-y-4">
+                    <div className="space-y-4 trade-in-step-container">
                       <h3 className="text-xl font-semibold text-[#0E161B]">Accessories</h3>
                       <div className="space-y-3">
                         <div className="flex items-center gap-3">
@@ -490,6 +473,7 @@ ${formData.notes}`;
                             id="otherAccessories"
                             value={formData.otherAccessories}
                             onChange={(e) => setFormData({ ...formData, otherAccessories: e.target.value })}
+                            className="trade-in-form-input"
                           />
                         </div>
                       </div>
@@ -498,7 +482,7 @@ ${formData.notes}`;
 
                   {/* Step 5: Photos */}
                   {currentStep === 5 && (
-                    <div className="space-y-4">
+                    <div className="space-y-4 trade-in-step-container">
                       <h3 className="text-xl font-semibold text-[#0E161B]">Device Photos</h3>
                       <div>
                         <Label htmlFor="photos" className="text-[#5F3C18]">Upload Photos</Label>
@@ -508,10 +492,11 @@ ${formData.notes}`;
                           multiple
                           accept="image/*"
                           onChange={(e) => setFormData({ ...formData, photos: Array.from(e.target.files) })}
+                          className="trade-in-form-input"
                         />
                       </div>
                       {formData.photos.length > 0 && (
-                        <div className="mt-4 grid grid-cols-2 gap-4">
+                        <div className="mt-4 grid grid-cols-2 gap-4 min-w-0">
                           {formData.photos.map((photo, index) => (
                             <div key={index} className="relative">
                               <img
@@ -528,7 +513,7 @@ ${formData.notes}`;
 
                   {/* Step 6: Additional Information */}
                   {currentStep === 6 && (
-                    <div className="space-y-4">
+                    <div className="space-y-4 trade-in-step-container">
                       <h3 className="text-xl font-semibold text-[#0E161B]">Additional Information</h3>
                       <div>
                         <Label htmlFor="notes" className="text-[#5F3C18]">Notes</Label>
@@ -537,19 +522,20 @@ ${formData.notes}`;
                           value={formData.notes}
                           onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                           rows={4}
+                          className="trade-in-form-textarea"
                         />
                       </div>
                     </div>
                   )}
 
                   {/* Navigation Buttons */}
-                  <div className="flex justify-between mt-8">
+                  <CtaGroup className="justify-between mt-10 trade-in-navigation-buttons">
                     {currentStep > 1 && (
                       <Button
                         type="button"
-                        variant="outline"
+                        variant="tertiary"
                         onClick={prevStep}
-                        className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586] hover:text-[#0E161B]"
+                        className="flex-1 sm:flex-none"
                       >
                         <ArrowLeft className="mr-2 h-4 w-4" />
                         Previous
@@ -558,8 +544,9 @@ ${formData.notes}`;
                     {currentStep < 6 ? (
                       <Button
                         type="button"
+                        variant="primary"
                         onClick={nextStep}
-                        className="bg-[#0E161B] text-[#EBE2C5] hover:bg-[#1A1814]"
+                        className="flex-1 sm:flex-none"
                       >
                         Next
                         <ArrowRight className="ml-2 h-4 w-4" />
@@ -568,50 +555,54 @@ ${formData.notes}`;
                       <Button
                         type="submit"
                         disabled={loading}
-                        className="bg-[#CDB586] text-[#0E161B] hover:bg-[#B89450]"
+                        variant="primary"
+                        goldGlow
+                        className="flex-1 sm:flex-none"
                       >
                         {loading ? "Submitting..." : "Submit Trade-In Request"}
                       </Button>
                     )}
-                  </div>
+                  </CtaGroup>
                 </form>
               </CardContent>
           </Card>
 
           {/* Disclaimer */}
-          <Card className="bg-[#0E161B] border-[#CDB586] mt-8">
-            <CardContent className="p-8">
-              <h3 className="text-lg font-semibold text-[#CDB586] mb-2">Trade-In Valuation Disclaimer</h3>
-              <p className="text-[#EBE2C5]/80 text-sm">
+          <Card className="bg-[#0E161B] border-[#CDB586] mt-10 mb-20">
+            <CardContent className="p-8 trade-in-disclaimer">
+              <h3 className="text-lg font-semibold text-[#CDB586] mb-3">Trade-In Valuation Disclaimer</h3>
+              <p className="text-[#EBE2C5]/80 text-sm leading-relaxed">
                 Trade-in values are estimates and are subject to physical inspection and verification of the device. A submitted trade-in request does not constitute a guaranteed offer. Final valuation may change after inspection.
               </p>
             </CardContent>
           </Card>
 
           {/* WhatsApp CTA */}
-          <div className="text-center bg-[#0E161B] wood-texture rounded-2xl p-12 mt-8">
-            <h2 className="text-3xl font-bold mb-4 text-[#EBE2C5] font-manrope">
+          <div className="text-center bg-[#0E161B] wood-texture rounded-2xl p-12 mt-20">
+            <h2 className="text-3xl font-bold mb-6 text-[#EBE2C5] font-manrope">
             Trade-In Form Sent to Both CEOs
           </h2>
-          <p className="text-lg text-[#EBE2C5]/80 mb-8">
+          <p className="text-lg text-[#EBE2C5]/80 mb-10">
             After completing the 6-step form, your trade-in request will be sent directly to both Artwell and Sabeka via WhatsApp for valuation.
           </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <CtaGroup className="justify-center">
               <Button 
-                className="bg-[#0E161B] text-[#EBE2C5] border border-[#CDB586] hover:bg-[#1A1814]"
+                variant="secondary"
                 onClick={() => handleWhatsApp("Artwell", "773227172")}
+                className="flex-1 sm:flex-none"
               >
                 <MessageCircle className="mr-2 h-4 w-4" />
                 WHATSAPP ARTWELL
               </Button>
               <Button 
-                className="bg-[#0E161B] text-[#EBE2C5] border border-[#CDB586] hover:bg-[#1A1814]"
+                variant="secondary"
                 onClick={() => handleWhatsApp("Sabeka", "784502347")}
+                className="flex-1 sm:flex-none"
               >
                 <MessageCircle className="mr-2 h-4 w-4" />
                 WHATSAPP SABEKA
               </Button>
-            </div>
+            </CtaGroup>
           </div>
         </div>
       </section>

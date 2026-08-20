@@ -1,0 +1,5 @@
+-- AlterEnum
+ALTER TYPE "MediaCategory" ADD VALUE 'STORE';
+ALTER TYPE "MediaCategory" ADD VALUE 'TEAM';
+ALTER TYPE "MediaCategory" ADD VALUE 'CUSTOMER';
+ALTER TYPE "MediaCategory" ADD VALUE 'SERVICE';

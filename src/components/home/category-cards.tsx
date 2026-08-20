@@ -52,26 +52,26 @@ export function CategoryCards() {
           title="Shop by Category"
           subtitle="Find the perfect iPhone that fits your budget and needs"
         />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 min-w-0">
           {categories.map((category) => {
             const Icon = category.icon;
             return (
-              <Link key={category.title} href={category.href}>
-                <Card className={`${category.bgClass} border ${category.accentClass} hover:shadow-xl transition-all group cursor-pointer h-full flex flex-col text-center`}>
-                  <CardHeader className="p-6 pb-5 flex-1">
+              <Link key={category.title} href={category.href} className="min-w-0">
+                <Card className={`${category.bgClass} border ${category.accentClass} hover:shadow-xl transition-all group cursor-pointer h-full flex flex-col`}>
+                  <CardHeader className="p-8 pb-6 flex-1 flex flex-col items-center text-center">
                     {/* Icon */}
-                    <div className={`h-14 w-14 rounded-xl ${category.iconBg} ${category.iconColor} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform mx-auto`}>
-                      <Icon className="h-7 w-7" />
+                    <div className={`h-16 w-16 rounded-xl ${category.iconBg} ${category.iconColor} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
+                      <Icon className="h-8 w-8" />
                     </div>
-                    <div className="space-y-3">
-                      <CardTitle className="text-xl text-[#EBE2C5]">{category.title}</CardTitle>
+                    <div className="space-y-4">
+                      <CardTitle className="text-xl text-[#EBE2C5] text-center">{category.title}</CardTitle>
                       <div className="h-px w-12 bg-[#CDB586]/30 mx-auto"></div>
                     </div>
-                    <CardDescription className="text-[#EBE2C5]/90 text-base pt-3">{category.description}</CardDescription>
+                    <CardDescription className="text-[#EBE2C5]/90 text-base pt-4 text-center">{category.description}</CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-5 p-6 pt-0 flex-1">
+                  <CardContent className="space-y-6 p-8 pt-0 flex-1 text-center">
                     {/* Image */}
-                    <div className="aspect-[4/3] rounded-lg overflow-hidden border border-[#CDB586]/20 relative w-full">
+                    <div className="aspect-[4/3] rounded-lg overflow-hidden border border-[#CDB586]/20 relative w-full mx-auto">
                       <Image
                         src={category.image}
                         alt={category.title}
@@ -81,8 +81,8 @@ export function CategoryCards() {
                         priority={false}
                       />
                     </div>
-                    <p className="text-sm text-[#EBE2C5]/70 leading-relaxed">{category.supportingText}</p>
-                    <Button variant="outline" className="w-full border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586] hover:text-[#0E161B] group-hover:scale-105 transition-transform h-10">
+                    <p className="text-sm text-[#EBE2C5]/70 leading-relaxed text-center">{category.supportingText}</p>
+                    <Button variant="outline" className="w-full border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586] hover:text-[#0E161B] group-hover:scale-105 transition-transform h-11">
                       SHOP {category.title.split(" ")[0]}
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>

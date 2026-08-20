@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { useCart } from "@/lib/cart-context";
-import { Button } from "@/components/ui/button";
+import { Button, LinkButton } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { X, Plus, Minus, ShoppingBag } from "lucide-react";
+import { X, Plus, Minus, ShoppingBag, Trash2 } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
 
@@ -43,7 +43,7 @@ export function CartDrawer() {
                   variant="ghost"
                   size="icon"
                   onClick={() => setIsOpen(false)}
-                  className="text-[#EBE2C5] hover:text-[#CDB586]"
+                  className="text-[#EBE2C5] hover:text-[#CDB586] h-10 w-10"
                 >
                   <X className="h-5 w-5" />
                 </Button>
@@ -51,24 +51,24 @@ export function CartDrawer() {
 
               <div className="flex-1 overflow-y-auto p-6">
                 {items.length === 0 ? (
-                  <div className="text-center py-12">
+                  <div className="text-center py-16">
                     <ShoppingBag className="h-16 w-16 mx-auto text-[#CDB586]/40 mb-4" />
-                    <p className="text-[#5F3C18]">Your cart is empty</p>
+                    <p className="text-[#5F3C18] text-lg">Your cart is empty</p>
                     <Button
-                      variant="outline"
-                      className="mt-4 border-[#CDB586] text-[#5F3C18] hover:bg-[#CDB586]/10"
+                      variant="tertiary"
+                      className="mt-6"
                       onClick={() => setIsOpen(false)}
                     >
                       Continue Shopping
                     </Button>
                   </div>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="space-y-5">
                     {items.map((item) => (
                       <Card key={item.variantId} className="bg-white border-[#CDB586]/30">
-                        <CardContent className="p-4">
+                        <CardContent className="p-5">
                           <div className="flex gap-4">
-                            <div className="w-20 h-20 bg-gradient-to-br from-[#EBE2C5] to-[#F7F5EF] rounded-lg flex items-center justify-center border border-[#CDB586]/20">
+                            <div className="w-20 h-20 bg-gradient-to-br from-[#EBE2C5] to-[#F7F5EF] rounded-lg flex items-center justify-center border border-[#CDB586]/20 flex-shrink-0">
                               {item.image ? (
                                 <img
                                   src={item.image}
@@ -79,12 +79,12 @@ export function CartDrawer() {
                                 <span className="text-3xl">📱</span>
                               )}
                             </div>
-                            <div className="flex-1">
-                              <h3 className="font-medium text-[#0E161B] mb-1">{item.name}</h3>
-                              <p className="text-sm text-[#5F3C18] mb-2">
+                            <div className="flex-1 min-w-0">
+                              <h3 className="font-medium text-[#0E161B] mb-2 truncate">{item.name}</h3>
+                              <p className="text-sm text-[#5F3C18] mb-3">
                                 {item.storage} • {item.colour}
                               </p>
-                              <div className="flex items-center justify-between">
+                              <div className="flex items-center justify-between mb-3">
                                 <span className="font-semibold text-[#0E161B]">
                                   {formatPrice(item.price)}
                                 </span>
@@ -92,7 +92,7 @@ export function CartDrawer() {
                                   <Button
                                     variant="outline"
                                     size="icon"
-                                    className="h-8 w-8 border-[#CDB586] text-[#5F3C18] hover:bg-[#CDB586]/10"
+                                    className="h-9 w-9 border-[#CDB586] text-[#5F3C18] hover:bg-[#CDB586]/10"
                                     onClick={() =>
                                       updateQuantity(item.variantId, item.quantity - 1)
                                     }
@@ -103,7 +103,7 @@ export function CartDrawer() {
                                   <Button
                                     variant="outline"
                                     size="icon"
-                                    className="h-8 w-8 border-[#CDB586] text-[#5F3C18] hover:bg-[#CDB586]/10"
+                                    className="h-9 w-9 border-[#CDB586] text-[#5F3C18] hover:bg-[#CDB586]/10"
                                     onClick={() =>
                                       updateQuantity(item.variantId, item.quantity + 1)
                                     }
@@ -112,15 +112,16 @@ export function CartDrawer() {
                                   </Button>
                                 </div>
                               </div>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => removeItem(item.variantId)}
+                                className="text-red-600 hover:text-red-700 hover:bg-red-50 h-9 px-3 text-xs"
+                              >
+                                <Trash2 className="h-3 w-3 mr-1" />
+                                Remove
+                              </Button>
                             </div>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => removeItem(item.variantId)}
-                              className="text-[#5F3C18] hover:text-red-600"
-                            >
-                              <X className="h-4 w-4" />
-                            </Button>
                           </div>
                         </CardContent>
                       </Card>
@@ -130,21 +131,22 @@ export function CartDrawer() {
               </div>
 
               {items.length > 0 && (
-                <div className="border-t border-[#CDB586]/30 p-6 space-y-4 bg-[#0E161B]">
+                <div className="border-t border-[#CDB586]/30 p-6 space-y-5 bg-[#0E161B]">
                   <div className="flex justify-between text-lg font-semibold text-[#EBE2C5]">
                     <span>Subtotal</span>
                     <span>{formatPrice(subtotal)}</span>
                   </div>
                   <Separator className="bg-[#CDB586]/30" />
-                  <Link href="/checkout" className="block">
-                    <Button
-                      className="w-full bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] font-semibold"
-                      size="lg"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      Proceed to Checkout
-                    </Button>
-                  </Link>
+                  <LinkButton
+                    href="/checkout"
+                    variant="primary"
+                    goldGlow
+                    size="lg"
+                    className="w-full"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Proceed to Checkout
+                  </LinkButton>
                   <p className="text-xs text-center text-[#EBE2C5]/60">
                     Shipping and taxes calculated at checkout
                   </p>

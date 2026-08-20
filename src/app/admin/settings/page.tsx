@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { Save, Loader2, Globe, Smartphone, Palette, Shield } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { AdminPageContainer } from "@/components/admin/admin-page-container";
 
 interface WebsiteSettings {
   id?: string;
@@ -108,30 +109,35 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
-        <div className="space-y-2 min-w-0 flex-1">
-          <h1 className="text-3xl lg:text-4xl font-bold text-[#0E161B] font-manrope">Website Settings</h1>
-          <p className="text-[#5F3C18] text-base">Manage website configuration</p>
+    <AdminPageContainer>
+      <div className="space-y-8">
+        <AdminPageHeader 
+          title="Website Settings"
+          subtitle="Manage website configuration"
+        />
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+          <div className="space-y-2 min-w-0 flex-1">
+            <h1 className="text-3xl lg:text-4xl font-bold text-[#0E161B] font-manrope">Website Settings</h1>
+            <p className="text-[#5F3C18] text-base">Manage website configuration</p>
+          </div>
+          <Button
+            onClick={handleSave}
+            disabled={saving}
+            className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] flex-shrink-0"
+          >
+            {saving ? (
+              <>
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                Saving...
+              </>
+            ) : (
+              <>
+                <Save className="h-4 w-4 mr-2" />
+                Save Settings
+              </>
+            )}
+          </Button>
         </div>
-        <Button
-          onClick={handleSave}
-          disabled={saving}
-          className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] flex-shrink-0"
-        >
-          {saving ? (
-            <>
-              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-              Saving...
-            </>
-          ) : (
-            <>
-              <Save className="h-4 w-4 mr-2" />
-              Save Settings
-            </>
-          )}
-        </Button>
-      </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <TabsList className="bg-[#F7F5EF] border-[#CDB586]">
@@ -368,5 +374,6 @@ export default function SettingsPage() {
         </TabsContent>
       </Tabs>
     </div>
+    </AdminPageContainer>
   );
 }

@@ -27,7 +27,8 @@ export async function GET(request: NextRequest) {
         'secondhand': 'SECOND_HAND'
       };
       const normalizedCondition = condition.toLowerCase().replace('_', '-');
-      where.condition = conditionMap[normalizedCondition] || condition.toUpperCase();
+      const mappedCondition = conditionMap[normalizedCondition] || condition.toUpperCase();
+      where.condition = mappedCondition;
     }
 
     if (model) {

@@ -23,6 +23,10 @@ import {
   AlertTriangle
 } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { AdminPageContainer } from "@/components/admin/admin-page-container";
+import { AdminCard } from "@/components/admin/admin-card";
+import { SearchToolbar } from "@/components/admin/search-toolbar";
+import { EmptyState } from "@/components/admin/empty-state";
 
 type Review = {
   id: string;
@@ -175,18 +179,21 @@ export default function ReviewsPage() {
 
   if (loading) {
     return (
-      <div className="space-y-8">
-        <AdminPageHeader title="Reviews" subtitle="Manage customer reviews" />
-        <div className="flex items-center justify-center h-64">
-          <div className="text-[#5F3C18]">Loading reviews...</div>
+      <AdminPageContainer>
+        <div className="space-y-8 admin-page-container text-center">
+          <AdminPageHeader title="Reviews" subtitle="Manage customer reviews" />
+          <div className="flex items-center justify-center h-64">
+            <div className="text-[#5F3C18]">Loading reviews...</div>
+          </div>
         </div>
-      </div>
+      </AdminPageContainer>
     );
   }
 
   return (
-    <div className="space-y-8">
-      <AdminPageHeader title="Reviews" subtitle="Manage customer reviews" />
+    <AdminPageContainer>
+      <div className="space-y-8 admin-page-container text-center">
+        <AdminPageHeader title="Reviews" subtitle="Manage customer reviews" />
 
       {error && (
         <div className="p-4 bg-red-900/50 border border-red-500 rounded text-red-200">
@@ -195,267 +202,254 @@ export default function ReviewsPage() {
       )}
 
       {/* Filters */}
-      <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
-        <CardContent className="p-6">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5F3C18]/50" />
-                <Input
-                  placeholder="Search reviews by customer, product, or content..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-            </div>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-full md:w-48">
-                <SelectValue placeholder="All Reviews" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="">All Reviews</SelectItem>
-                <SelectItem value="approved">Approved</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </CardContent>
-      </Card>
+      <SearchToolbar
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="Search reviews..."
+        filters={
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="w-full md:w-48">
+              <SelectValue placeholder="All Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">All Status</SelectItem>
+              <SelectItem value="approved">Approved</SelectItem>
+              <SelectItem value="pending">Pending</SelectItem>
+            </SelectContent>
+          </Select>
+        }
+      />
 
       {/* Reviews Table */}
-      <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
-        <CardHeader>
-          <CardTitle>Reviews ({reviews.length})</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {reviews.length === 0 ? (
-            <div className="text-center py-12 text-[#5F3C18]/60">
-              <Star className="h-12 w-12 mx-auto mb-4 text-[#CDB586]/40" />
-              <p>No reviews found</p>
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-[#CDB586]/20">
-                    <th className="text-left p-4 font-semibold text-[#0E161B]">Product</th>
-                    <th className="text-left p-4 font-semibold text-[#0E161B]">Customer</th>
-                    <th className="text-left p-4 font-semibold text-[#0E161B]">Rating</th>
-                    <th className="text-left p-4 font-semibold text-[#0E161B]">Review</th>
-                    <th className="text-left p-4 font-semibold text-[#0E161B]">Status</th>
-                    <th className="text-left p-4 font-semibold text-[#0E161B]">Date</th>
-                    <th className="text-right p-4 font-semibold text-[#0E161B]">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {reviews.map((review) => (
-                    <tr key={review.id} className="border-b border-[#CDB586]/10 hover:bg-[#CDB586]/5">
-                      <td className="p-4">
-                        <div className="font-medium text-[#0E161B]">{review.product.name}</div>
-                        <div className="text-sm text-[#5F3C18]/60">{review.product.model}</div>
-                      </td>
-                      <td className="p-4">
-                        <div className="font-medium text-[#0E161B]">
-                          {review.name || review.user?.name || "Anonymous"}
+      <AdminCard title={`Reviews (${reviews.length})`}>
+        {reviews.length === 0 ? (
+          <EmptyState
+            icon={Star}
+            title="No reviews found"
+            description="No reviews match your current filters"
+          />
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-[#CDB586]/20">
+                  <th className="text-left p-4 font-semibold text-[#0E161B]">Product</th>
+                  <th className="text-left p-4 font-semibold text-[#0E161B]">Customer</th>
+                  <th className="text-left p-4 font-semibold text-[#0E161B]">Rating</th>
+                  <th className="text-left p-4 font-semibold text-[#0E161B]">Review</th>
+                  <th className="text-left p-4 font-semibold text-[#0E161B]">Status</th>
+                  <th className="text-left p-4 font-semibold text-[#0E161B]">Date</th>
+                  <th className="text-right p-4 font-semibold text-[#0E161B]">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {reviews.map((review) => (
+                  <tr key={review.id} className="border-b border-[#CDB586]/10 hover:bg-[#CDB586]/5">
+                    <td className="p-4">
+                      <div className="font-medium text-[#0E161B]">{review.product.name}</div>
+                      <div className="text-sm text-[#5F3C18]/60">{review.product.model}</div>
+                    </td>
+                    <td className="p-4">
+                      <div className="font-medium text-[#0E161B]">
+                        {review.name || review.user?.name || "Anonymous"}
+                      </div>
+                      {review.user?.email && (
+                        <div className="text-sm text-[#5F3C18]/60">{review.user.email}</div>
+                      )}
+                    </td>
+                    <td className="p-4">
+                      {renderStars(review.rating)}
+                    </td>
+                    <td className="p-4">
+                      {review.title && (
+                        <div className="font-medium text-[#0E161B] mb-1">{review.title}</div>
+                      )}
+                      <div className="text-sm text-[#5F3C18]/60 line-clamp-2 max-w-xs">
+                        {review.comment}
+                      </div>
+                      {review.adminResponse && (
+                        <div className="mt-2 text-sm text-[#CDB586]">
+                          <MessageSquare className="h-3 w-3 inline mr-1" />
+                          Admin responded
                         </div>
-                        {review.user?.email && (
-                          <div className="text-sm text-[#5F3C18]/60">{review.user.email}</div>
+                      )}
+                    </td>
+                    <td className="p-4">
+                      <Badge className={getStatusBadge(review.isApproved)}>
+                        {review.isApproved ? (
+                          <>
+                            <CheckCircle className="h-3 w-3 mr-1" />
+                            Approved
+                          </>
+                        ) : (
+                          <>
+                            <Clock className="h-3 w-3 mr-1" />
+                            Pending
+                          </>
                         )}
-                      </td>
-                      <td className="p-4">
-                        {renderStars(review.rating)}
-                      </td>
-                      <td className="p-4">
-                        {review.title && (
-                          <div className="font-medium text-[#0E161B] mb-1">{review.title}</div>
-                        )}
-                        <div className="text-sm text-[#5F3C18]/60 line-clamp-2 max-w-xs">
-                          {review.comment}
-                        </div>
-                        {review.adminResponse && (
-                          <div className="mt-2 text-sm text-[#CDB586]">
-                            <MessageSquare className="h-3 w-3 inline mr-1" />
-                            Admin responded
-                          </div>
-                        )}
-                      </td>
-                      <td className="p-4">
-                        <Badge className={getStatusBadge(review.isApproved)}>
-                          {review.isApproved ? (
-                            <>
-                              <CheckCircle className="h-3 w-3 mr-1" />
-                              Approved
-                            </>
-                          ) : (
-                            <>
-                              <Clock className="h-3 w-3 mr-1" />
-                              Pending
-                            </>
-                          )}
-                        </Badge>
-                      </td>
-                      <td className="p-4">
-                        <div className="text-sm text-[#5F3C18]">
-                          {new Date(review.createdAt).toLocaleDateString()}
-                        </div>
-                      </td>
-                      <td className="p-4 text-right">
-                        <div className="flex justify-end gap-2">
-                          <Dialog>
-                            <DialogTrigger asChild>
-                              <Button variant="ghost" size="sm" onClick={() => {
-                                setSelectedReview(review);
-                                setAdminResponse(review.adminResponse || "");
-                              }}>
-                                <Eye className="h-4 w-4" />
-                              </Button>
-                            </DialogTrigger>
-                            <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-                              <DialogHeader>
-                                <DialogTitle>Review Details</DialogTitle>
-                              </DialogHeader>
-                              {selectedReview && (
-                                <div className="space-y-6">
-                                  {/* Product Info */}
-                                  <div>
-                                    <h4 className="font-semibold mb-2">Product</h4>
-                                    <div className="bg-[#F7F5EF] p-4 rounded-lg">
-                                      <div className="font-medium">{selectedReview.product.name}</div>
-                                      <div className="text-sm text-[#5F3C18]/60">{selectedReview.product.model}</div>
-                                    </div>
-                                  </div>
-
-                                  {/* Customer Info */}
-                                  <div>
-                                    <h4 className="font-semibold mb-2">Customer</h4>
-                                    <div className="bg-[#F7F5EF] p-4 rounded-lg space-y-1">
-                                      <div><strong>Name:</strong> {selectedReview.name || selectedReview.user?.name || "Anonymous"}</div>
-                                      {selectedReview.user?.email && (
-                                        <div><strong>Email:</strong> {selectedReview.user.email}</div>
-                                      )}
-                                    </div>
-                                  </div>
-
-                                  {/* Rating */}
-                                  <div>
-                                    <h4 className="font-semibold mb-2">Rating</h4>
-                                    <div className="flex items-center gap-2">
-                                      {renderStars(selectedReview.rating)}
-                                      <span className="text-[#5F3C18]/60">({selectedReview.rating}/5)</span>
-                                    </div>
-                                  </div>
-
-                                  {/* Review Content */}
-                                  <div>
-                                    <h4 className="font-semibold mb-2">Review</h4>
-                                    <div className="bg-[#F7F5EF] p-4 rounded-lg space-y-2">
-                                      {selectedReview.title && (
-                                        <div className="font-medium">{selectedReview.title}</div>
-                                      )}
-                                      <div className="text-[#0E161B] whitespace-pre-wrap">
-                                        {selectedReview.comment}
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  {/* Admin Response */}
-                                  <div>
-                                    <h4 className="font-semibold mb-2">Admin Response</h4>
-                                    <Textarea
-                                      value={adminResponse}
-                                      onChange={(e) => setAdminResponse(e.target.value)}
-                                      placeholder="Type your response to this review..."
-                                      rows={4}
-                                      className="bg-[#F7F5EF]"
-                                    />
-                                    <div className="flex gap-2 mt-2">
-                                      <Button
-                                        onClick={() => submitAdminResponse(selectedReview)}
-                                        disabled={updating || !adminResponse.trim()}
-                                      >
-                                        <Send className="h-4 w-4 mr-2" />
-                                        Post Response
-                                      </Button>
-                                      {selectedReview.adminResponse && (
-                                        <Button
-                                          variant="outline"
-                                          onClick={() => updateReview(selectedReview.id, { adminResponse: "" })}
-                                          disabled={updating}
-                                        >
-                                          Clear Response
-                                        </Button>
-                                      )}
-                                    </div>
-                                  </div>
-
-                                  {/* Approval Actions */}
-                                  <div>
-                                    <h4 className="font-semibold mb-2">Moderation</h4>
-                                    <div className="flex gap-2">
-                                      {!selectedReview.isApproved ? (
-                                        <Button
-                                          onClick={() => approveReview(selectedReview)}
-                                          disabled={updating}
-                                          className="bg-green-600 hover:bg-green-700"
-                                        >
-                                          <CheckCircle className="h-4 w-4 mr-2" />
-                                          Approve Review
-                                        </Button>
-                                      ) : (
-                                        <Button
-                                          onClick={() => rejectReview(selectedReview)}
-                                          disabled={updating}
-                                          variant="outline"
-                                        >
-                                          <XCircle className="h-4 w-4 mr-2" />
-                                          Unapprove Review
-                                        </Button>
-                                      )}
-                                    </div>
-                                  </div>
-
-                                  {/* Delete */}
-                                  <div className="pt-4 border-t border-[#CDB586]/20">
-                                    <Button
-                                      variant="outline"
-                                      className="text-red-600 border-red-600 hover:bg-red-600/10"
-                                      onClick={() => deleteReview(selectedReview.id)}
-                                      disabled={updating}
-                                    >
-                                      <Trash2 className="h-4 w-4 mr-2" />
-                                      Delete Review
-                                    </Button>
+                      </Badge>
+                    </td>
+                    <td className="p-4">
+                      <div className="text-sm text-[#5F3C18]">
+                        {new Date(review.createdAt).toLocaleDateString()}
+                      </div>
+                    </td>
+                    <td className="p-4 text-right">
+                      <div className="flex justify-end gap-2">
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button variant="ghost" size="sm" onClick={() => {
+                              setSelectedReview(review);
+                              setAdminResponse(review.adminResponse || "");
+                            }}>
+                              <Eye className="h-4 w-4" />
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                            <DialogHeader>
+                              <DialogTitle>Review Details</DialogTitle>
+                            </DialogHeader>
+                            {selectedReview && (
+                              <div className="space-y-6">
+                                {/* Product Info */}
+                                <div>
+                                  <h4 className="font-semibold mb-2">Product</h4>
+                                  <div className="bg-[#F7F5EF] p-4 rounded-lg">
+                                    <div className="font-medium">{selectedReview.product.name}</div>
+                                    <div className="text-sm text-[#5F3C18]/60">{selectedReview.product.model}</div>
                                   </div>
                                 </div>
-                              )}
-                            </DialogContent>
-                          </Dialog>
-                          <Button 
-                            variant="ghost" 
-                            size="sm" 
-                            onClick={() => {
-                              setSelectedReview(review);
-                              deleteReview(review.id);
-                            }}
-                            disabled={updating}
-                          >
-                            <Trash2 className="h-4 w-4 text-red-600" />
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
 
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-between mt-6 pt-6 border-t border-[#CDB586]/20">
-              <div className="text-sm text-[#5F3C18]/60">
-                Page {page} of {totalPages}
+                                {/* Customer Info */}
+                                <div>
+                                  <h4 className="font-semibold mb-2">Customer</h4>
+                                  <div className="bg-[#F7F5EF] p-4 rounded-lg space-y-1">
+                                    <div><strong>Name:</strong> {selectedReview.name || selectedReview.user?.name || "Anonymous"}</div>
+                                    {selectedReview.user?.email && (
+                                      <div><strong>Email:</strong> {selectedReview.user.email}</div>
+                                    )}
+                                  </div>
+                                </div>
+
+                                {/* Rating */}
+                                <div>
+                                  <h4 className="font-semibold mb-2">Rating</h4>
+                                  <div className="flex items-center gap-2">
+                                    {renderStars(selectedReview.rating)}
+                                    <span className="text-[#5F3C18]/60">({selectedReview.rating}/5)</span>
+                                  </div>
+                                </div>
+
+                                {/* Review Content */}
+                                <div>
+                                  <h4 className="font-semibold mb-2">Review</h4>
+                                  <div className="bg-[#F7F5EF] p-4 rounded-lg space-y-2">
+                                    {selectedReview.title && (
+                                      <div className="font-medium">{selectedReview.title}</div>
+                                    )}
+                                    <div className="text-[#0E161B] whitespace-pre-wrap">
+                                      {selectedReview.comment}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                {/* Admin Response */}
+                                <div>
+                                  <h4 className="font-semibold mb-2">Admin Response</h4>
+                                  <Textarea
+                                    value={adminResponse}
+                                    onChange={(e) => setAdminResponse(e.target.value)}
+                                    placeholder="Type your response to this review..."
+                                    rows={4}
+                                    className="bg-[#F7F5EF]"
+                                  />
+                                  <div className="flex gap-2 mt-2">
+                                    <Button
+                                      onClick={() => submitAdminResponse(selectedReview)}
+                                      disabled={updating || !adminResponse.trim()}
+                                    >
+                                      <Send className="h-4 w-4 mr-2" />
+                                      Post Response
+                                    </Button>
+                                    {selectedReview.adminResponse && (
+                                      <Button
+                                        variant="outline"
+                                        onClick={() => updateReview(selectedReview.id, { adminResponse: "" })}
+                                        disabled={updating}
+                                      >
+                                        Clear Response
+                                      </Button>
+                                    )}
+                                  </div>
+                                </div>
+
+                                {/* Approval Actions */}
+                                <div>
+                                  <h4 className="font-semibold mb-2">Moderation</h4>
+                                  <div className="flex gap-2">
+                                    {!selectedReview.isApproved ? (
+                                      <Button
+                                        onClick={() => approveReview(selectedReview)}
+                                        disabled={updating}
+                                        className="bg-green-600 hover:bg-green-700"
+                                      >
+                                        <CheckCircle className="h-4 w-4 mr-2" />
+                                        Approve Review
+                                      </Button>
+                                    ) : (
+                                      <Button
+                                        onClick={() => rejectReview(selectedReview)}
+                                        disabled={updating}
+                                        variant="outline"
+                                      >
+                                        <XCircle className="h-4 w-4 mr-2" />
+                                        Unapprove Review
+                                      </Button>
+                                    )}
+                                  </div>
+                                </div>
+
+                                {/* Delete */}
+                                <div className="pt-4 border-t border-[#CDB586]/20">
+                                  <Button
+                                    variant="outline"
+                                    className="text-red-600 border-red-600 hover:bg-red-600/10"
+                                    onClick={() => deleteReview(selectedReview.id)}
+                                    disabled={updating}
+                                  >
+                                    <Trash2 className="h-4 w-4 mr-2" />
+                                    Delete Review
+                                  </Button>
+                                </div>
+                              </div>
+                            )}
+                          </DialogContent>
+                        </Dialog>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => {
+                            setSelectedReview(review);
+                            deleteReview(review.id);
+                          }}
+                          disabled={updating}
+                        >
+                          <Trash2 className="h-4 w-4 text-red-600" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between mt-6 pt-6 border-t border-[#CDB586]/20">
+            <div className="text-sm text-[#5F3C18]/60">
+              Page {page} of {totalPages}
               </div>
               <div className="flex gap-2">
                 <Button
@@ -477,8 +471,7 @@ export default function ReviewsPage() {
               </div>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </AdminCard>
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={!!deleteConfirm} onOpenChange={() => setDeleteConfirm(null)}>
@@ -525,5 +518,6 @@ export default function ReviewsPage() {
         </DialogContent>
       </Dialog>
     </div>
+    </AdminPageContainer>
   );
 }

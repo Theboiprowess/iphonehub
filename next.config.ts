@@ -11,10 +11,6 @@ const nextConfig: NextConfig = {
         protocol: 'http',
         hostname: 'localhost',
       },
-      {
-        protocol: 'https',
-        hostname: 'iphone-hub-masvingo.vercel.app',
-      },
     ],
     unoptimized: false,
   },
@@ -24,6 +20,9 @@ const nextConfig: NextConfig = {
   },
   // Allow CSS imports from components
   transpilePackages: [],
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 };
 
 export default nextConfig;

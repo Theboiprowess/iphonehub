@@ -140,6 +140,10 @@ export type PromotionType = (typeof PromotionType)[keyof typeof PromotionType]
 
 export const MediaCategory = {
   PRODUCT: 'PRODUCT',
+  STORE: 'STORE',
+  TEAM: 'TEAM',
+  CUSTOMER: 'CUSTOMER',
+  SERVICE: 'SERVICE',
   HERO: 'HERO',
   BLOG: 'BLOG',
   CEO: 'CEO',
@@ -167,6 +171,21 @@ export const FAQCategory = {
 } as const
 
 export type FAQCategory = (typeof FAQCategory)[keyof typeof FAQCategory]
+
+
+export const AccessoryCategory = {
+  CHARGERS: 'CHARGERS',
+  CABLES: 'CABLES',
+  CASES: 'CASES',
+  SCREEN_PROTECTORS: 'SCREEN_PROTECTORS',
+  HEADPHONES: 'HEADPHONES',
+  SPEAKERS: 'SPEAKERS',
+  POWER_BANKS: 'POWER_BANKS',
+  ADAPTERS: 'ADAPTERS',
+  OTHER: 'OTHER'
+} as const
+
+export type AccessoryCategory = (typeof AccessoryCategory)[keyof typeof AccessoryCategory]
 
 
 export const MovementReason = {

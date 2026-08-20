@@ -15,6 +15,11 @@ import {
   ShoppingCart
 } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { AdminPageContainer } from "@/components/admin/admin-page-container";
+import { AdminCard } from "@/components/admin/admin-card";
+import { SearchToolbar } from "@/components/admin/search-toolbar";
+import { EmptyState } from "@/components/admin/empty-state";
+import { StatCard } from "@/components/admin/stat-card";
 import { formatPrice } from "@/lib/utils";
 
 type WishlistItem = {
@@ -79,18 +84,21 @@ export default function WishlistPage() {
 
   if (loading) {
     return (
-      <div className="space-y-8">
-        <AdminPageHeader title="Wishlist" subtitle="Manage customer wishlists" />
-        <div className="flex items-center justify-center h-64">
-          <div className="text-[#5F3C18]">Loading wishlist data...</div>
+      <AdminPageContainer>
+        <div className="space-y-8 admin-page-container text-center">
+          <AdminPageHeader title="Wishlist" subtitle="Manage customer wishlists" />
+          <div className="flex items-center justify-center h-64">
+            <div className="text-[#5F3C18]">Loading wishlist data...</div>
+          </div>
         </div>
-      </div>
+      </AdminPageContainer>
     );
   }
 
   return (
-    <div className="space-y-8">
-      <AdminPageHeader title="Wishlist" subtitle="Manage customer wishlists" />
+    <AdminPageContainer>
+      <div className="space-y-8 admin-page-container text-center">
+        <AdminPageHeader title="Wishlist" subtitle="Manage customer wishlists" />
 
       {error && (
         <div className="p-4 bg-red-900/50 border border-red-500 rounded text-red-200">
@@ -100,169 +108,133 @@ export default function WishlistPage() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-[#5F3C18]/60">Total Wishlist Items</p>
-                <p className="text-2xl font-bold text-[#0E161B]">{wishlistItems.length}</p>
-              </div>
-              <Heart className="h-8 w-8 text-[#CDB586]" />
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-[#5F3C18]/60">Unique Customers</p>
-                <p className="text-2xl font-bold text-[#0E161B]">
-                  {new Set(wishlistItems.map((item) => item.customerId)).size}
-                </p>
-              </div>
-              <Users className="h-8 w-8 text-[#CDB586]" />
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-[#5F3C18]/60">Popular Products</p>
-                <p className="text-2xl font-bold text-[#0E161B]">{popularProducts.length}</p>
-              </div>
-              <TrendingUp className="h-8 w-8 text-[#CDB586]" />
-            </div>
-          </CardContent>
-        </Card>
+        <StatCard
+          title="Total Wishlist Items"
+          value={wishlistItems.length}
+          icon={Heart}
+        />
+        <StatCard
+          title="Unique Customers"
+          value={new Set(wishlistItems.map((item) => item.customerId)).size}
+          icon={Users}
+        />
+        <StatCard
+          title="Popular Products"
+          value={popularProducts.length}
+          icon={TrendingUp}
+        />
       </div>
 
       {/* Popular Products */}
       {popularProducts.length > 0 && (
-        <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
-          <CardHeader>
-            <CardTitle>Most Wishlisted Products</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              {popularProducts.map((product, index) => (
-                <div key={product.productId} className="flex items-center justify-between bg-[#F7F5EF]/50 p-3 rounded-lg">
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-8 h-8 bg-[#CDB586] rounded-full text-white font-bold text-sm">
-                      {index + 1}
-                    </div>
-                    <div>
-                      <div className="font-medium text-[#0E161B]">{product.productName}</div>
-                      <div className="text-sm text-[#5F3C18]/60">{product.count} customers</div>
-                    </div>
+        <AdminCard title="Most Wishlisted Products">
+          <div className="space-y-2">
+            {popularProducts.map((product, index) => (
+              <div key={product.productId} className="flex items-center justify-between bg-[#F7F5EF]/50 p-3 rounded-lg">
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-8 h-8 bg-[#CDB586] rounded-full text-white font-bold text-sm">
+                    {index + 1}
                   </div>
-                  <div className="flex items-center gap-2 text-[#CDB586]">
-                    <TrendingUp className="h-4 w-4" />
+                  <div>
+                    <div className="font-medium text-[#0E161B]">{product.productName}</div>
+                    <div className="text-sm text-[#5F3C18]/60">{product.count} customers</div>
                   </div>
                 </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+                <div className="flex items-center gap-2 text-[#CDB586]">
+                  <TrendingUp className="h-4 w-4" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </AdminCard>
       )}
 
       {/* Search */}
-      <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
-        <CardContent className="p-6">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5F3C18]/50" />
-            <Input
-              placeholder="Search wishlist by product or customer..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-        </CardContent>
-      </Card>
+      <SearchToolbar
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="Search wishlist by product or customer..."
+      />
 
       {/* Wishlist Items */}
-      <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
-        <CardHeader>
-          <CardTitle>Wishlist Items ({wishlistItems.length})</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {wishlistItems.length === 0 ? (
-            <div className="text-center py-12 text-[#5F3C18]/60">
-              <Heart className="h-12 w-12 mx-auto mb-4 text-[#CDB586]/40" />
-              <p>No wishlist items found</p>
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-[#CDB586]/20">
-                    <th className="text-left p-4 font-semibold text-[#0E161B]">Customer</th>
-                    <th className="text-left p-4 font-semibold text-[#0E161B]">Product</th>
-                    <th className="text-left p-4 font-semibold text-[#0E161B]">Variant</th>
-                    <th className="text-left p-4 font-semibold text-[#0E161B]">Price</th>
-                    <th className="text-left p-4 font-semibold text-[#0E161B]">Added</th>
+      <AdminCard title={`Wishlist Items (${wishlistItems.length})`}>
+        {wishlistItems.length === 0 ? (
+          <EmptyState
+            icon={Heart}
+            title="No wishlist items found"
+            description="No wishlist items match your current search"
+          />
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-[#CDB586]/20">
+                  <th className="text-left p-4 font-semibold text-[#0E161B]">Customer</th>
+                  <th className="text-left p-4 font-semibold text-[#0E161B]">Product</th>
+                  <th className="text-left p-4 font-semibold text-[#0E161B]">Variant</th>
+                  <th className="text-left p-4 font-semibold text-[#0E161B]">Price</th>
+                  <th className="text-left p-4 font-semibold text-[#0E161B]">Added</th>
+                </tr>
+              </thead>
+              <tbody>
+                {wishlistItems.map((item) => (
+                  <tr key={item.id} className="border-b border-[#CDB586]/10 hover:bg-[#CDB586]/5">
+                    <td className="p-4">
+                      <div className="font-medium text-[#0E161B]">{item.customerName}</div>
+                      <div className="text-sm text-[#5F3C18]/60">{item.customerEmail}</div>
+                    </td>
+                    <td className="p-4">
+                      <div className="font-medium text-[#0E161B]">{item.productName}</div>
+                      <div className="text-sm text-[#5F3C18]/60">{item.categoryName}</div>
+                      <div className="text-sm text-[#5F3C18]/60">{item.productCondition}</div>
+                    </td>
+                    <td className="p-4">
+                      <div className="text-sm text-[#0E161B]">{item.storage}</div>
+                      <div className="text-sm text-[#5F3C18]/60">{item.colour}</div>
+                    </td>
+                    <td className="p-4">
+                      <div className="font-semibold text-[#0E161B]">{formatPrice(item.price)}</div>
+                    </td>
+                    <td className="p-4">
+                      <div className="text-sm text-[#5F3C18]">
+                        {new Date(item.addedAt).toLocaleDateString()}
+                      </div>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {wishlistItems.map((item) => (
-                    <tr key={item.id} className="border-b border-[#CDB586]/10 hover:bg-[#CDB586]/5">
-                      <td className="p-4">
-                        <div className="font-medium text-[#0E161B]">{item.customerName}</div>
-                        <div className="text-sm text-[#5F3C18]/60">{item.customerEmail}</div>
-                      </td>
-                      <td className="p-4">
-                        <div className="font-medium text-[#0E161B]">{item.productName}</div>
-                        <div className="text-sm text-[#5F3C18]/60">{item.categoryName}</div>
-                        <div className="text-sm text-[#5F3C18]/60">{item.productCondition}</div>
-                      </td>
-                      <td className="p-4">
-                        <div className="text-sm text-[#0E161B]">{item.storage}</div>
-                        <div className="text-sm text-[#5F3C18]/60">{item.colour}</div>
-                      </td>
-                      <td className="p-4">
-                        <div className="font-semibold text-[#0E161B]">{formatPrice(item.price)}</div>
-                      </td>
-                      <td className="p-4">
-                        <div className="text-sm text-[#5F3C18]">
-                          {new Date(item.addedAt).toLocaleDateString()}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
 
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-between mt-6 pt-6 border-t border-[#CDB586]/20">
-              <div className="text-sm text-[#5F3C18]/60">
-                Page {page} of {totalPages}
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setPage((p) => Math.max(1, p - 1))}
-                  disabled={page === 1}
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                  disabled={page === totalPages}
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              </div>
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between mt-6 pt-6 border-t border-[#CDB586]/20">
+            <div className="text-sm text-[#5F3C18]/60">
+              Page {page} of {totalPages}
             </div>
-          )}
-        </CardContent>
-      </Card>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                disabled={page === 1}
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                disabled={page === totalPages}
+              >
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        )}
+      </AdminCard>
     </div>
+    </AdminPageContainer>
   );
 }

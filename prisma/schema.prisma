@@ -734,6 +734,10 @@ model Media {
 
 enum MediaCategory {
   PRODUCT
+  STORE
+  TEAM
+  CUSTOMER
+  SERVICE
   HERO
   BLOG
   CEO
@@ -783,6 +787,48 @@ enum FAQCategory {
   RETURNS
   TRADE_IN
   GENERAL
+}
+
+// Accessories Management
+model Accessory {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?  @db.Text
+  category    AccessoryCategory
+  price       Decimal  @db.Decimal(10, 2)
+  comparePrice Decimal? @db.Decimal(10, 2)
+  costPrice   Decimal? @db.Decimal(10, 2)
+  sku         String?  @unique
+  stock       Int      @default(0)
+  imageUrl    String?
+  isFeatured  Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  compatibility String? // e.g., "iPhone 12, iPhone 13, iPhone 14"
+  metaTitle   String?
+  metaDescription String?
+  publishedAt DateTime?
+  status      ProductStatus @default(DRAFT)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+  @@index([status])
+  @@index([isFeatured])
+  @@index([isActive])
+  @@index([stock])
+}
+
+enum AccessoryCategory {
+  CHARGERS
+  CABLES
+  CASES
+  SCREEN_PROTECTORS
+  HEADPHONES
+  SPEAKERS
+  POWER_BANKS
+  ADAPTERS
+  OTHER
 }
 
 // Inventory Management

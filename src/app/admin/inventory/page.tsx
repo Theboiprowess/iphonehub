@@ -24,6 +24,9 @@ import {
 } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
 import { AdminPageContainer } from "@/components/admin/admin-page-container";
+import { AdminCard } from "@/components/admin/admin-card";
+import { SearchToolbar } from "@/components/admin/search-toolbar";
+import { EmptyState } from "@/components/admin/empty-state";
 import { formatPrice } from "@/lib/utils";
 
 type InventoryItem = {
@@ -167,18 +170,20 @@ export default function InventoryPage() {
 
   if (loading) {
     return (
-      <div className="space-y-8">
-        <AdminPageHeader title="Inventory" subtitle="Manage inventory and stock" />
-        <div className="flex items-center justify-center h-64">
-          <div className="text-[#5F3C18]">Loading inventory...</div>
+      <AdminPageContainer>
+        <div className="space-y-8 admin-page-container text-center">
+          <AdminPageHeader title="Inventory" subtitle="Manage inventory and stock" />
+          <div className="flex items-center justify-center h-64">
+            <div className="text-[#5F3C18]">Loading inventory...</div>
+          </div>
         </div>
-      </div>
+      </AdminPageContainer>
     );
   }
 
   return (
     <AdminPageContainer>
-      <div className="space-y-8">
+      <div className="space-y-8 admin-page-container text-center">
         <AdminPageHeader title="Inventory" subtitle="Manage inventory and stock" />
 
       {error && (
@@ -188,54 +193,41 @@ export default function InventoryPage() {
       )}
 
       {/* Filters */}
-      <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
-        <CardContent className="p-6">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5F3C18]/50" />
-                <Input
-                  placeholder="Search products..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <Button
-                variant={lowStockOnly ? "default" : "outline"}
-                onClick={() => setLowStockOnly(!lowStockOnly)}
-                className={lowStockOnly ? "bg-yellow-600 hover:bg-yellow-700" : ""}
-              >
-                <AlertTriangle className="h-4 w-4 mr-2" />
-                Low Stock
-              </Button>
-              <Button
-                variant={outOfStockOnly ? "default" : "outline"}
-                onClick={() => setOutOfStockOnly(!outOfStockOnly)}
-                className={outOfStockOnly ? "bg-red-600 hover:bg-red-700" : ""}
-              >
-                <Box className="h-4 w-4 mr-2" />
-                Out of Stock
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <SearchToolbar
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="Search products..."
+        filters={
+          <>
+            <Button
+              variant={lowStockOnly ? "default" : "outline"}
+              onClick={() => setLowStockOnly(!lowStockOnly)}
+              className={lowStockOnly ? "bg-yellow-600 hover:bg-yellow-700" : ""}
+            >
+              <AlertTriangle className="h-4 w-4 mr-2" />
+              Low Stock
+            </Button>
+            <Button
+              variant={outOfStockOnly ? "default" : "outline"}
+              onClick={() => setOutOfStockOnly(!outOfStockOnly)}
+              className={outOfStockOnly ? "bg-red-600 hover:bg-red-700" : ""}
+            >
+              <Box className="h-4 w-4 mr-2" />
+              Out of Stock
+            </Button>
+          </>
+        }
+      />
 
       {/* Inventory Table */}
-      <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
-        <CardHeader>
-          <CardTitle>Inventory ({inventory.length} items)</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {inventory.length === 0 ? (
-            <div className="text-center py-12 text-[#5F3C18]/60">
-              <Warehouse className="h-12 w-12 mx-auto mb-4 text-[#CDB586]/40" />
-              <p>No inventory found</p>
-            </div>
-          ) : (
+      <AdminCard title={`Inventory (${inventory.length} items)`}>
+        {inventory.length === 0 ? (
+          <EmptyState
+            icon={Warehouse}
+            title="No inventory found"
+            description="No inventory items match your current filters"
+          />
+        ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
@@ -459,8 +451,7 @@ export default function InventoryPage() {
               </div>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </AdminCard>
     </div>
     </AdminPageContainer>
   );

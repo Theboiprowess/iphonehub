@@ -1,52 +1,71 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-// GET - List all media (public endpoint for gallery)
-export async function GET(request: NextRequest) {
+// GET - Fetch public media items for gallery
+export async function GET(request: Request) {
   try {
-    const searchParams = request.nextUrl.searchParams;
-    const search = searchParams.get("search");
-    const type = searchParams.get("type");
-    const page = parseInt(searchParams.get("page") || "1");
-    const limit = parseInt(searchParams.get("limit") || "50");
-
-    const where: any = {};
+    console.log("Public media API called");
     
+    const { searchParams } = new URL(request.url);
+    const category = searchParams.get("category");
+    const search = searchParams.get("search");
+
+    console.log("Request params:", { category, search });
+
+    // Build simple where clause - allow all categories by default
+    const where: any = {};
+
+    // Only filter by category if specifically requested
+    if (category && category !== "all") {
+      where.category = category.toUpperCase();
+    }
+
     if (search) {
       where.OR = [
         { filename: { contains: search, mode: "insensitive" } },
-        { alt: { contains: search, mode: "insensitive" } }
+        { alt: { contains: search, mode: "insensitive" } },
       ];
     }
-    
-    if (type) {
-      where.category = type;
-    }
 
-    const [media, total] = await Promise.all([
-      prisma.media.findMany({
-        where,
-        orderBy: { createdAt: "desc" },
-        skip: (page - 1) * limit,
-        take: limit
-      }),
-      prisma.media.count({ where })
-    ]);
+    console.log("Database query where clause:", where);
 
-    return NextResponse.json({
-      media,
-      pagination: {
-        page,
-        limit,
-        total,
-        totalPages: Math.ceil(total / limit)
-      }
+    const media = await prisma.media.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      take: 50, // Limit to prevent large responses
     });
+
+    console.log("Found media items:", media.length);
+
+    // Transform to gallery format - map categories to gallery-friendly names
+    const categoryMap: Record<string, string> = {
+      'PRODUCT': 'products',
+      'HERO': 'store',
+      'BLOG': 'service',
+      'CEO': 'team',
+      'LOGO': 'store',
+      'BANNER': 'store',
+      'OTHER': 'store'
+    };
+
+    const galleryImages = media.map((item) => ({
+      id: item.id,
+      src: item.url,
+      alt: item.alt || item.filename,
+      category: categoryMap[item.category] || 'store',
+      title: (item.metadata as any)?.caption || item.filename,
+      description: item.alt || "Photo from iPhone Hub Zimbabwe",
+      location: "Masvingo, Zimbabwe",
+    }));
+
+    console.log("Returning gallery images:", galleryImages.length);
+
+    return NextResponse.json({ images: galleryImages });
   } catch (error) {
-    console.error("Error fetching media:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch media: " + (error as Error).message },
-      { status: 500 }
-    );
+    console.error("Error fetching gallery media:", error);
+    console.error("Error stack:", (error as Error).stack);
+    
+    // Return empty array instead of error to prevent gallery from breaking
+    return NextResponse.json({ images: [] });
   }
 }

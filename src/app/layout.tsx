@@ -9,7 +9,9 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { GoldSmokeBackground } from "@/components/gold-smoke-background";
 import { ChatWidget } from "@/components/support/chat-widget";
 import { AnnouncementTicker } from "@/components/announcement-ticker";
+import { Preloader } from "@/components/preloader";
 import { headers } from "next/headers";
+import { Analytics } from "@vercel/analytics/next";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -29,11 +31,11 @@ export const metadata: Metadata = {
     template: "%s | iPhone Hub Zimbabwe"
   },
   description: "Shop quality boxed, pre-owned and second-hand iPhones from iPhone Hub Zimbabwe. Based in Masvingo and serving customers across Zimbabwe with transparent pricing and trusted service.",
-  keywords: ["iPhone Hub Zimbabwe", "iPhones in Zimbabwe", "Buy iPhone Zimbabwe", "iPhone Zimbabwe", "iPhone prices Zimbabwe", "Pre-owned iPhones Zimbabwe", "Second-hand iPhones Zimbabwe", "Boxed iPhones Zimbabwe", "iPhone trade-in Zimbabwe", "iPhone accessories Zimbabwe"],
+  keywords: ["iPhone Hub Zimbabwe", "iPhones in Zimbabwe", "Buy iPhone Zimbabwe", "iPhone Zimbabwe", "iPhone prices Zimbabwe", "Pre-owned iPhones Zimbabwe", "Second-hand iPhones Zimbabwe", "Boxed iPhones Zimbabwe", "iPhone trade-in Zimbabwe", "iPhone accessories Zimbabwe", "iPhone store Masvingo", "iPhone shop Zimbabwe"],
   authors: [{ name: "iPhone Hub Zimbabwe" }],
   creator: "iPhone Hub Zimbabwe",
   publisher: "iPhone Hub Zimbabwe",
-  metadataBase: new URL(process.env.NEXTAUTH_URL || "https://iphone-hub-masvingo.vercel.app"),
+  metadataBase: new URL(process.env.NEXTAUTH_URL || "https://iphonehubzimbabwe.co.zw"),
   alternates: {
     canonical: "/",
   },
@@ -41,9 +43,11 @@ export const metadata: Metadata = {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
       { url: "/icon.png", type: "image/png", sizes: "32x32" },
+      { url: "/icon.png", type: "image/png", sizes: "16x16" },
+      { url: "/icon.png", type: "image/png", sizes: "192x192" },
     ],
     apple: [
-      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+      { url: "/icon.png", sizes: "180x180", type: "image/png" },
     ],
   },
   openGraph: {
@@ -55,9 +59,9 @@ export const metadata: Metadata = {
     siteName: "iPhone Hub Zimbabwe",
     images: [
       {
-        url: "/hero-iphone.jpg.jpg",
-        width: 400,
-        height: 400,
+        url: "/logo.jpeg",
+        width: 1200,
+        height: 630,
         alt: "iPhone Hub Zimbabwe Logo",
       },
     ],
@@ -66,7 +70,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "iPhone Hub Zimbabwe | Buy Boxed, Pre-Owned & Second-Hand iPhones",
     description: "Shop quality boxed, pre-owned and second-hand iPhones from iPhone Hub Zimbabwe. Based in Masvingo and serving customers across Zimbabwe with transparent pricing and trusted service.",
-    images: ["/hero-iphone.jpg.jpg"],
+    images: ["/logo.jpeg"],
   },
   robots: {
     index: true,
@@ -79,6 +83,7 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  manifest: "/manifest.json",
 };
 
 export const viewport: Viewport = {
@@ -90,13 +95,15 @@ export const viewport: Viewport = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const headersList = await headers();
-  const isAdminRoute = headersList.get('x-is-admin') === 'true';
+  const pathname = headersList.get('x-pathname') || '';
+  const isAdminRoute = pathname.startsWith('/admin') || pathname.startsWith('/api/admin');
 
   return (
     <html lang="en" className={`${manrope.variable} ${inter.variable} antialiased`}>
       <body className="min-h-screen flex flex-col font-body relative">
         <ThemeProvider>
           <CartProvider>
+            {!isAdminRoute && <Preloader />}
             {!isAdminRoute && <Header />}
             {!isAdminRoute && <AnnouncementTicker />}
             <main className="flex-1 relative z-10 w-full">{children}</main>
@@ -109,6 +116,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             {!isAdminRoute && <ChatWidget />}
           </CartProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );

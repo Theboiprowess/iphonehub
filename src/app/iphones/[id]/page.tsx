@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button, LinkButton } from "@/components/ui/button";
+import { CtaGroup } from "@/components/ui/cta-group";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Heart, ShoppingCart, Share2, CheckCircle, XCircle, MessageSquare, ShoppingBag } from "lucide-react";
 import Link from "next/link";
@@ -240,9 +241,10 @@ export default function ProductDetailPage() {
 
             {/* Actions */}
             <div className="space-y-4">
-              <div className="flex gap-3">
+              <CtaGroup>
                 <Button
-                  className="flex-1 h-12 bg-[#0E161B] text-[#EBE2C5] hover:bg-[#1A1A20]"
+                  variant="tertiary"
+                  className="flex-1"
                   onClick={handleAddToCart}
                   disabled={!selectedVariant || stock <= 0 || addingToCart}
                 >
@@ -250,17 +252,20 @@ export default function ProductDetailPage() {
                   {addingToCart ? "Adding..." : "Add to Cart"}
                 </Button>
                 <Button
-                  className="flex-1 h-12 bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]"
+                  variant="primary"
+                  goldGlow
+                  className="flex-1"
                   onClick={handleBuyNow}
                   disabled={!selectedVariant || stock <= 0}
                 >
                   <ShoppingBag className="h-4 w-4 mr-2" />
                   Buy Now
                 </Button>
-              </div>
+              </CtaGroup>
 
               <Button
-                className="w-full h-12 bg-[#25D366] text-white hover:bg-[#128C7E]"
+                variant="whatsapp"
+                className="w-full"
                 onClick={() => setShowWhatsAppDialog(true)}
               >
                 <MessageSquare className="h-4 w-4 mr-2" />

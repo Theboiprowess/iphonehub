@@ -62,6 +62,7 @@ export default function MediaLibraryPage() {
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [uploadAlt, setUploadAlt] = useState("");
   const [uploadCaption, setUploadCaption] = useState("");
+  const [uploadCategory, setUploadCategory] = useState("PRODUCT");
 
   useEffect(() => {
     fetchMedia();
@@ -111,6 +112,7 @@ export default function MediaLibraryPage() {
       formData.append("file", uploadFile);
       if (uploadAlt) formData.append("alt", uploadAlt);
       if (uploadCaption) formData.append("caption", uploadCaption);
+      formData.append("category", uploadCategory);
 
       const response = await fetch("/admin/api/media", {
         method: "POST",
@@ -125,6 +127,7 @@ export default function MediaLibraryPage() {
       setUploadFile(null);
       setUploadAlt("");
       setUploadCaption("");
+      setUploadCategory("OTHER");
       fetchMedia();
     } catch (error) {
       console.error("Error uploading media:", error);
@@ -231,6 +234,23 @@ export default function MediaLibraryPage() {
                   required
                   className="bg-white border-[#CDB586]"
                 />
+              </div>
+              <div>
+                <Label htmlFor="category">Category</Label>
+                <Select value={uploadCategory} onValueChange={setUploadCategory}>
+                  <SelectTrigger className="bg-white border-[#CDB586]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="PRODUCT">Product</SelectItem>
+                    <SelectItem value="HERO">Hero</SelectItem>
+                    <SelectItem value="BLOG">Blog</SelectItem>
+                    <SelectItem value="CEO">CEO</SelectItem>
+                    <SelectItem value="LOGO">Logo</SelectItem>
+                    <SelectItem value="BANNER">Banner</SelectItem>
+                    <SelectItem value="OTHER">Other</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div>
                 <Label htmlFor="alt">Alt Text</Label>

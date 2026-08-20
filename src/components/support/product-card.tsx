@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Package, ShoppingCart } from "lucide-react";
 import type { ProductContext } from "@/lib/support-context";
@@ -11,7 +10,7 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   return (
     <Card className="bg-gradient-to-br from-[#0E161B]/80 to-[#0F1A20]/60 border-[#CDB586]/30 overflow-hidden shadow-lg ring-1 ring-[#CDB586]/20 hover:ring-[#CDB586]/40 transition-all duration-200">
-      <CardContent className="p-3 sm:p-4">
+      <CardContent className="product-card-content">
         <div className="flex gap-3 sm:gap-4">
           {product.image ? (
             <div className="relative flex-shrink-0">
@@ -29,12 +28,12 @@ export function ProductCard({ product }: ProductCardProps) {
               <span className="text-3xl sm:text-4xl">📱</span>
             </div>
           )}
-          <div className="flex-1 min-w-0">
-            <h4 className="font-bold text-[#EBE2C5] text-sm sm:text-base truncate leading-tight">
+          <div className="flex-1 min-w-0 product-card-content-inner">
+            <h4 className="font-bold text-[#EBE2C5] text-sm sm:text-base truncate leading-tight product-card-title">
               {product.name}
             </h4>
-            <p className="text-xs text-[#EBE2C5]/60 mt-1 font-medium">{product.model}</p>
-            <div className="flex items-center gap-2 mt-2 flex-wrap">
+            <p className="text-xs text-[#EBE2C5]/60 mt-1 font-medium product-card-model">{product.model}</p>
+            <div className="flex items-center gap-2 mt-2 flex-wrap product-card-specs">
               <span className="text-xs font-semibold text-[#CDB586] bg-[#CDB586]/10 px-2 py-1 rounded-md">
                 {product.storage}
               </span>
@@ -43,7 +42,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 {product.colour}
               </span>
             </div>
-            <div className="flex items-center justify-between mt-2 sm:mt-3">
+            <div className="flex items-center justify-between mt-2 sm:mt-3 product-card-price">
               <p className="text-base sm:text-lg font-bold text-[#CDB586]">
                 ${product.price}
               </p>
@@ -60,16 +59,15 @@ export function ProductCard({ product }: ProductCardProps) {
           </div>
         </div>
       </CardContent>
-      <CardFooter className="p-3 sm:p-4 pt-0">
+      <CardFooter className="product-card-footer">
         <Link href={product.url} className="w-full">
-          <Button
-            variant="outline"
-            size="sm"
-            className="w-full border-[#CDB586]/50 text-[#CDB586] hover:bg-[#CDB586]/15 hover:border-[#CDB586] transition-all duration-200 rounded-xl font-medium text-xs sm:text-sm"
+          <button
+            className="w-full text-[#CDB586] hover:bg-[#CDB586]/15 transition-all duration-200 rounded-xl font-medium text-xs sm:text-sm flex items-center justify-center gap-2 product-card-button"
+            style={{ background: 'transparent', border: '1px solid rgba(205, 181, 134, 0.5)', cursor: 'pointer' }}
           >
-            <ShoppingCart className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-2" />
+            <ShoppingCart className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             View Product
-          </Button>
+          </button>
         </Link>
       </CardFooter>
     </Card>

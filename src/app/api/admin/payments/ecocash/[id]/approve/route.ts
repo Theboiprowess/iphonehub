@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/lib/auth';
+import { sendPaymentSuccessEmail } from '@/lib/email';
 
 /**
  * POST /api/admin/payments/ecocash/[id]/approve
@@ -65,9 +66,27 @@ export async function POST(
       },
     });
     
+    // Send payment success email to customer
+    const orderWithDetails = await prisma.order.findUnique({
+      where: { id: payment.orderId },
+    });
+
+    if (orderWithDetails) {
+      sendPaymentSuccessEmail({
+        customerName: orderWithDetails.customerName,
+        customerEmail: orderWithDetails.customerEmail,
+        orderNumber: orderWithDetails.orderNumber,
+        orderTotal: Number(orderWithDetails.total),
+        paymentDate: new Date().toISOString(),
+      }).catch((err) => console.error('Failed to send payment success email:', err));
+    }
+    
     // Reduce inventory
     const orderItems = await prisma.orderItem.findMany({
       where: { orderId: payment.orderId },
+      include: {
+        variant: true,
+      },
     });
     
     for (const item of orderItems) {
@@ -79,6 +98,42 @@ export async function POST(
           },
         },
       });
+
+      // Update inventory if it exists
+      const inventory = await prisma.inventory.findUnique({
+        where: { variantId: item.variantId },
+      });
+
+      if (inventory) {
+        await prisma.inventory.update({
+          where: { variantId: item.variantId },
+          data: {
+            currentStock: {
+              decrement: item.quantity,
+            },
+            availableStock: {
+              decrement: item.quantity,
+            },
+            soldStock: {
+              increment: item.quantity,
+            },
+            lastStockUpdate: new Date(),
+          },
+        });
+
+        // Create inventory movement record
+        await prisma.inventoryMovement.create({
+          data: {
+            inventoryId: inventory.id,
+            previousStock: inventory.currentStock,
+            newStock: inventory.currentStock - item.quantity,
+            difference: -item.quantity,
+            reason: 'STOCK_SOLD',
+            referenceId: payment.orderId,
+            notes: `Payment manually approved by admin`,
+          },
+        });
+      }
     }
     
     // Log audit event

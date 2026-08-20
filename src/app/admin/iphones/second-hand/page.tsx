@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { AdminPageContainer } from "@/components/admin/admin-page-container";
 
 export default function AdminSecondHandiPhonesPage() {
   const router = useRouter();
@@ -15,8 +16,10 @@ export default function AdminSecondHandiPhonesPage() {
   }, [router, searchParams]);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <p className="text-gray-600">Loading second-hand iPhones...</p>
-    </div>
+    <AdminPageContainer>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center admin-page-container text-center">
+        <p className="text-gray-600">Loading second-hand iPhones...</p>
+      </div>
+    </AdminPageContainer>
   );
 }

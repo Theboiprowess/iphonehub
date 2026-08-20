@@ -188,6 +188,11 @@ export type NavigationItem = Prisma.NavigationItemModel
  */
 export type FAQ = Prisma.FAQModel
 /**
+ * Model Accessory
+ * 
+ */
+export type Accessory = Prisma.AccessoryModel
+/**
  * Model Inventory
  * 
  */

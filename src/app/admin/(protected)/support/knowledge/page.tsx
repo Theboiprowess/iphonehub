@@ -21,6 +21,7 @@ export default function KnowledgeBasePage() {
     category: "",
     tags: "",
     status: "DRAFT",
+    priority: "Medium",
   });
 
   useEffect(() => {
@@ -61,7 +62,7 @@ export default function KnowledgeBasePage() {
       if (response.ok) {
         setIsDialogOpen(false);
         setEditingArticle(null);
-        setFormData({ title: "", content: "", category: "", tags: "", status: "DRAFT" });
+        setFormData({ title: "", content: "", category: "", tags: "", status: "DRAFT", priority: "Medium" });
         fetchArticles();
       }
     } catch (error) {
@@ -77,6 +78,7 @@ export default function KnowledgeBasePage() {
       category: article.category,
       tags: article.tags.join(", "),
       status: article.status,
+      priority: article.priority || "Medium",
     });
     setIsDialogOpen(true);
   };
@@ -108,7 +110,7 @@ export default function KnowledgeBasePage() {
           <DialogTrigger asChild>
             <Button onClick={() => {
               setEditingArticle(null);
-              setFormData({ title: "", content: "", category: "", tags: "", status: "DRAFT" });
+              setFormData({ title: "", content: "", category: "", tags: "", status: "DRAFT", priority: "Medium" });
             }}>
               <Plus className="h-4 w-4 mr-2" />
               New Article
@@ -141,12 +143,27 @@ export default function KnowledgeBasePage() {
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="Business Information">Business Information</SelectItem>
                     <SelectItem value="Products">Products</SelectItem>
+                    <SelectItem value="Product Conditions">Product Conditions</SelectItem>
+                    <SelectItem value="Pricing">Pricing</SelectItem>
+                    <SelectItem value="Stock">Stock</SelectItem>
                     <SelectItem value="Trade-In">Trade-In</SelectItem>
                     <SelectItem value="Delivery">Delivery</SelectItem>
                     <SelectItem value="Payment">Payment</SelectItem>
+                    <SelectItem value="EcoCash">EcoCash</SelectItem>
                     <SelectItem value="Warranty">Warranty</SelectItem>
                     <SelectItem value="Returns">Returns</SelectItem>
+                    <SelectItem value="Refunds">Refunds</SelectItem>
+                    <SelectItem value="Customer Support">Customer Support</SelectItem>
+                    <SelectItem value="FAQ">FAQ</SelectItem>
+                    <SelectItem value="About Us">About Us</SelectItem>
+                    <SelectItem value="Contact">Contact Information</SelectItem>
+                    <SelectItem value="Promotions">Promotions</SelectItem>
+                    <SelectItem value="Announcements">Announcements</SelectItem>
+                    <SelectItem value="Policies">Policies</SelectItem>
+                    <SelectItem value="Terms">Terms</SelectItem>
+                    <SelectItem value="Privacy">Privacy</SelectItem>
                     <SelectItem value="General">General</SelectItem>
                   </SelectContent>
                 </Select>
@@ -168,6 +185,23 @@ export default function KnowledgeBasePage() {
                   onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
                   placeholder="iphone, warranty, trade-in"
                 />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Priority</label>
+                <Select
+                  value={formData.priority}
+                  onValueChange={(value) => setFormData({ ...formData, priority: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Low">Low</SelectItem>
+                    <SelectItem value="Medium">Medium</SelectItem>
+                    <SelectItem value="High">High</SelectItem>
+                    <SelectItem value="Critical">Critical</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div>
                 <label className="text-sm font-medium">Status</label>

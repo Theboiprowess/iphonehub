@@ -1,7 +1,4 @@
-import Image from "next/image";
 import { getIPhoneImageUrl } from "@/lib/iphone-image-provider";
-import { ProductImageFallback } from "@/components/product-image-fallback";
-import { useState } from "react";
 
 interface CatalogueProductCardProps {
   model: string;
@@ -18,49 +15,41 @@ export function CatalogueProductCard({
   imageKey,
   imageOverride,
 }: CatalogueProductCardProps) {
-  const [imageError, setImageError] = useState(false);
-  
-  // Determine image source
+  // Determine image source - manual upload only
   let imageUrl: string | null = null;
   
   if (imageOverride) {
     imageUrl = imageOverride;
-  } else if (imageKey) {
+  } else {
+    // Try to get manually uploaded image from provider
     imageUrl = getIPhoneImageUrl(model);
   }
-  
-  // Don't render image if URL is empty or null
-  const shouldRenderImage = imageUrl && imageUrl.trim() !== '' && !imageError;
   
   return (
     <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 group">
       {/* Image Container */}
-      <div className="relative aspect-square bg-gradient-to-br from-[#EBE2C5] to-[#F7F5EF] overflow-hidden">
-        {shouldRenderImage ? (
-          <Image
+      <div className="relative aspect-[4/3] bg-gradient-to-br from-[#EBE2C5] to-[#F7F5EF] overflow-hidden">
+        {imageUrl ? (
+          <img
             src={imageUrl}
             alt={model}
-            fill
-            className="object-contain p-6 group-hover:scale-105 transition-transform duration-300"
-            onError={() => setImageError(true)}
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            priority={false}
+            className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+            loading="lazy"
           />
         ) : (
-          <ProductImageFallback 
-            message={model} 
-            className="w-full h-full"
-          />
+          <div className="w-full h-full flex items-center justify-center text-6xl">
+            📱
+          </div>
         )}
       </div>
       
       {/* Product Info */}
-      <div className="p-4 space-y-2">
-        <h3 className="text-[#0E161B] font-semibold text-base font-manrope line-clamp-2">
+      <div className="p-4 pl-8 pr-6 space-y-2 text-center">
+        <h3 className="text-[#0E161B] font-semibold text-sm font-manrope line-clamp-2">
           {model}
         </h3>
-        <p className="text-sm text-[#5F3C18]">{storage}</p>
-        <p className="text-xl font-bold text-[#CAA45A]">${Number(price).toFixed(2)}</p>
+        <p className="text-xs text-[#5F3C18]">{storage}</p>
+        <p className="text-lg font-bold text-[#CAA45A]">${Number(price).toFixed(2)}</p>
       </div>
     </div>
   );

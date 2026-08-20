@@ -170,9 +170,11 @@ function EcoCashPaymentContent() {
               )}
 
               <Button
+                variant="primary"
+                goldGlow
                 onClick={initiatePayment}
                 disabled={loading}
-                className="w-full bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]"
+                className="w-full"
                 size="lg"
               >
                 {loading ? (

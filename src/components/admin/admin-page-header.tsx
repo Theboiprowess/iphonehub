@@ -30,7 +30,7 @@ export function AdminPageHeader({
   children
 }: AdminPageHeaderProps) {
   return (
-    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6 mb-8">
       <div className="space-y-2 min-w-0 flex-1">
         <h1 className="text-3xl lg:text-4xl font-bold text-[#0E161B] font-manrope">{title}</h1>
         <p className="text-[#5F3C18] text-base">{subtitle}</p>
@@ -42,7 +42,7 @@ export function AdminPageHeader({
             <Link href={secondaryActionHref}>
               <Button
                 variant="outline"
-                className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586]/10 flex-shrink-0 min-h-[40px]"
+                className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586]/10 flex-shrink-0 h-10 px-4"
               >
                 {secondaryActionIcon}
                 {secondaryActionText}
@@ -52,7 +52,7 @@ export function AdminPageHeader({
             <Button
               variant="outline"
               onClick={secondaryActionOnClick}
-              className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586]/10 flex-shrink-0 min-h-[40px]"
+              className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586]/10 flex-shrink-0 h-10 px-4"
             >
               {secondaryActionIcon}
               {secondaryActionText}
@@ -62,7 +62,7 @@ export function AdminPageHeader({
         {(actionHref || actionOnClick) && (
           actionHref ? (
             <Link href={actionHref}>
-              <Button className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] flex-shrink-0 min-h-[40px]">
+              <Button className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] flex-shrink-0 h-10 px-4">
                 {actionIcon}
                 {actionText}
               </Button>
@@ -70,7 +70,7 @@ export function AdminPageHeader({
           ) : (
             <Button
               onClick={actionOnClick}
-              className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] flex-shrink-0 min-h-[40px]"
+              className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] flex-shrink-0 h-10 px-4"
             >
               {actionIcon}
               {actionText}

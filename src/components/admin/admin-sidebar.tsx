@@ -113,50 +113,28 @@ const navigation = {
   ],
 };
 
-export function AdminSidebar({ mobileOpen: controlledMobileOpen, setMobileOpen: controlledSetMobileOpen, collapsed: controlledCollapsed, setCollapsed: controlledSetCollapsed }: { mobileOpen?: boolean; setMobileOpen?: (open: boolean) => void; collapsed?: boolean; setCollapsed?: (collapsed: boolean) => void }) {
-  const [internalCollapsed, setInternalCollapsed] = useState(true);
+export function AdminSidebar({ mobileOpen: controlledMobileOpen, setMobileOpen: controlledSetMobileOpen }: { mobileOpen?: boolean; setMobileOpen?: (open: boolean) => void }) {
   const [internalMobileOpen, setInternalMobileOpen] = useState(false);
   const pathname = usePathname();
 
   const isMobileOpen = controlledMobileOpen !== undefined ? controlledMobileOpen : internalMobileOpen;
   const handleMobileOpen = controlledSetMobileOpen || setInternalMobileOpen;
-  const isCollapsed = controlledCollapsed !== undefined ? controlledCollapsed : internalCollapsed;
-  const handleCollapsed = controlledSetCollapsed || setInternalCollapsed;
 
   return (
     <>
-      {/* Mobile Backdrop - Only shows on mobile when menu is open */}
-      {isMobileOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden backdrop-blur-sm"
-          onClick={() => handleMobileOpen(false)}
-        />
-      )}
-
       {/* Sidebar */}
       <aside
         className={cn(
-          "lg:relative fixed left-0 top-0 z-50 h-screen bg-gradient-to-b from-[#0E161B] to-[#1A1A20] border-r border-[#CDB586]/20 transition-all duration-300 flex flex-col shadow-2xl lg:static flex-shrink-0",
-          isCollapsed ? "w-16" : "w-[260px]",
+          "lg:relative fixed left-0 top-0 z-50 h-screen bg-gradient-to-b from-[#0E161B] to-[#1A1A20] border-r border-[#CDB586]/20 transition-all duration-300 flex flex-col shadow-2xl lg:static flex-shrink-0 w-[260px]",
           isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
         {/* Logo */}
-        <div className="flex items-center justify-between h-14 px-4 border-b border-[#CDB586]/20 flex-shrink-0 bg-[#CDB586]/5">
-          {!isCollapsed && (
-            <div>
-              <p className="text-sm font-bold text-[#CDB586] tracking-wide">iPhone Hub</p>
-              <p className="text-xs text-[#EBE2C5]/60 mt-0.5">Zimbabwe Admin</p>
-            </div>
-          )}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => handleCollapsed(!isCollapsed)}
-            className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 flex-shrink-0 transition-colors hidden lg:flex"
-          >
-            <Menu className="h-4 w-4" />
-          </Button>
+        <div className="flex items-center justify-between h-16 px-6 border-b border-[#CDB586]/20 flex-shrink-0 bg-[#CDB586]/5">
+          <div>
+            <p className="text-sm font-bold text-[#CDB586] tracking-wide">iPhone Hub</p>
+            <p className="text-xs text-[#EBE2C5]/60 mt-0.5">Zimbabwe Admin</p>
+          </div>
           <Button
             variant="ghost"
             size="icon"
@@ -168,14 +146,12 @@ export function AdminSidebar({ mobileOpen: controlledMobileOpen, setMobileOpen: 
         </div>
 
         {/* Navigation */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden py-3 px-2">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden py-4 px-3">
           {Object.entries(navigation).map(([section, items]) => (
-            <div key={section} className="mb-3">
-              {!isCollapsed && (
-                <p className="px-4 mb-2 text-xs font-semibold text-[#CDB586]/70 uppercase tracking-wider">
-                  {section}
-                </p>
-              )}
+            <div key={section} className="mb-6">
+              <p className="px-4 mb-3 text-xs font-semibold text-[#CDB586]/70 uppercase tracking-wider">
+                {section}
+              </p>
               {items.map((item) => {
                 const Icon = item.icon;
                 const isActive = pathname === item.href || pathname.startsWith(item.href + "?");
@@ -185,14 +161,14 @@ export function AdminSidebar({ mobileOpen: controlledMobileOpen, setMobileOpen: 
                     href={item.href}
                     onClick={() => handleMobileOpen(false)}
                     className={cn(
-                      "flex items-center gap-3 px-4 py-2.5 mx-2 rounded-lg transition-all duration-200 group",
+                      "flex items-center gap-3 px-4 py-3 mx-1 rounded-lg transition-all duration-200 group mb-1",
                       isActive
-                        ? "bg-[#CDB586] text-[#0E161B] shadow-md"
+                        ? "bg-[#CDB586] text-[#0E161B] shadow-md font-medium"
                         : "text-[#EBE2C5]/70 hover:bg-[#CDB586]/10 hover:text-[#CDB586]"
                     )}
                   >
                     <Icon className="h-5 w-5 flex-shrink-0" />
-                    {!isCollapsed && <span className="text-sm font-medium whitespace-nowrap overflow-hidden text-ellipsis">{item.name}</span>}
+                    <span className="text-sm font-medium whitespace-nowrap overflow-hidden text-ellipsis">{item.name}</span>
                   </Link>
                 );
               })}
@@ -207,26 +183,26 @@ export function AdminSidebar({ mobileOpen: controlledMobileOpen, setMobileOpen: 
 export function AdminTopbar({ onMobileMenuToggle }: { onMobileMenuToggle?: () => void }) {
   return (
     <header className="sticky top-0 z-30 w-full border-b border-[#CDB586]/20 bg-gradient-to-r from-[#0E161B]/95 to-[#1A1A20]/95 backdrop-blur flex-shrink-0 shadow-sm">
-      <div className="flex items-center justify-between h-14 px-4 sm:px-6 lg:px-8 gap-4">
+      <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8 gap-4">
         {/* Mobile Menu Button */}
         <div className="flex-shrink-0">
           <Button
             variant="ghost"
             size="icon"
             onClick={onMobileMenuToggle}
-            className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 transition-colors"
+            className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 transition-colors h-10 w-10"
           >
-            <Menu className="h-4 w-4" />
+            <Menu className="h-5 w-5" />
           </Button>
         </div>
 
         {/* Search */}
         <div className="flex-1 min-w-0 max-w-2xl hidden sm:block">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EBE2C5]/40" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EBE2C5]/40" />
             <Input
               placeholder="Search products, orders, customers..."
-              className="bg-[#F7F5EF]/10 border-[#CDB586]/30 text-[#EBE2C5] placeholder:text-[#EBE2C5]/40 pl-10 focus:ring-2 focus:ring-[#CDB586]/50 focus:border-[#CDB586]/50 h-9 w-full"
+              className="bg-[#F7F5EF]/10 border-[#CDB586]/30 text-[#EBE2C5] placeholder:text-[#EBE2C5]/40 pl-11 focus:ring-2 focus:ring-[#CDB586]/50 focus:border-[#CDB586]/50 h-10 w-full"
             />
           </div>
         </div>
@@ -235,37 +211,37 @@ export function AdminTopbar({ onMobileMenuToggle }: { onMobileMenuToggle?: () =>
         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           {/* Quick Add */}
           <Link href="/admin/products/new">
-            <Button size="sm" className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] hidden sm:flex whitespace-nowrap h-8 px-3 text-xs font-medium shadow-sm">
-              <Plus className="h-3.5 w-3.5 mr-1.5" />
+            <Button size="sm" className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] hidden sm:flex whitespace-nowrap h-10 px-4 text-sm font-medium shadow-sm">
+              <Plus className="h-4 w-4 mr-2" />
               Add Product
             </Button>
           </Link>
 
           {/* Website Preview */}
-          <Button variant="outline" size="sm" asChild className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586]/10 hidden sm:flex whitespace-nowrap h-8 px-3 text-xs font-medium">
+          <Button variant="outline" size="sm" asChild className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586]/10 hidden sm:flex whitespace-nowrap h-10 px-4 text-sm font-medium">
             <Link href="/" target="_blank">
-              <ExternalLink className="h-3.5 w-3.5 mr-1.5" />
+              <ExternalLink className="h-4 w-4 mr-2" />
               View Website
             </Link>
           </Button>
 
           {/* Notifications */}
-          <Button variant="ghost" size="icon" className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 flex-shrink-0 h-8 w-8 transition-colors relative">
-            <Bell className="h-4 w-4" />
+          <Button variant="ghost" size="icon" className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 flex-shrink-0 h-10 w-10 transition-colors relative">
+            <Bell className="h-5 w-5" />
             <span className="absolute top-1 right-1 h-2 w-2 bg-[#CDB586] rounded-full"></span>
           </Button>
 
           {/* Profile */}
           <Link href="/admin/(protected)/settings">
-            <Button variant="ghost" size="icon" className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 flex-shrink-0 h-8 w-8 transition-colors">
-              <UserCog className="h-4 w-4" />
+            <Button variant="ghost" size="icon" className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 flex-shrink-0 h-10 w-10 transition-colors">
+              <UserCog className="h-5 w-5" />
             </Button>
           </Link>
 
           {/* Logout */}
           <Link href="/api/auth/signout">
-            <Button variant="ghost" size="icon" className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 flex-shrink-0 h-8 w-8 transition-colors">
-              <LogOut className="h-4 w-4" />
+            <Button variant="ghost" size="icon" className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 flex-shrink-0 h-10 w-10 transition-colors">
+              <LogOut className="h-5 w-5" />
             </Button>
           </Link>
         </div>

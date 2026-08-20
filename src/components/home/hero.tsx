@@ -1,8 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, LinkButton } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { CtaGroup } from "@/components/ui/cta-group";
 import { ArrowRight, Phone, MapPin } from "lucide-react";
-import Link from "next/link";
 
 export function Hero() {
   const handleWhatsAppClick = () => {
@@ -12,23 +13,23 @@ export function Hero() {
   };
 
   return (
-    <section className="relative overflow-hidden section-spacing bg-[#0E161B] wood-texture">
+    <section className="relative overflow-hidden section-spacing-hero bg-[#0E161B] wood-texture">
       <div className="absolute inset-0 bg-gradient-to-br from-[#0E161B] via-[#0E161B] to-[#1A1814]"></div>
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(205,181,134,0.18),transparent_70%)]"></div>
       
       <div className="site-container relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <div className="space-y-8 lg:space-y-10 animate-fade-in-up">
-            <div className="space-y-5">
-              <span className="inline-block px-4 py-1.5 text-xs font-semibold text-[#CDB586] bg-[#CDB586]/10 rounded-full border border-[#CDB586]/30">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center min-w-0">
+          <div className="space-y-8 lg:space-y-12 animate-fade-in-up min-w-0">
+            <div className="space-y-6">
+              <Badge variant="primary" className="mb-2">
                 Premium iPhones in Zimbabwe
-              </span>
+              </Badge>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-[#EBE2C5] font-manrope leading-tight">
                 Your Trusted iPhone Hub in Zimbabwe
               </h1>
             </div>
-            <div className="space-y-5">
-              <p className="text-lg sm:text-xl lg:text-2xl text-[#EBE2C5]/80 max-w-2xl leading-relaxed">
+            <div className="space-y-6">
+              <p className="text-lg sm:text-xl lg:text-2xl text-[#EBE2C5]/80 leading-relaxed">
                 Boxed. Pre-Owned. Second-Hand. Premium iPhones, exceptional service, delivered across Zimbabwe.
               </p>
               <div className="flex items-center gap-2 text-[#CDB586]/80">
@@ -36,40 +37,27 @@ export function Hero() {
                 <span className="text-sm">Based in Masvingo • Serving Customers Nationwide</span>
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row gap-4 pt-2">
-              <Link href="/iphones">
-                <Button size="lg" className="w-full sm:w-auto gold-glow font-semibold">
-                  SHOP iPHONES
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-              <Link href="/trade-in">
-                <Button 
-                  variant="outline" 
-                  size="lg" 
-                  className="w-full sm:w-auto border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586] hover:text-[#0E161B] font-semibold"
-                >
-                  EXPLORE TRADE-IN
-                </Button>
-              </Link>
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="w-full sm:w-auto border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586] hover:text-[#0E161B] font-semibold"
-                onClick={handleWhatsAppClick}
-              >
+            <CtaGroup size="md" className="pt-4">
+              <LinkButton href="/iphones" size="md" goldGlow className="flex-1 sm:flex-none">
+                SHOP iPHONES
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </LinkButton>
+              <LinkButton href="/trade-in" variant="secondary" size="md" className="flex-1 sm:flex-none">
+                EXPLORE TRADE-IN
+              </LinkButton>
+              <Button variant="secondary" size="md" className="flex-1 sm:flex-none" onClick={handleWhatsAppClick}>
                 <Phone className="mr-2 h-4 w-4" />
                 CHAT ON WHATSAPP
               </Button>
-            </div>
+            </CtaGroup>
           </div>
-          <div className="relative animate-scale-in order-last lg:order-last w-full">
-            <div className="relative aspect-[4/3] sm:aspect-[16/9] lg:aspect-[4/3] rounded-2xl bg-gradient-to-br from-[#5F3C18]/20 to-[#81592B]/20 flex items-center justify-center border border-[#CDB586]/30 overflow-hidden shadow-2xl">
+          <div className="relative animate-scale-in order-last lg:order-last w-full min-w-0">
+            <div className="relative aspect-[181/270] rounded-2xl bg-gradient-to-br from-[#5F3C18]/20 to-[#81592B]/20 flex items-center justify-center border border-[#CDB586]/30 overflow-hidden shadow-2xl" style={{ maxWidth: '400px', margin: '0 auto' }}>
               {/* iPhone Image */}
               <img
-                src="/hero-iphone.jpg.jpg"
+                src="/hero image.jpeg"
                 alt="Premium iPhone Display"
-                className="w-full h-full object-contain p-4"
+                className="w-full h-full object-cover"
               />
             </div>
           </div>

@@ -29,6 +29,9 @@ import {
 } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
 import { AdminPageContainer } from "@/components/admin/admin-page-container";
+import { AdminCard } from "@/components/admin/admin-card";
+import { SearchToolbar } from "@/components/admin/search-toolbar";
+import { EmptyState } from "@/components/admin/empty-state";
 import { formatPrice } from "@/lib/utils";
 
 type TradeIn = {
@@ -176,18 +179,20 @@ export default function TradeInPage() {
 
   if (loading) {
     return (
-      <div className="space-y-8">
-        <AdminPageHeader title="Trade-In Requests" subtitle="Manage trade-in requests" />
-        <div className="flex items-center justify-center h-64">
-          <div className="text-[#5F3C18]">Loading trade-ins...</div>
+      <AdminPageContainer>
+        <div className="space-y-8 admin-page-container text-center">
+          <AdminPageHeader title="Trade-In Requests" subtitle="Manage trade-in requests" />
+          <div className="flex items-center justify-center h-64">
+            <div className="text-[#5F3C18]">Loading trade-ins...</div>
+          </div>
         </div>
-      </div>
+      </AdminPageContainer>
     );
   }
 
   return (
     <AdminPageContainer>
-      <div className="space-y-8">
+      <div className="space-y-8 admin-page-container text-center">
         <AdminPageHeader title="Trade-In Requests" subtitle="Manage trade-in requests" />
 
       {error && (
@@ -197,49 +202,36 @@ export default function TradeInPage() {
       )}
 
       {/* Filters */}
-      <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
-        <CardContent className="p-6">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5F3C18]/50" />
-                <Input
-                  placeholder="Search trade-ins..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-            </div>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-full md:w-48">
-                <SelectValue placeholder="All Statuses" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="">All Statuses</SelectItem>
-                {tradeInStatuses.map((status) => (
-                  <SelectItem key={status} value={status}>
-                    {status.replace(/_/g, " ")}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </CardContent>
-      </Card>
+      <SearchToolbar
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="Search trade-ins..."
+        filters={
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="w-full md:w-48">
+              <SelectValue placeholder="All Statuses" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">All Statuses</SelectItem>
+              {tradeInStatuses.map((status) => (
+                <SelectItem key={status} value={status}>
+                  {status.replace(/_/g, " ")}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        }
+      />
 
       {/* Trade-ins Table */}
-      <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
-        <CardHeader>
-          <CardTitle>Trade-In Requests ({tradeIns.length})</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {tradeIns.length === 0 ? (
-            <div className="text-center py-12 text-[#5F3C18]/60">
-              <MessageSquare className="h-12 w-12 mx-auto mb-4 text-[#CDB586]/40" />
-              <p>No trade-in requests found</p>
-            </div>
-          ) : (
+      <AdminCard title={`Trade-In Requests (${tradeIns.length})`}>
+        {tradeIns.length === 0 ? (
+          <EmptyState
+            icon={MessageSquare}
+            title="No trade-in requests found"
+            description="No trade-in requests match your current filters"
+          />
+        ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
@@ -530,8 +522,7 @@ export default function TradeInPage() {
               </div>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </AdminCard>
     </div>
     </AdminPageContainer>
   );

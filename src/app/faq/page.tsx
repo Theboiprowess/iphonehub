@@ -19,38 +19,38 @@ export default function FAQPage() {
           subtitle="Find answers to common questions about our products and services"
         />
 
-        <div className="space-y-8">
+        <div className="space-y-10 min-w-0">
           {/* General Questions */}
-          <Card className="bg-[#F7F5EF] border-[#CDB586]">
-            <CardHeader>
-              <CardTitle className="text-[#0E161B] flex items-center gap-2">
+          <Card className="bg-[#F7F5EF] border-[#CDB586] min-w-0">
+            <CardHeader className="pb-6">
+              <CardTitle className="text-[#0E161B] flex items-center gap-3 text-xl">
                 <ShoppingBag className="h-5 w-5 text-[#CDB586]" />
                 General Questions
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="gen-1">
-                  <AccordionTrigger className="text-left text-[#0E161B]">
+                  <AccordionTrigger className="text-left text-[#0E161B] py-4">
                     What does iPhone Hub Zimbabwe sell?
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#5F3C18]">
+                  <AccordionContent className="text-[#5F3C18] pb-4">
                     iPhone Hub Zimbabwe offers boxed, pre-owned and second-hand iPhones. Product availability, specifications, condition and pricing should be displayed on each individual product listing.
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="gen-2">
-                  <AccordionTrigger className="text-left text-[#0E161B]">
+                  <AccordionTrigger className="text-left text-[#0E161B] py-4">
                     Where is iPhone Hub located?
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#5F3C18]">
+                  <AccordionContent className="text-[#5F3C18] pb-4">
                     iPhone Hub Zimbabwe is based in Zimbabwe. The exact physical address should be displayed once added by the administrator.
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="gen-3">
-                  <AccordionTrigger className="text-left text-[#0E161B]">
+                  <AccordionTrigger className="text-left text-[#0E161B] py-4">
                     How can I contact iPhone Hub?
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#5F3C18]">
+                  <AccordionContent className="text-[#5F3C18] pb-4">
                     Customers can contact the team through WhatsApp:
                     <br /><br />
                     Artwell: 0773227172
@@ -65,36 +65,36 @@ export default function FAQPage() {
           </Card>
 
           {/* Buying Questions */}
-          <Card className="bg-[#F7F5EF] border-[#CDB586]">
-            <CardHeader>
-              <CardTitle className="text-[#0E161B] flex items-center gap-2">
+          <Card className="bg-[#F7F5EF] border-[#CDB586] min-w-0">
+            <CardHeader className="pb-6">
+              <CardTitle className="text-[#0E161B] flex items-center gap-3 text-xl">
                 <ShoppingBag className="h-5 w-5 text-[#CDB586]" />
                 Buying Questions
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="buy-1">
-                  <AccordionTrigger className="text-left text-[#0E161B]">
+                  <AccordionTrigger className="text-left text-[#0E161B] py-4">
                     How do I buy an iPhone?
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#5F3C18]">
+                  <AccordionContent className="text-[#5F3C18] pb-4">
                     Customers can browse the available iPhones on the website, select a device and either proceed through the available ordering process or contact iPhone Hub through WhatsApp.
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="buy-2">
-                  <AccordionTrigger className="text-left text-[#0E161B]">
+                  <AccordionTrigger className="text-left text-[#0E161B] py-4">
                     Can I ask about a phone before buying?
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#5F3C18]">
+                  <AccordionContent className="text-[#5F3C18] pb-4">
                     Yes. Customers can click the WhatsApp enquiry button on any product and send an enquiry directly to the team.
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="buy-3">
-                  <AccordionTrigger className="text-left text-[#0E161B]">
+                  <AccordionTrigger className="text-left text-[#0E161B] py-4">
                     Can I reserve an iPhone?
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#5F3C18]">
+                  <AccordionContent className="text-[#5F3C18] pb-4">
                     Customers may request a reservation through WhatsApp. Reservation availability and duration are subject to confirmation by iPhone Hub Zimbabwe.
                   </AccordionContent>
                 </AccordionItem>
@@ -103,28 +103,28 @@ export default function FAQPage() {
           </Card>
 
           {/* Boxed iPhone FAQ */}
-          <Card className="bg-[#F7F5EF] border-[#CDB586]">
-            <CardHeader>
-              <CardTitle className="text-[#0E161B] flex items-center gap-2">
+          <Card className="bg-[#F7F5EF] border-[#CDB586] min-w-0">
+            <CardHeader className="pb-6">
+              <CardTitle className="text-[#0E161B] flex items-center gap-3 text-xl">
                 <Smartphone className="h-5 w-5 text-[#CDB586]" />
                 Boxed iPhone FAQ
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="boxed-1">
-                  <AccordionTrigger className="text-left text-[#0E161B]">
+                  <AccordionTrigger className="text-left text-[#0E161B] py-4">
                     What is a boxed iPhone?
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#5F3C18]">
+                  <AccordionContent className="text-[#5F3C18] pb-4">
                     A boxed iPhone refers to a device being offered in its box. The exact condition and contents of each product should always be confirmed on its individual listing.
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="boxed-2">
-                  <AccordionTrigger className="text-left text-[#0E161B]">
+                  <AccordionTrigger className="text-left text-[#0E161B] py-4">
                     Does every boxed iPhone come with accessories?
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#5F3C18]">
+                  <AccordionContent className="text-[#5F3C18] pb-4">
                     Accessories and box contents can vary by product. Please check the individual product listing or contact us on WhatsApp to confirm what is included.
                   </AccordionContent>
                 </AccordionItem>
@@ -133,29 +133,29 @@ export default function FAQPage() {
           </Card>
 
           {/* Pre-Owned iPhone FAQ */}
-          <Card className="bg-[#F7F5EF] border-[#CDB586]">
-            <CardHeader>
-              <CardTitle className="text-[#0E161B] flex items-center gap-2">
+          <Card className="bg-[#F7F5EF] border-[#CDB586] min-w-0">
+            <CardHeader className="pb-6">
+              <CardTitle className="text-[#0E161B] flex items-center gap-3 text-xl">
                 <Smartphone className="h-5 w-5 text-[#CDB586]" />
                 Pre-Owned iPhone FAQ
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="preowned-1">
-                  <AccordionTrigger className="text-left text-[#0E161B]">
+                  <AccordionTrigger className="text-left text-[#0E161B] py-4">
                     What does pre-owned mean?
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#5F3C18]">
+                  <AccordionContent className="text-[#5F3C18] pb-4">
                     A pre-owned iPhone is a device that has previously belonged to another owner and is being offered for resale.
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="preowned-2">
-                  <AccordionTrigger className="text-left text-[#0E161B]">
+                  <AccordionTrigger className="text-left text-[#0E161B] py-4">
                     Are pre-owned iPhones tested?
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#5F3C18]">
-                    <div className="p-4 bg-[#EBE2C5] rounded-lg border border-[#CDB586]/50 mb-4">
+                  <AccordionContent className="text-[#5F3C18] pb-4">
+                    <div className="p-5 bg-[#EBE2C5] rounded-lg border border-[#CDB586]/50 mb-4">
                       <p className="text-sm text-[#5F3C18] italic">
                         Our inspection process: [ADMIN EDITABLE]
                       </p>
@@ -163,12 +163,12 @@ export default function FAQPage() {
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="preowned-3">
-                  <AccordionTrigger className="text-left text-[#0E161B]">
+                  <AccordionTrigger className="text-left text-[#0E161B] py-4">
                     Can I see the condition of a pre-owned phone?
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#5F3C18]">
+                  <AccordionContent className="text-[#5F3C18] pb-4">
                     Yes, where photos and condition information are provided, customers should be able to review the actual device before purchasing. For each pre-owned product, display:
-                    <ul className="list-disc list-inside mt-2 space-y-1">
+                    <ul className="list-disc list-inside mt-3 space-y-2">
                       <li>Condition</li>
                       <li>Battery health</li>
                       <li>Storage</li>
@@ -185,30 +185,30 @@ export default function FAQPage() {
           </Card>
 
           {/* Second-Hand iPhone FAQ */}
-          <Card className="bg-[#F7F5EF] border-[#CDB586]">
-            <CardHeader>
-              <CardTitle className="text-[#0E161B] flex items-center gap-2">
+          <Card className="bg-[#F7F5EF] border-[#CDB586] min-w-0">
+            <CardHeader className="pb-6">
+              <CardTitle className="text-[#0E161B] flex items-center gap-3 text-xl">
                 <Smartphone className="h-5 w-5 text-[#CDB586]" />
                 Second-Hand iPhone FAQ
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="secondhand-1">
-                  <AccordionTrigger className="text-left text-[#0E161B]">
+                  <AccordionTrigger className="text-left text-[#0E161B] py-4">
                     What is the difference between pre-owned and second-hand?
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#5F3C18]">
+                  <AccordionContent className="text-[#5F3C18] pb-4">
                     Terminology can vary between sellers. For iPhone Hub, the exact condition of each device should be clearly displayed on the product page rather than relying only on the category name.
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="secondhand-2">
-                  <AccordionTrigger className="text-left text-[#0E161B]">
+                  <AccordionTrigger className="text-left text-[#0E161B] py-4">
                     Are second-hand iPhones cheaper?
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#5F3C18]">
+                  <AccordionContent className="text-[#5F3C18] pb-4">
                     Second-hand devices can provide a more affordable way to own an iPhone. Pricing depends on:
-                    <ul className="list-disc list-inside mt-2 space-y-1">
+                    <ul className="list-disc list-inside mt-3 space-y-2">
                       <li>Model</li>
                       <li>Storage</li>
                       <li>Condition</li>
@@ -223,20 +223,20 @@ export default function FAQPage() {
           </Card>
 
           {/* Battery Health FAQ */}
-          <Card className="bg-[#F7F5EF] border-[#CDB586]">
-            <CardHeader>
-              <CardTitle className="text-[#0E161B] flex items-center gap-2">
+          <Card className="bg-[#F7F5EF] border-[#CDB586] min-w-0">
+            <CardHeader className="pb-6">
+              <CardTitle className="text-[#0E161B] flex items-center gap-3 text-xl">
                 <BatteryMedium className="h-5 w-5 text-[#CDB586]" />
                 Battery Health FAQ
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="battery-1">
-                  <AccordionTrigger className="text-left text-[#0E161B]">
+                  <AccordionTrigger className="text-left text-[#0E161B] py-4">
                     Can I check the battery health?
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#5F3C18]">
+                  <AccordionContent className="text-[#5F3C18] pb-4">
                     Where battery health information is available, display it directly on the product page.
                     <br /><br />
                     Example: <span className="font-semibold">Battery Health: 94%</span>
@@ -245,10 +245,10 @@ export default function FAQPage() {
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="battery-2">
-                  <AccordionTrigger className="text-left text-[#0E161B]">
+                  <AccordionTrigger className="text-left text-[#0E161B] py-4">
                     Does battery health affect the price?
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#5F3C18]">
+                  <AccordionContent className="text-[#5F3C18] pb-4">
                     Battery health can be one of several factors considered when evaluating a pre-owned or second-hand iPhone. Other factors include model, storage, physical condition and overall device condition.
                   </AccordionContent>
                 </AccordionItem>
@@ -257,21 +257,21 @@ export default function FAQPage() {
           </Card>
 
           {/* Delivery FAQ */}
-          <Card className="bg-[#F7F5EF] border-[#CDB586]">
-            <CardHeader>
-              <CardTitle className="text-[#0E161B] flex items-center gap-2">
+          <Card className="bg-[#F7F5EF] border-[#CDB586] min-w-0">
+            <CardHeader className="pb-6">
+              <CardTitle className="text-[#0E161B] flex items-center gap-3 text-xl">
                 <Truck className="h-5 w-5 text-[#CDB586]" />
                 Delivery FAQ
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="delivery-1">
-                  <AccordionTrigger className="text-left text-[#0E161B]">
+                  <AccordionTrigger className="text-left text-[#0E161B] py-4">
                     Do you offer delivery?
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#5F3C18]">
-                    <div className="p-4 bg-[#EBE2C5] rounded-lg border border-[#CDB586]/50">
+                  <AccordionContent className="text-[#5F3C18] pb-4">
+                    <div className="p-5 bg-[#EBE2C5] rounded-lg border border-[#CDB586]/50">
                       <p className="text-sm text-[#5F3C18] italic">
                         Delivery options and availability depend on the customer's location. Contact us on WhatsApp to confirm delivery options for your order. [ADMIN EDITABLE]
                       </p>
@@ -279,11 +279,11 @@ export default function FAQPage() {
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="delivery-2">
-                  <AccordionTrigger className="text-left text-[#0E161B]">
+                  <AccordionTrigger className="text-left text-[#0E161B] py-4">
                     Can I collect my iPhone?
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#5F3C18]">
-                    <div className="p-4 bg-[#EBE2C5] rounded-lg border border-[#CDB586]/50">
+                  <AccordionContent className="text-[#5F3C18] pb-4">
+                    <div className="p-5 bg-[#EBE2C5] rounded-lg border border-[#CDB586]/50">
                       <p className="text-sm text-[#5F3C18] italic">
                         Pickup location, hours, and requirements: [ADMIN EDITABLE]
                       </p>
@@ -295,21 +295,21 @@ export default function FAQPage() {
           </Card>
 
           {/* Payment FAQ */}
-          <Card className="bg-[#F7F5EF] border-[#CDB586]">
-            <CardHeader>
-              <CardTitle className="text-[#0E161B] flex items-center gap-2">
+          <Card className="bg-[#F7F5EF] border-[#CDB586] min-w-0">
+            <CardHeader className="pb-6">
+              <CardTitle className="text-[#0E161B] flex items-center gap-3 text-xl">
                 <CreditCard className="h-5 w-5 text-[#CDB586]" />
                 Payment FAQ
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="payment-1">
-                  <AccordionTrigger className="text-left text-[#0E161B]">
+                  <AccordionTrigger className="text-left text-[#0E161B] py-4">
                     What payment methods do you accept?
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#5F3C18]">
-                    <div className="p-4 bg-[#EBE2C5] rounded-lg border border-[#CDB586]/50">
+                  <AccordionContent className="text-[#5F3C18] pb-4">
+                    <div className="p-5 bg-[#EBE2C5] rounded-lg border border-[#CDB586]/50">
                       <p className="text-sm text-[#5F3C18] italic">
                         Payment methods will be displayed here based on administrator configuration.
                       </p>
@@ -321,23 +321,23 @@ export default function FAQPage() {
           </Card>
 
           {/* Warranty FAQ */}
-          <Card className="bg-[#F7F5EF] border-[#CDB586]">
-            <CardHeader>
-              <CardTitle className="text-[#0E161B] flex items-center gap-2">
+          <Card className="bg-[#F7F5EF] border-[#CDB586] min-w-0">
+            <CardHeader className="pb-6">
+              <CardTitle className="text-[#0E161B] flex items-center gap-3 text-xl">
                 <ShieldCheck className="h-5 w-5 text-[#CDB586]" />
                 Warranty FAQ
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="warranty-1">
-                  <AccordionTrigger className="text-left text-[#0E161B]">
+                  <AccordionTrigger className="text-left text-[#0E161B] py-4">
                     Do your iPhones come with a warranty?
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#5F3C18]">
+                  <AccordionContent className="text-[#5F3C18] pb-4">
                     Warranty availability and terms vary by product. Please check the product listing or contact iPhone Hub Zimbabwe before purchasing.
                     <br /><br />
-                    <div className="p-4 bg-[#EBE2C5] rounded-lg border border-[#CDB586]/50 space-y-2">
+                    <div className="p-5 bg-[#EBE2C5] rounded-lg border border-[#CDB586]/50 space-y-3">
                       <p className="text-sm text-[#5F3C18] italic">
                         Warranty duration: [ADMIN EDITABLE]
                       </p>
@@ -358,23 +358,23 @@ export default function FAQPage() {
           </Card>
 
           {/* Returns FAQ */}
-          <Card className="bg-[#F7F5EF] border-[#CDB586]">
-            <CardHeader>
-              <CardTitle className="text-[#0E161B] flex items-center gap-2">
+          <Card className="bg-[#F7F5EF] border-[#CDB586] min-w-0">
+            <CardHeader className="pb-6">
+              <CardTitle className="text-[#0E161B] flex items-center gap-3 text-xl">
                 <ShieldCheck className="h-5 w-5 text-[#CDB586]" />
                 Returns FAQ
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="returns-1">
-                  <AccordionTrigger className="text-left text-[#0E161B]">
+                  <AccordionTrigger className="text-left text-[#0E161B] py-4">
                     Can I return an iPhone?
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#5F3C18]">
+                  <AccordionContent className="text-[#5F3C18] pb-4">
                     Please review our Returns & Refund Policy before completing your purchase.
                     <br /><br />
-                    <div className="p-4 bg-[#EBE2C5] rounded-lg border border-[#CDB586]/50">
+                    <div className="p-5 bg-[#EBE2C5] rounded-lg border border-[#CDB586]/50">
                       <p className="text-sm text-[#5F3C18] italic">
                         Returns & Refund Policy: [ADMIN EDITABLE]
                       </p>
@@ -386,20 +386,20 @@ export default function FAQPage() {
           </Card>
 
           {/* Trade-In FAQ */}
-          <Card className="bg-[#F7F5EF] border-[#CDB586]">
-            <CardHeader>
-              <CardTitle className="text-[#0E161B] flex items-center gap-2">
+          <Card className="bg-[#F7F5EF] border-[#CDB586] min-w-0">
+            <CardHeader className="pb-6">
+              <CardTitle className="text-[#0E161B] flex items-center gap-3 text-xl">
                 <ArrowLeftRight className="h-5 w-5 text-[#CDB586]" />
                 Trade-In FAQ
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="tradein-1">
-                  <AccordionTrigger className="text-left text-[#0E161B]">
+                  <AccordionTrigger className="text-left text-[#0E161B] py-4">
                     How does the trade-in process work?
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#5F3C18]">
+                  <AccordionContent className="text-[#5F3C18] pb-4">
                     Visit our Trade-In page to submit information about your current iPhone. Our team will assess your device and provide an estimated trade-in value that can be applied toward an eligible replacement device.
                   </AccordionContent>
                 </AccordionItem>
@@ -408,13 +408,13 @@ export default function FAQPage() {
           </Card>
         </div>
 
-        <div className="mt-8 text-center">
-          <p className="text-[#5F3C18] mb-4">
+        <div className="mt-16 text-center">
+          <p className="text-[#5F3C18] mb-6 text-lg">
             Can't find the answer you're looking for?
           </p>
           <a
             href="/contact"
-            className="inline-block bg-[#0E161B] text-[#EBE2C5] px-6 py-3 rounded-lg hover:bg-[#1A1814] transition-colors"
+            className="inline-block bg-[#0E161B] text-[#EBE2C5] px-8 py-3 rounded-lg hover:bg-[#1A1814] transition-colors h-12"
           >
             Contact Us
           </a>

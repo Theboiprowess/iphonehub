@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Lock, Smartphone } from "lucide-react";
+import { Smartphone } from "lucide-react";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -44,53 +44,62 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0E161B] p-4">
-      <Card className="w-full max-w-md bg-[#1A242D] border-[#CDB586]/30">
-        <CardHeader className="space-y-4 text-center">
+    <div className="min-h-screen flex items-center justify-center bg-[#0E161B] p-4 relative overflow-hidden w-full">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(205,181,134,0.3),transparent_70%)]"></div>
+      </div>
+      
+      <Card className="w-full max-w-[480px] bg-[#1A242D] border-[#CDB586]/30 relative z-10 shadow-2xl mx-auto">
+        <CardHeader className="space-y-6 text-center pb-6 px-6">
           <div className="flex justify-center">
-            <div className="p-3 bg-[#CDB586]/10 rounded-full">
-              <Smartphone className="h-8 w-8 text-[#CDB586]" />
+            <div className="p-4 bg-[#CDB586]/10 rounded-full border border-[#CDB586]/30">
+              <Smartphone className="h-10 w-10 text-[#CDB586]" />
             </div>
           </div>
-          <CardTitle className="text-2xl font-bold text-[#EBE2C5]">
-            iPhone Hub Zimbabwe
-          </CardTitle>
-          <p className="text-[#EBE2C5]/60">Admin Dashboard Login</p>
+          <div className="space-y-2">
+            <CardTitle className="text-2xl sm:text-3xl font-bold text-[#EBE2C5] tracking-tight">
+              iPhone Hub Zimbabwe
+            </CardTitle>
+            <p className="text-[#EBE2C5]/60 text-base sm:text-lg">Admin Dashboard Login</p>
+          </div>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <CardContent className="pt-0 px-6 pb-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
-              <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
+              <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
                 {error}
               </div>
             )}
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-[#EBE2C5]">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="admin@iphonehubzimbabwe.co.zw"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                required
-                className="bg-[#0E161B] border-[#CDB586]/30 text-[#EBE2C5] placeholder:text-[#EBE2C5]/40"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-[#EBE2C5]">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                required
-                className="bg-[#0E161B] border-[#CDB586]/30 text-[#EBE2C5] placeholder:text-[#EBE2C5]/40"
-              />
+            <div className="space-y-5">
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-[#EBE2C5] text-sm font-medium">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="admin@iphonehubzimbabwe.co.zw"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  required
+                  className="bg-[#0E161B] border-[#CDB586]/30 text-[#EBE2C5] placeholder:text-[#EBE2C5]/40 h-11 w-full"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-[#EBE2C5] text-sm font-medium">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="•••••••••"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  required
+                  className="bg-[#0E161B] border-[#CDB586]/30 text-[#EBE2C5] placeholder:text-[#EBE2C5]/40 h-11 w-full"
+                />
+              </div>
             </div>
             <Button
               type="submit"
-              className="w-full bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]"
+              className="w-full bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] h-12 text-base font-semibold"
               disabled={loading}
             >
               {loading ? "Signing in..." : "Sign In"}

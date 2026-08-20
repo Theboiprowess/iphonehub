@@ -16,8 +16,8 @@ export function SectionHeader({
   className = "" 
 }: SectionHeaderProps) {
   return (
-    <div className={`text-center w-full mx-auto mb-12 ${className}`}>
-      <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0E161B] font-manrope mb-6 text-center">
+    <div className={`text-center mb-12 ${className}`}>
+      <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0E161B] font-manrope mb-6">
         {title}
       </h2>
       <div className="flex justify-center mb-8">
@@ -25,7 +25,7 @@ export function SectionHeader({
       </div>
       {subtitle && (
         <div className="text-center mb-10">
-          <p className={`${subtitleClassName} max-w-3xl mx-auto leading-relaxed px-4`}>
+          <p className={`${subtitleClassName} leading-relaxed`}>
             {subtitle}
           </p>
         </div>

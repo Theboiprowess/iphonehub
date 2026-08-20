@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button, LinkButton } from "@/components/ui/button";
+import { CtaGroup } from "@/components/ui/cta-group";
 import { CheckCircle, MessageCircle, ShoppingBag, Package, Truck, Phone, Mail } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import { CEOSelectionDialog } from "@/components/whatsapp/ceo-selection-dialog";
@@ -53,9 +54,9 @@ export default function CheckoutSuccessPage() {
         <Card className="max-w-md w-full">
           <CardContent className="pt-6 text-center">
             <p className="text-[#5F3C18] mb-4">Order not found</p>
-            <Button onClick={() => router.push("/iphones")}>
+            <LinkButton href="/iphones">
               Continue Shopping
-            </Button>
+            </LinkButton>
           </CardContent>
         </Card>
       </div>
@@ -187,23 +188,35 @@ export default function CheckoutSuccessPage() {
           </Card>
 
           {/* Action Buttons */}
-          <div className="space-y-3">
+          <CtaGroup>
             <Button
-              className="w-full h-12 bg-[#25D366] text-white hover:bg-[#128C7E] font-semibold"
+              variant="whatsapp"
+              className="w-full"
               onClick={() => setShowWhatsAppDialog(true)}
             >
               <MessageCircle className="h-4 w-4 mr-2" />
               Contact Us on WhatsApp
             </Button>
 
-            <Button
-              className="w-full h-12 bg-[#0E161B] text-[#EBE2C5] hover:bg-[#1A1A20]"
-              onClick={() => router.push("/iphones")}
+            <LinkButton
+              href="/thank-you"
+              variant="primary"
+              goldGlow
+              className="w-full"
+            >
+              <CheckCircle className="h-4 w-4 mr-2" />
+              Thank You
+            </LinkButton>
+
+            <LinkButton
+              href="/iphones"
+              variant="tertiary"
+              className="w-full"
             >
               <ShoppingBag className="h-4 w-4 mr-2" />
               Continue Shopping
-            </Button>
-          </div>
+            </LinkButton>
+          </CtaGroup>
 
           {/* WhatsApp CEO Selection Dialog */}
           <CEOSelectionDialog

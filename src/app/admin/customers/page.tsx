@@ -24,6 +24,9 @@ import {
 } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
 import { AdminPageContainer } from "@/components/admin/admin-page-container";
+import { AdminCard } from "@/components/admin/admin-card";
+import { SearchToolbar } from "@/components/admin/search-toolbar";
+import { EmptyState } from "@/components/admin/empty-state";
 import { formatPrice } from "@/lib/utils";
 
 type Customer = {
@@ -188,18 +191,20 @@ export default function CustomersPage() {
 
   if (loading) {
     return (
-      <div className="space-y-8">
-        <AdminPageHeader title="Customers" subtitle="Manage customer accounts" />
-        <div className="flex items-center justify-center h-64">
-          <div className="text-[#5F3C18]">Loading customers...</div>
+      <AdminPageContainer>
+        <div className="space-y-8 admin-page-container text-center">
+          <AdminPageHeader title="Customers" subtitle="Manage customer accounts" />
+          <div className="flex items-center justify-center h-64">
+            <div className="text-[#5F3C18]">Loading customers...</div>
+          </div>
         </div>
-      </div>
+      </AdminPageContainer>
     );
   }
 
   return (
     <AdminPageContainer>
-      <div className="space-y-8">
+      <div className="space-y-8 admin-page-container text-center">
         <AdminPageHeader title="Customers" subtitle="Manage customer accounts" />
 
       {error && (
@@ -209,32 +214,21 @@ export default function CustomersPage() {
       )}
 
       {/* Search */}
-      <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
-        <CardContent className="p-6">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5F3C18]/50" />
-            <Input
-              placeholder="Search customers by name, email, or phone..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-        </CardContent>
-      </Card>
+      <SearchToolbar
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="Search customers by name, email, or phone..."
+      />
 
       {/* Customers Table */}
-      <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
-        <CardHeader>
-          <CardTitle>Customers ({customers.length})</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {customers.length === 0 ? (
-            <div className="text-center py-12 text-[#5F3C18]/60">
-              <Users className="h-12 w-12 mx-auto mb-4 text-[#CDB586]/40" />
-              <p>No customers found</p>
-            </div>
-          ) : (
+      <AdminCard title={`Customers (${customers.length})`}>
+        {customers.length === 0 ? (
+          <EmptyState
+            icon={Users}
+            title="No customers found"
+            description="No customers match your current search"
+          />
+        ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
@@ -463,8 +457,7 @@ export default function CustomersPage() {
               </div>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </AdminCard>
     </div>
     </AdminPageContainer>
   );

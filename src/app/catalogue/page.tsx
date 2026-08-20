@@ -81,8 +81,8 @@ export default function CataloguePage() {
               Object.entries(groupedBySeries).map(([series, items]) => {
                 if (!items || (items as any[]).length === 0) return null;
                 return (
-                <div key={series} className="bg-white rounded-2xl shadow-lg p-6 sm:p-8">
-                  <h2 className="text-2xl font-bold text-[#0E161B] mb-6 font-manrope flex items-center gap-2">
+                <div key={series} className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 text-center">
+                  <h2 className="text-2xl font-bold text-[#0E161B] mb-6 font-manrope flex items-center justify-center gap-2">
                     <img 
                       src="/og.jfif" 
                       alt="iPhone" 

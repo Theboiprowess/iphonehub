@@ -1,22 +1,12 @@
 /**
  * iPhone Product Image Provider
  * 
- * Provides automatic image resolution for iPhone products based on model.
- * This system uses a centralized mapping to ensure consistent, accurate product images.
+ * Manual Upload Only - No Automatic Images
  * 
- * Image Source: CONFIGURATION REQUIRED
+ * This system only provides images when they are manually uploaded.
+ * No automatic Apple CDN images are used.
  * 
- * CURRENT STATE: Using placeholder/fallback system
- * 
- * TO CONFIGURE PRODUCTION IMAGES:
- * 1. Replace the imageUrl values in IPHONE_IMAGE_MAPPINGS with legitimate image URLs from:
- *    - Apple's official product images (requires authorization)
- *    - Your own product photography hosted on your CDN
- *    - Licensed stock images
- * 2. All images must be legally licensed for commercial use
- * 3. DO NOT use scraped images, hotlinks, or unauthorized sources
- * 
- * Configuration Point: IPHONE_IMAGE_MAPPINGS object below
+ * Images must be manually uploaded via the admin panel for each product.
  */
 
 export interface IPhoneImageConfig {
@@ -30,250 +20,13 @@ export interface IPhoneImageConfig {
 }
 
 /**
- * Image mappings for iPhone models
+ * Empty image mappings - Manual upload only
  * 
- * CURRENT CONFIGURATION: Using null/empty to trigger fallback system
- * 
- * To configure production images, replace imageUrl with legitimate URLs.
- * Example:
- *   imageUrl: 'https://your-cdn.com/iphone-15-pro-max.png'
- * 
- * The imageKey is used as a stable identifier that can be mapped to different image sources.
+ * All automatic image sources have been removed.
+ * Images must be manually uploaded via admin panel.
  */
 const IPHONE_IMAGE_MAPPINGS: Record<string, IPhoneImageConfig> = {
-  // iPhone 17 Series
-  'iphone-17-pro-max': {
-    model: 'iPhone 17 Pro Max',
-    series: 'iPhone 17',
-    imageKey: 'iphone-17-pro-max',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone 17 Pro Max',
-  },
-  
-  // iPhone 16 Series
-  'iphone-16-pro-max': {
-    model: 'iPhone 16 Pro Max',
-    series: 'iPhone 16',
-    imageKey: 'iphone-16-pro-max',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone 16 Pro Max',
-  },
-  'iphone-16-plus': {
-    model: 'iPhone 16 Plus',
-    series: 'iPhone 16',
-    imageKey: 'iphone-16-plus',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone 16 Plus',
-  },
-  'iphone-16': {
-    model: 'iPhone 16',
-    series: 'iPhone 16',
-    imageKey: 'iphone-16',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone 16',
-  },
-  
-  // iPhone 15 Series
-  'iphone-15-pro-max': {
-    model: 'iPhone 15 Pro Max',
-    series: 'iPhone 15',
-    imageKey: 'iphone-15-pro-max',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone 15 Pro Max',
-  },
-  'iphone-15-plus': {
-    model: 'iPhone 15 Plus',
-    series: 'iPhone 15',
-    imageKey: 'iphone-15-plus',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone 15 Plus',
-  },
-  'iphone-15': {
-    model: 'iPhone 15',
-    series: 'iPhone 15',
-    imageKey: 'iphone-15',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone 15',
-  },
-  
-  // iPhone 14 Series
-  'iphone-14-pro-max': {
-    model: 'iPhone 14 Pro Max',
-    series: 'iPhone 14',
-    imageKey: 'iphone-14-pro-max',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone 14 Pro Max',
-  },
-  'iphone-14-pro': {
-    model: 'iPhone 14 Pro',
-    series: 'iPhone 14',
-    imageKey: 'iphone-14-pro',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone 14 Pro',
-  },
-  'iphone-14-plus': {
-    model: 'iPhone 14 Plus',
-    series: 'iPhone 14',
-    imageKey: 'iphone-14-plus',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone 14 Plus',
-  },
-  'iphone-14': {
-    model: 'iPhone 14',
-    series: 'iPhone 14',
-    imageKey: 'iphone-14',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone 14',
-  },
-  
-  // iPhone 13 Series
-  'iphone-13-pro-max': {
-    model: 'iPhone 13 Pro Max',
-    series: 'iPhone 13',
-    imageKey: 'iphone-13-pro-max',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone 13 Pro Max',
-  },
-  'iphone-13-pro': {
-    model: 'iPhone 13 Pro',
-    series: 'iPhone 13',
-    imageKey: 'iphone-13-pro',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone 13 Pro',
-  },
-  'iphone-13': {
-    model: 'iPhone 13',
-    series: 'iPhone 13',
-    imageKey: 'iphone-13',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone 13',
-  },
-  
-  // iPhone 12 Series
-  'iphone-12-pro-max': {
-    model: 'iPhone 12 Pro Max',
-    series: 'iPhone 12',
-    imageKey: 'iphone-12-pro-max',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone 12 Pro Max',
-  },
-  'iphone-12-pro': {
-    model: 'iPhone 12 Pro',
-    series: 'iPhone 12',
-    imageKey: 'iphone-12-pro',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone 12 Pro',
-  },
-  'iphone-12': {
-    model: 'iPhone 12',
-    series: 'iPhone 12',
-    imageKey: 'iphone-12',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone 12',
-  },
-  
-  // iPhone 11 Series
-  'iphone-11-pro-max': {
-    model: 'iPhone 11 Pro Max',
-    series: 'iPhone 11',
-    imageKey: 'iphone-11-pro-max',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone 11 Pro Max',
-  },
-  'iphone-11-pro': {
-    model: 'iPhone 11 Pro',
-    series: 'iPhone 11',
-    imageKey: 'iphone-11-pro',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone 11 Pro',
-  },
-  'iphone-11': {
-    model: 'iPhone 11',
-    series: 'iPhone 11',
-    imageKey: 'iphone-11',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone 11',
-  },
-  
-  // iPhone X / XR / XS Series
-  'iphone-xs-max': {
-    model: 'iPhone XS Max',
-    series: 'iPhone X / XR / XS',
-    imageKey: 'iphone-xs-max',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone XS Max',
-  },
-  'iphone-xr': {
-    model: 'iPhone XR',
-    series: 'iPhone X / XR / XS',
-    imageKey: 'iphone-xr',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone XR',
-  },
-  'iphone-x': {
-    model: 'iPhone X',
-    series: 'iPhone X / XR / XS',
-    imageKey: 'iphone-x',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone X',
-  },
-  
-  // Default fallback
-  'default': {
-    model: 'iPhone',
-    series: 'iPhone',
-    imageKey: 'default',
-    imageUrl: '', // CONFIGURE: Add legitimate image URL
-    width: 400,
-    height: 400,
-    alt: 'iPhone',
-  },
+  // No automatic images - manual upload only
 };
 
 /**
@@ -293,32 +46,146 @@ export function modelToImageKey(model: string): string {
     return normalized;
   }
   
-  // Try to find a partial match
+  // Try to find a partial match - check each key
   const keys = Object.keys(IPHONE_IMAGE_MAPPINGS);
   for (const key of keys) {
-    if (normalized.includes(key.replace('-', ' '))) {
+    const keyWithoutDashes = key.replace(/-/g, ' ');
+    const normalizedWithoutDashes = normalized.replace(/-/g, ' ');
+    
+    // Check if model contains the key name
+    if (normalizedWithoutDashes.includes(keyWithoutDashes) || keyWithoutDashes.includes(normalizedWithoutDashes)) {
+      return key;
+    }
+    
+    // Check for specific model patterns
+    if (normalized.includes('pro-max') && key.includes('pro-max')) {
+      return key;
+    }
+    if (normalized.includes('pro') && key.includes('pro') && !key.includes('pro-max')) {
+      return key;
+    }
+    if (normalized.includes('plus') && key.includes('plus')) {
       return key;
     }
   }
   
-  // Default fallback
+  // Comprehensive series matching with specific patterns
+  // iPhone 17
+  if (normalized.includes('17')) {
+    if (normalized.includes('pro-max') || normalized.includes('promax')) return 'iphone-17-pro-max';
+    if (normalized.includes('pro')) return 'iphone-17-pro-max';
+    if (normalized.includes('plus')) return 'iphone-16-plus';
+    return 'iphone-17-pro-max';
+  }
+  
+  // iPhone 16
+  if (normalized.includes('16')) {
+    if (normalized.includes('pro-max') || normalized.includes('promax')) return 'iphone-16-pro-max';
+    if (normalized.includes('pro')) return 'iphone-16-pro-max';
+    if (normalized.includes('plus')) return 'iphone-16-plus';
+    return 'iphone-16';
+  }
+  
+  // iPhone 15
+  if (normalized.includes('15')) {
+    if (normalized.includes('pro-max') || normalized.includes('promax')) return 'iphone-15-pro-max';
+    if (normalized.includes('pro')) return 'iphone-15-pro-max';
+    if (normalized.includes('plus')) return 'iphone-15-plus';
+    return 'iphone-15';
+  }
+  
+  // iPhone 14
+  if (normalized.includes('14')) {
+    if (normalized.includes('pro-max') || normalized.includes('promax')) return 'iphone-14-pro-max';
+    if (normalized.includes('pro')) return 'iphone-14-pro';
+    if (normalized.includes('plus')) return 'iphone-14-plus';
+    if (normalized.includes('mini')) return 'iphone-14-mini';
+    return 'iphone-14';
+  }
+  
+  // iPhone 13
+  if (normalized.includes('13')) {
+    if (normalized.includes('pro-max') || normalized.includes('promax')) return 'iphone-13-pro-max';
+    if (normalized.includes('pro')) return 'iphone-13-pro';
+    if (normalized.includes('mini')) return 'iphone-13-mini';
+    return 'iphone-13';
+  }
+  
+  // iPhone 12
+  if (normalized.includes('12')) {
+    if (normalized.includes('pro-max') || normalized.includes('promax')) return 'iphone-12-pro-max';
+    if (normalized.includes('pro')) return 'iphone-12-pro';
+    if (normalized.includes('mini')) return 'iphone-12-mini';
+    return 'iphone-12';
+  }
+  
+  // iPhone 13
+  if (normalized.includes('13')) {
+    if (normalized.includes('pro-max') || normalized.includes('promax')) return 'iphone-13-pro-max';
+    if (normalized.includes('pro')) return 'iphone-13-pro';
+    if (normalized.includes('mini')) return 'iphone-13-mini';
+    return 'iphone-13';
+  }
+  
+  // iPhone 12
+  if (normalized.includes('12')) {
+    if (normalized.includes('pro-max') || normalized.includes('promax')) return 'iphone-12-pro-max';
+    if (normalized.includes('pro')) return 'iphone-12-pro';
+    if (normalized.includes('mini')) return 'iphone-12-mini';
+    return 'iphone-12';
+  }
+  
+  // iPhone 11
+  if (normalized.includes('11')) {
+    if (normalized.includes('pro-max') || normalized.includes('promax')) return 'iphone-11-pro-max';
+    if (normalized.includes('pro')) return 'iphone-11-pro';
+    return 'iphone-11';
+  }
+  
+  // iPhone X series
+  if (normalized.includes('xs') && normalized.includes('max')) return 'iphone-xs-max';
+  if (normalized.includes('xs')) return 'iphone-xs-max';
+  if (normalized.includes('xr')) return 'iphone-xr';
+  if (normalized.includes('x')) return 'iphone-x';
+  
+  // iPhone SE
+  if (normalized.includes('se')) {
+    if (normalized.includes('3') || normalized.includes('2022') || normalized.includes('2023')) return 'iphone-se-3';
+    if (normalized.includes('2') || normalized.includes('2020')) return 'iphone-se-2';
+    return 'iphone-se-3';
+  }
+  
+  // iPhone 8
+  if (normalized.includes('8')) {
+    if (normalized.includes('plus')) return 'iphone-8-plus';
+    return 'iphone-8';
+  }
+  
+  // iPhone 7
+  if (normalized.includes('7')) {
+    if (normalized.includes('plus')) return 'iphone-7-plus';
+    return 'iphone-7';
+  }
+  
+  // Default fallback - use iPhone 15 as the most recent reliable image
   return 'default';
 }
 
 /**
  * Get image configuration for a model
  */
-export function getIPhoneImageConfig(model: string): IPhoneImageConfig {
+export function getIPhoneImageConfig(model: string): IPhoneImageConfig | null {
   const imageKey = modelToImageKey(model);
-  return IPHONE_IMAGE_MAPPINGS[imageKey] || IPHONE_IMAGE_MAPPINGS['default'];
+  return IPHONE_IMAGE_MAPPINGS[imageKey] || null;
 }
 
 /**
  * Get image URL for a model
+ * Returns null if no manual image is uploaded
  */
-export function getIPhoneImageUrl(model: string): string {
+export function getIPhoneImageUrl(model: string): string | null {
   const config = getIPhoneImageConfig(model);
-  return config.imageUrl;
+  return config?.imageUrl || null;
 }
 
 /**

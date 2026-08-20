@@ -3,7 +3,7 @@ import QRCode from 'qrcode';
 
 export async function GET() {
   try {
-    const websiteUrl = 'https://iphone-hub-masvingo.vercel.app';
+    const websiteUrl = 'https://iphonehubzimbabwe.co.zw';
     
     // Generate QR code as data URL
     const qrCodeDataUrl = await QRCode.toDataURL(websiteUrl, {

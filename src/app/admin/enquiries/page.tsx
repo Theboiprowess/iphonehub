@@ -23,6 +23,10 @@ import {
   AlertTriangle
 } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { AdminPageContainer } from "@/components/admin/admin-page-container";
+import { AdminCard } from "@/components/admin/admin-card";
+import { SearchToolbar } from "@/components/admin/search-toolbar";
+import { EmptyState } from "@/components/admin/empty-state";
 
 type Enquiry = {
   id: string;
@@ -135,18 +139,21 @@ export default function EnquiriesPage() {
 
   if (loading) {
     return (
-      <div className="space-y-8">
-        <AdminPageHeader title="Enquiries" subtitle="Manage customer enquiries" />
-        <div className="flex items-center justify-center h-64">
-          <div className="text-[#5F3C18]">Loading enquiries...</div>
+      <AdminPageContainer>
+        <div className="space-y-8 admin-page-container text-center">
+          <AdminPageHeader title="Enquiries" subtitle="Manage customer enquiries" />
+          <div className="flex items-center justify-center h-64">
+            <div className="text-[#5F3C18]">Loading enquiries...</div>
+          </div>
         </div>
-      </div>
+      </AdminPageContainer>
     );
   }
 
   return (
-    <div className="space-y-8">
-      <AdminPageHeader title="Enquiries" subtitle="Manage customer enquiries" />
+    <AdminPageContainer>
+      <div className="space-y-8 admin-page-container text-center">
+        <AdminPageHeader title="Enquiries" subtitle="Manage customer enquiries" />
 
       {error && (
         <div className="p-4 bg-red-900/50 border border-red-500 rounded text-red-200">
@@ -155,64 +162,51 @@ export default function EnquiriesPage() {
       )}
 
       {/* Filters */}
-      <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
-        <CardContent className="p-6">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5F3C18]/50" />
-                <Input
-                  placeholder="Search enquiries..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-            </div>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-full md:w-48">
-                <SelectValue placeholder="All Statuses" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="">All Statuses</SelectItem>
-                {enquiryStatuses.map((status) => (
-                  <SelectItem key={status} value={status}>
-                    {status.replace(/_/g, " ")}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </CardContent>
-      </Card>
+      <SearchToolbar
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="Search enquiries..."
+        filters={
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="w-full md:w-48">
+              <SelectValue placeholder="All Statuses" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">All Statuses</SelectItem>
+              {enquiryStatuses.map((status) => (
+                <SelectItem key={status} value={status}>
+                  {status.replace(/_/g, " ")}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        }
+      />
 
       {/* Enquiries Table */}
-      <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
-        <CardHeader>
-          <CardTitle>Enquiries ({enquiries.length})</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {enquiries.length === 0 ? (
-            <div className="text-center py-12 text-[#5F3C18]/60">
-              <MessageSquare className="h-12 w-12 mx-auto mb-4 text-[#CDB586]/40" />
-              <p>No enquiries found</p>
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-[#CDB586]/20">
-                    <th className="text-left p-4 font-semibold text-[#0E161B]">Customer</th>
-                    <th className="text-left p-4 font-semibold text-[#0E161B]">Subject</th>
-                    <th className="text-left p-4 font-semibold text-[#0E161B]">Status</th>
-                    <th className="text-left p-4 font-semibold text-[#0E161B]">Date</th>
-                    <th className="text-right p-4 font-semibold text-[#0E161B]">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {enquiries.map((enquiry) => (
-                    <tr key={enquiry.id} className="border-b border-[#CDB586]/10 hover:bg-[#CDB586]/5">
-                      <td className="p-4">
+      <AdminCard title={`Enquiries (${enquiries.length})`}>
+        {enquiries.length === 0 ? (
+          <EmptyState
+            icon={MessageSquare}
+            title="No enquiries found"
+            description="No enquiries match your current filters"
+          />
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-[#CDB586]/20">
+                  <th className="text-left p-4 font-semibold text-[#0E161B]">Customer</th>
+                  <th className="text-left p-4 font-semibold text-[#0E161B]">Subject</th>
+                  <th className="text-left p-4 font-semibold text-[#0E161B]">Status</th>
+                  <th className="text-left p-4 font-semibold text-[#0E161B]">Date</th>
+                  <th className="text-right p-4 font-semibold text-[#0E161B]">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {enquiries.map((enquiry) => (
+                  <tr key={enquiry.id} className="border-b border-[#CDB586]/10 hover:bg-[#CDB586]/5">
+                    <td className="p-4">
                         <div className="font-medium text-[#0E161B]">{enquiry.name}</div>
                         <div className="text-sm text-[#5F3C18]/60">{enquiry.email}</div>
                         <div className="text-sm text-[#5F3C18]/60">{enquiry.phone}</div>
@@ -369,8 +363,8 @@ export default function EnquiriesPage() {
               </div>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </AdminCard>
     </div>
+    </AdminPageContainer>
   );
 }

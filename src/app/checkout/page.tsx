@@ -2,14 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { useCart } from "@/lib/cart-context";
-import { Button } from "@/components/ui/button";
+import { Button, LinkButton } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { formatPrice } from "@/lib/utils";
-import { Truck, Phone, CreditCard, AlertCircle, Smartphone, CheckCircle } from "lucide-react";
+import { Truck, Phone, CreditCard, AlertCircle, Smartphone, CheckCircle, Trash2 } from "lucide-react";
 
 type EcoCashAccount = {
   id: string;
@@ -19,7 +19,7 @@ type EcoCashAccount = {
 };
 
 export default function CheckoutPage() {
-  const { items, subtotal, clearCart } = useCart();
+  const { items, subtotal, clearCart, removeItem } = useCart();
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [ecoCashAccounts, setEcoCashAccounts] = useState<EcoCashAccount[]>([]);
@@ -156,9 +156,9 @@ export default function CheckoutPage() {
         <Card className="max-w-md w-full">
           <CardContent className="pt-6 text-center">
             <p className="text-gray-600 mb-4">Your cart is empty</p>
-            <Button onClick={() => (window.location.href = "/iphones")}>
+            <LinkButton href="/iphones">
               Continue Shopping
-            </Button>
+            </LinkButton>
           </CardContent>
         </Card>
       </div>
@@ -166,28 +166,28 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F7F5EF] py-12">
+    <div className="min-h-screen bg-[#F7F5EF] section-spacing">
       <div className="site-container">
-        <h1 className="text-3xl font-bold mb-8 text-[#0E161B]">Checkout</h1>
+        <h1 className="text-4xl sm:text-5xl font-bold mb-12 text-[#0E161B] font-manrope">Checkout</h1>
 
         {errors.general && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
+          <div className="mb-8 p-5 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
             <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
             <p className="text-red-800">{errors.general}</p>
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 min-w-0">
           {/* Checkout Form */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-8 min-w-0">
             <Card className="bg-white border-[#CDB586]/30">
-              <CardHeader>
-                <CardTitle className="text-[#0E161B]">Contact Information</CardTitle>
+              <CardHeader className="pb-6">
+                <CardTitle className="text-[#0E161B] text-xl">Contact Information</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
+              <CardContent className="pt-0">
+                <div className="space-y-6">
                   <div>
-                    <Label htmlFor="fullName" className="text-[#5F3C18]">Full Name *</Label>
+                    <Label htmlFor="fullName" className="text-[#5F3C18] mb-2 block">Full Name *</Label>
                     <Input
                       id="fullName"
                       required
@@ -196,12 +196,12 @@ export default function CheckoutPage() {
                         setFormData({ ...formData, fullName: e.target.value });
                         setErrors({ ...errors, fullName: "" });
                       }}
-                      className={errors.fullName ? "border-red-500" : ""}
+                      className={errors.fullName ? "border-red-500 h-11" : "h-11"}
                     />
-                    {errors.fullName && <p className="text-red-600 text-sm mt-1">{errors.fullName}</p>}
+                    {errors.fullName && <p className="text-red-600 text-sm mt-2">{errors.fullName}</p>}
                   </div>
                   <div>
-                    <Label htmlFor="email" className="text-[#5F3C18]">Email *</Label>
+                    <Label htmlFor="email" className="text-[#5F3C18] mb-2 block">Email *</Label>
                     <Input
                       id="email"
                       type="email"
@@ -211,12 +211,12 @@ export default function CheckoutPage() {
                         setFormData({ ...formData, email: e.target.value });
                         setErrors({ ...errors, email: "" });
                       }}
-                      className={errors.email ? "border-red-500" : ""}
+                      className={errors.email ? "border-red-500 h-11" : "h-11"}
                     />
-                    {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
+                    {errors.email && <p className="text-red-600 text-sm mt-2">{errors.email}</p>}
                   </div>
                   <div>
-                    <Label htmlFor="phone" className="text-[#5F3C18]">Phone Number *</Label>
+                    <Label htmlFor="phone" className="text-[#5F3C18] mb-2 block">Phone Number *</Label>
                     <Input
                       id="phone"
                       type="tel"
@@ -226,15 +226,16 @@ export default function CheckoutPage() {
                         setFormData({ ...formData, phone: e.target.value });
                         setErrors({ ...errors, phone: "" });
                       }}
-                      className={errors.phone ? "border-red-500" : ""}
+                      className={errors.phone ? "border-red-500 h-11" : "h-11"}
                     />
-                    {errors.phone && <p className="text-red-600 text-sm mt-1">{errors.phone}</p>}
+                    {errors.phone && <p className="text-red-600 text-sm mt-2">{errors.phone}</p>}
                   </div>
                   <div>
-                    <Label htmlFor="whatsapp" className="text-[#5F3C18]">WhatsApp Number</Label>
+                    <Label htmlFor="whatsapp" className="text-[#5F3C18] mb-2 block">WhatsApp Number</Label>
                     <Input
                       id="whatsapp"
                       type="tel"
+                      className="h-11"
                       value={formData.whatsapp}
                       onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
                     />
@@ -244,13 +245,13 @@ export default function CheckoutPage() {
             </Card>
 
             <Card className="bg-white border-[#CDB586]/30">
-              <CardHeader>
-                <CardTitle className="text-[#0E161B]">Delivery Information</CardTitle>
+              <CardHeader className="pb-6">
+                <CardTitle className="text-[#0E161B] text-xl">Delivery Information</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
+              <CardContent className="pt-0">
+                <div className="space-y-6">
                   <div>
-                    <Label htmlFor="deliveryMethod" className="text-[#5F3C18]">Delivery Method *</Label>
+                    <Label htmlFor="deliveryMethod" className="text-[#5F3C18] mb-2 block">Delivery Method *</Label>
                     <Select
                       value={formData.deliveryMethod}
                       onValueChange={(value) => {
@@ -258,7 +259,7 @@ export default function CheckoutPage() {
                         setErrors({ ...errors, deliveryMethod: "" });
                       }}
                     >
-                      <SelectTrigger className={errors.deliveryMethod ? "border-red-500" : ""}>
+                      <SelectTrigger className={errors.deliveryMethod ? "border-red-500 h-11" : "h-11"}>
                         <SelectValue placeholder="Select delivery method" />
                       </SelectTrigger>
                       <SelectContent>
@@ -282,12 +283,12 @@ export default function CheckoutPage() {
                         </SelectItem>
                       </SelectContent>
                     </Select>
-                    {errors.deliveryMethod && <p className="text-red-600 text-sm mt-1">{errors.deliveryMethod}</p>}
+                    {errors.deliveryMethod && <p className="text-red-600 text-sm mt-2">{errors.deliveryMethod}</p>}
                   </div>
                   {formData.deliveryMethod !== "pickup" && (
                     <>
                       <div>
-                        <Label htmlFor="deliveryAddress" className="text-[#5F3C18]">Delivery Address *</Label>
+                        <Label htmlFor="deliveryAddress" className="text-[#5F3C18] mb-2 block">Delivery Address *</Label>
                         <Input
                           id="deliveryAddress"
                           required
@@ -296,12 +297,12 @@ export default function CheckoutPage() {
                             setFormData({ ...formData, deliveryAddress: e.target.value });
                             setErrors({ ...errors, deliveryAddress: "" });
                           }}
-                          className={errors.deliveryAddress ? "border-red-500" : ""}
+                          className={errors.deliveryAddress ? "border-red-500 h-11" : "h-11"}
                         />
-                        {errors.deliveryAddress && <p className="text-red-600 text-sm mt-1">{errors.deliveryAddress}</p>}
+                        {errors.deliveryAddress && <p className="text-red-600 text-sm mt-2">{errors.deliveryAddress}</p>}
                       </div>
                       <div>
-                        <Label htmlFor="city" className="text-[#5F3C18]">City *</Label>
+                        <Label htmlFor="city" className="text-[#5F3C18] mb-2 block">City *</Label>
                         <Input
                           id="city"
                           required
@@ -310,9 +311,9 @@ export default function CheckoutPage() {
                             setFormData({ ...formData, city: e.target.value });
                             setErrors({ ...errors, city: "" });
                           }}
-                          className={errors.city ? "border-red-500" : ""}
+                          className={errors.city ? "border-red-500 h-11" : "h-11"}
                         />
-                        {errors.city && <p className="text-red-600 text-sm mt-1">{errors.city}</p>}
+                        {errors.city && <p className="text-red-600 text-sm mt-2">{errors.city}</p>}
                       </div>
                     </>
                   )}
@@ -321,11 +322,11 @@ export default function CheckoutPage() {
             </Card>
 
             <Card className="bg-white border-[#CDB586]/30">
-              <CardHeader>
-                <CardTitle className="text-[#0E161B]">Payment Method</CardTitle>
+              <CardHeader className="pb-6">
+                <CardTitle className="text-[#0E161B] text-xl">Payment Method</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
+              <CardContent className="pt-0">
+                <div className="space-y-6">
                   <Select
                     value={formData.paymentMethod}
                     onValueChange={(value) => {
@@ -333,7 +334,7 @@ export default function CheckoutPage() {
                       setErrors({ ...errors, paymentMethod: "" });
                     }}
                   >
-                    <SelectTrigger className={errors.paymentMethod ? "border-red-500" : ""}>
+                    <SelectTrigger className={errors.paymentMethod ? "border-red-500 h-11" : "h-11"}>
                       <SelectValue placeholder="Select payment method" />
                     </SelectTrigger>
                     <SelectContent>
@@ -369,7 +370,7 @@ export default function CheckoutPage() {
                       </SelectItem>
                     </SelectContent>
                   </Select>
-                  {errors.paymentMethod && <p className="text-red-600 text-sm mt-1">{errors.paymentMethod}</p>}
+                  {errors.paymentMethod && <p className="text-red-600 text-sm mt-2">{errors.paymentMethod}</p>}
                 </div>
               </CardContent>
             </Card>
@@ -377,13 +378,13 @@ export default function CheckoutPage() {
             {/* EcoCash Account Selection */}
             {formData.paymentMethod === "ecocash" && (
               <Card className="bg-[#0E161B] border-[#CDB586]/30">
-                <CardHeader>
-                  <CardTitle className="text-[#EBE2C5]">EcoCash Payment Details</CardTitle>
+                <CardHeader className="pb-6">
+                  <CardTitle className="text-[#EBE2C5] text-xl">EcoCash Payment Details</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
+                <CardContent className="pt-0">
+                  <div className="space-y-6">
                     <div>
-                      <Label htmlFor="receivingAccount" className="text-[#EBE2C5]">Select EcoCash Account *</Label>
+                      <Label htmlFor="receivingAccount" className="text-[#EBE2C5] mb-2 block">Select EcoCash Account *</Label>
                       <Select
                         value={selectedAccount}
                         onValueChange={(value) => {
@@ -391,7 +392,7 @@ export default function CheckoutPage() {
                           setFormData({ ...formData, receivingAccountId: value });
                         }}
                       >
-                        <SelectTrigger className="bg-[#EBE2C5] text-[#0E161B]">
+                        <SelectTrigger className="bg-[#EBE2C5] text-[#0E161B] h-11">
                           <SelectValue placeholder="Select account" />
                         </SelectTrigger>
                         <SelectContent>
@@ -411,8 +412,8 @@ export default function CheckoutPage() {
                     </div>
 
                     {selectedAccount && (
-                      <div className="bg-[#EBE2C5]/10 border border-[#CDB586]/30 rounded-lg p-4">
-                        <div className="space-y-2">
+                      <div className="bg-[#EBE2C5]/10 border border-[#CDB586]/30 rounded-lg p-6">
+                        <div className="space-y-3">
                           <div className="flex items-center gap-2">
                             <Smartphone className="h-4 w-4 text-[#CDB586]" />
                             <span className="text-[#EBE2C5] font-medium">
@@ -434,12 +435,13 @@ export default function CheckoutPage() {
             )}
 
             <Card className="bg-white border-[#CDB586]/30">
-              <CardHeader>
-                <CardTitle className="text-[#0E161B]">Order Notes (Optional)</CardTitle>
+              <CardHeader className="pb-6">
+                <CardTitle className="text-[#0E161B] text-xl">Order Notes (Optional)</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-0">
                 <Input
                   placeholder="Any special instructions for your order..."
+                  className="h-11"
                   value={formData.orderNotes}
                   onChange={(e) =>
                     setFormData({ ...formData, orderNotes: e.target.value })
@@ -452,29 +454,39 @@ export default function CheckoutPage() {
           {/* Order Summary */}
           <div className="lg:col-span-1">
             <Card className="sticky top-4 bg-[#0E161B] border-[#CDB586]/30">
-              <CardHeader>
-                <CardTitle className="text-[#EBE2C5]">Order Summary</CardTitle>
+              <CardHeader className="pb-6">
+                <CardTitle className="text-[#EBE2C5] text-xl">Order Summary</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-3">
+              <CardContent className="space-y-6">
+                <div className="space-y-4">
                   {items.map((item) => (
-                    <div key={item.variantId} className="flex justify-between text-sm">
-                      <div>
+                    <div key={item.variantId} className="flex justify-between text-sm items-start gap-3">
+                      <div className="flex-1">
                         <p className="font-medium text-[#EBE2C5]">{item.name}</p>
                         <p className="text-[#EBE2C5]/60">
                           {item.storage} • {item.colour} × {item.quantity}
                         </p>
                       </div>
-                      <span className="font-medium text-[#EBE2C5]">
-                        {formatPrice(item.price * item.quantity)}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium text-[#EBE2C5]">
+                          {formatPrice(item.price * item.quantity)}
+                        </span>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => removeItem(item.variantId)}
+                          className="h-8 w-8 text-[#EBE2C5]/60 hover:text-red-400 hover:bg-red-400/10"
+                        >
+                          <Trash2 className="h-3 w-3" />
+                        </Button>
+                      </div>
                     </div>
                   ))}
                 </div>
 
                 <Separator className="bg-[#CDB586]/30" />
 
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <div className="flex justify-between">
                     <span className="text-[#EBE2C5]/60">Subtotal</span>
                     <span className="text-[#EBE2C5]">{formatPrice(subtotal)}</span>
@@ -491,8 +503,10 @@ export default function CheckoutPage() {
                 </div>
 
                 <Button
-                  className="w-full bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]"
+                  variant="primary"
+                  goldGlow
                   size="lg"
+                  className="w-full"
                   onClick={handleSubmit}
                   disabled={loading}
                 >

@@ -1,251 +1,262 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { SectionHeader } from "@/components/ui/section-header";
-import { Search, Download, Eye, Loader2 } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Lightbox } from "@/components/gallery/lightbox";
+import { X, Search, Filter, MapPin, Camera, Users, Truck, Loader2 } from "lucide-react";
 
-interface MediaItem {
+interface GalleryImage {
   id: string;
-  filename: string;
-  url: string;
-  mimeType: string;
-  size: number;
-  metadata: {
-    width?: number;
-    height?: number;
-    caption?: string | null;
-  };
-  alt: string | null;
+  src: string;
+  alt: string;
   category: string;
-  createdAt: string;
+  title: string;
+  description: string;
+  location: string;
 }
 
 export default function GalleryPage() {
-  const [media, setMedia] = useState<MediaItem[]>([]);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [filter, setFilter] = useState<string>("all");
+  const [images, setImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("");
-  const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
 
   useEffect(() => {
-    fetchMedia();
-  }, [search, categoryFilter]);
+    fetchGalleryImages();
+  }, []);
 
-  const fetchMedia = async () => {
+  const fetchGalleryImages = async () => {
     setLoading(true);
     try {
-      const params = new URLSearchParams();
-      if (search) params.append("search", search);
-      if (categoryFilter) params.append("type", categoryFilter);
-
-      const response = await fetch(`/api/media?${params.toString()}`);
+      const response = await fetch("/api/media");
       const data = await response.json();
-      
-      console.log("Fetched media data:", data);
-      
-      // Map the API response to match the interface
-      const mappedMedia = (data.media || []).map((item: any) => ({
-        id: item.id,
-        filename: item.filename,
-        url: item.url,
-        mimeType: item.mimeType || item.fileType || 'image/jpeg',
-        size: item.size || item.fileSize || 0,
-        metadata: item.metadata || { width: 0, height: 0 },
-        alt: item.alt,
-        category: item.category || 'OTHER',
-        createdAt: item.createdAt
-      }));
-      
-      setMedia(mappedMedia);
+      setImages(data.images || []);
     } catch (error) {
-      console.error("Error fetching media:", error);
-      setMedia([]);
+      console.error("Error fetching gallery images:", error);
+      setImages([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const formatFileSize = (bytes: number) => {
-    if (bytes === 0) return "0 Bytes";
-    const k = 1024;
-    const sizes = ["Bytes", "KB", "MB", "GB"];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + " " + sizes[i];
-  };
+  const filteredImages = filter === "all" 
+    ? images 
+    : images.filter(img => img.category === filter.toLowerCase());
 
-  const getFileTypeLabel = (type: string) => {
-    if (!type) return "UNKNOWN";
-    if (type.includes("jpeg") || type.includes("jpg")) return "JPEG";
-    if (type.includes("png")) return "PNG";
-    if (type.includes("webp")) return "WebP";
-    if (type.includes("svg")) return "SVG";
-    if (type.includes("gif")) return "GIF";
-    return type.split("/")[1]?.toUpperCase() || "UNKNOWN";
+  // Get unique categories from available images and standardize labels
+  const availableCategories = [...new Set(images.map(img => img.category))];
+  
+  const categoryLabels: Record<string, string> = {
+    'store': 'Store',
+    'products': 'Products', 
+    'team': 'Team',
+    'customers': 'Customers',
+    'service': 'Service'
   };
+  
+  const categories = [
+    { id: "all", label: "All Photos" },
+    ...availableCategories.map(cat => ({ 
+      id: cat, 
+      label: categoryLabels[cat] || cat.charAt(0).toUpperCase() + cat.slice(1)
+    }))
+  ];
+
+  // Add structured data for image gallery
+  useEffect(() => {
+    if (images.length === 0) return;
+
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@type": "ImageGallery",
+      "name": "iPhone Hub Zimbabwe Photo Gallery",
+      "description": "Photo gallery of iPhone Hub Zimbabwe store, products, and customer experiences in Masvingo, Zimbabwe",
+      "url": "https://iphonehubzimbabwe.co.zw/gallery",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "iPhone Hub Zimbabwe",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Masvingo",
+          "addressRegion": "Masvingo",
+          "addressCountry": "ZW"
+        }
+      },
+      "image": images.map(img => ({
+        "@type": "ImageObject",
+        "url": img.src.startsWith('http') ? img.src : `https://iphonehubzimbabwe.co.zw${img.src}`,
+        "caption": img.alt,
+        "description": img.description,
+        "locationCreated": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": img.location.split(',')[0],
+            "addressCountry": "ZW"
+          }
+        }
+      }))
+    };
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify(structuredData);
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, [images]);
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-[#F7F5EF] flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="h-8 w-8 animate-spin text-[#CDB586] mx-auto mb-4" />
-          <p className="text-gray-600">Loading gallery...</p>
+          <p className="text-[#5F3C18]">Loading gallery...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 section-spacing">
-      <div className="site-container">
-        <SectionHeader 
-          title="Photo Gallery"
-          subtitle="Browse our collection of product photos and store images"
-        />
-
-        {/* Search and Filters */}
-        <div className="mb-8 space-y-4">
-          <div className="flex gap-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-              <Input
-                placeholder="Search gallery..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-          </div>
-
-          <div className="flex gap-4">
-            <Select
-              value={categoryFilter}
-              onValueChange={setCategoryFilter}
-            >
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="All Categories" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="">All Categories</SelectItem>
-                <SelectItem value="PRODUCT">Products</SelectItem>
-                <SelectItem value="HERO">Hero Images</SelectItem>
-                <SelectItem value="STORE">Store Photos</SelectItem>
-                <SelectItem value="CEO">CEO Photos</SelectItem>
-                <SelectItem value="OTHER">Other</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+    <div className="min-h-screen bg-[#F7F5EF]">
+      {/* Hero Section */}
+      <section className="section-spacing bg-[#0E161B] wood-texture">
+        <div className="site-container text-center">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#EBE2C5] font-manrope mb-6">
+            Photo Gallery
+          </h1>
+          <p className="text-lg sm:text-xl text-[#EBE2C5]/80 leading-relaxed">
+            Explore our store, products, and customer experiences. See why iPhone Hub Zimbabwe is your trusted iPhone destination in Masvingo.
+          </p>
         </div>
+      </section>
 
-        {/* Gallery Grid */}
-        <div>
-          {media.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-gray-600">No images found in the gallery.</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {media.map((item) => (
-              <Card key={item.id} className="group overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setSelectedMedia(item)}>
-                <CardContent className="p-0">
-                  <div className="relative aspect-square bg-gradient-to-br from-gray-100 to-gray-200">
-                    <img
-                      src={item.url}
-                      alt={item.alt || item.filename}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      loading="lazy"
-                    />
-                    <div className="absolute top-2 right-2 flex gap-1">
-                      <Badge className="bg-black/50 text-white">
-                        {getFileTypeLabel(item.mimeType)}
-                      </Badge>
-                    </div>
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
-                      <Eye className="h-8 w-8 text-white" />
-                    </div>
-                  </div>
-                  <div className="p-4">
-                    <p className="text-sm font-medium text-gray-900 truncate mb-1">{item.filename}</p>
-                    <div className="flex items-center justify-between text-xs text-gray-600">
-                      <span>{item.metadata?.width || 0}×{item.metadata?.height || 0}</span>
-                      <span>{formatFileSize(item.size)}</span>
-                    </div>
-                    {item.metadata?.caption && (
-                      <p className="text-xs text-gray-600 mt-2 line-clamp-2">{item.metadata.caption}</p>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
+      {/* Gallery Content */}
+      <section className="section-spacing">
+        <div className="site-container">
+          {/* Filter Buttons */}
+          <div className="flex flex-wrap gap-3 mb-12 justify-center">
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => setFilter(category.id)}
+                className={`px-6 py-2.5 rounded-full font-medium transition-all ${
+                  filter === category.id
+                    ? "bg-[#CDB586] text-[#0E161B]"
+                    : "bg-white text-[#5F3C18] border border-[#CDB586]/30 hover:bg-[#CDB586]/10"
+                }`}
+              >
+                {category.label}
+              </button>
             ))}
           </div>
-        )}
-        </div>
-      </div>
 
-      {/* Image Preview Dialog */}
-      <Dialog open={!!selectedMedia} onOpenChange={() => setSelectedMedia(null)}>
-        <DialogContent className="max-w-4xl">
-          <DialogHeader>
-            <DialogTitle>{selectedMedia?.filename}</DialogTitle>
-          </DialogHeader>
-          {selectedMedia && (
-            <div className="space-y-4">
-              <div className="aspect-video bg-white rounded-lg overflow-hidden border border-gray-200">
+          {/* Gallery Grid */}
+          <div className="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-8 min-w-0">
+            {filteredImages.map((image) => (
+              <div
+                key={image.id}
+                className="group relative aspect-[4/3] sm:aspect-square bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all cursor-pointer border border-[#CDB586]/20"
+                onClick={() => setSelectedImage(image.src)}
+              >
                 <img
-                  src={selectedMedia.url}
-                  alt={selectedMedia.alt || selectedMedia.filename}
-                  className="w-full h-full object-contain"
+                  src={image.src}
+                  alt={image.alt}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  onError={(e) => {
+                    // Fallback if image doesn't exist
+                    (e.target as HTMLImageElement).src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect fill='%23F7F5EF' width='400' height='400'/%3E%3Ctext fill='%23CDB586' font-family='Arial' font-size='20' x='50%25' y='50%25' text-anchor='middle' dy='.3em'%3EImage Coming Soon%3C/text%3E%3C/svg%3E";
+                  }}
                 />
-              </div>
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <p className="font-medium">Type</p>
-                  <p className="text-gray-600">{getFileTypeLabel(selectedMedia.mimeType)}</p>
-                </div>
-                <div>
-                  <p className="font-medium">Size</p>
-                  <p className="text-gray-600">{formatFileSize(selectedMedia.size)}</p>
-                </div>
-                <div>
-                  <p className="font-medium">Dimensions</p>
-                  <p className="text-gray-600">{selectedMedia.metadata?.width || 0}×{selectedMedia.metadata?.height || 0}</p>
-                </div>
-                <div>
-                  <p className="font-medium">Category</p>
-                  <p className="text-gray-600">{selectedMedia.category}</p>
-                </div>
-                {selectedMedia.alt && (
-                  <div className="col-span-2">
-                    <p className="font-medium">Alt Text</p>
-                    <p className="text-gray-600">{selectedMedia.alt}</p>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute bottom-0 left-0 right-0 p-5">
+                    <p className="text-white font-medium">{image.title}</p>
+                    <p className="text-white/80 text-sm flex items-center gap-1">
+                      <MapPin className="w-3 h-3" />
+                      {image.location}
+                    </p>
                   </div>
-                )}
-                {selectedMedia.metadata?.caption && (
-                  <div className="col-span-2">
-                    <p className="font-medium">Caption</p>
-                    <p className="text-gray-600">{selectedMedia.metadata.caption}</p>
-                  </div>
-                )}
+                </div>
               </div>
+            ))}
+          </div>
+
+          {/* Empty State */}
+          {filteredImages.length === 0 && (
+            <div className="text-center py-20">
+              <p className="text-[#5F3C18] text-lg">No images found in this category.</p>
             </div>
           )}
-        </DialogContent>
-      </Dialog>
+        </div>
+      </section>
+
+      {/* Lightbox */}
+      {selectedImage && (
+        <Lightbox
+          src={selectedImage}
+          onClose={() => setSelectedImage(null)}
+        />
+      )}
+
+      {/* SEO Info Section */}
+      <section className="bg-[#0E161B] py-16">
+        <div className="site-container">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 text-center min-w-0">
+            <div className="flex flex-col items-center justify-center">
+              <div className="w-14 h-14 bg-[#CDB586]/20 rounded-full flex items-center justify-center mb-4">
+                <MapPin className="w-7 h-7 text-[#CDB586]" />
+              </div>
+              <h3 className="text-[#CDB586] font-semibold mb-3 text-lg text-center">Store Photos</h3>
+              <p className="text-[#EBE2C5]/80 text-sm leading-relaxed text-center">
+                View our store location, interior, and team in Masvingo, Zimbabwe
+              </p>
+            </div>
+            <div className="flex flex-col items-center justify-center">
+              <div className="w-14 h-14 bg-[#CDB586]/20 rounded-full flex items-center justify-center mb-4">
+                <Camera className="w-7 h-7 text-[#CDB586]" />
+              </div>
+              <h3 className="text-[#CDB586] font-semibold mb-3 text-lg text-center">Product Gallery</h3>
+              <p className="text-[#EBE2C5]/80 text-sm leading-relaxed text-center">
+                Explore our iPhone collection and accessories
+              </p>
+            </div>
+            <div className="flex flex-col items-center justify-center">
+              <div className="w-14 h-14 bg-[#CDB586]/20 rounded-full flex items-center justify-center mb-4">
+                <Users className="w-7 h-7 text-[#CDB586]" />
+              </div>
+              <h3 className="text-[#CDB586] font-semibold mb-3 text-lg text-center">Customer Stories</h3>
+              <p className="text-[#EBE2C5]/80 text-sm leading-relaxed text-center">
+                See happy customers and their experiences with iPhone Hub Zimbabwe
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Google Maps Integration Info */}
+      <section className="section-spacing bg-[#F7F5EF]">
+        <div className="site-container">
+          <div className="text-center flex flex-col items-center justify-center">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#0E161B] mb-6">
+              Find Us on Google Maps
+            </h2>
+            <p className="text-[#5F3C18] mb-8 leading-relaxed">
+              iPhone Hub Zimbabwe is located in Masvingo and serves customers across Zimbabwe. 
+              Our photo gallery is indexed on Google Maps and local search directories.
+            </p>
+            <a
+              href="https://www.google.com/maps/search/iPhone+Hub+Zimbabwe+Masvingo"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-[#CDB586] text-[#0E161B] px-8 py-3 rounded-lg font-semibold hover:bg-[#EBE2C5] transition-colors h-12"
+            >
+              <MapPin className="w-5 h-5" />
+              Search on Google Maps
+            </a>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

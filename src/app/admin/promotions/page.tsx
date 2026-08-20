@@ -40,6 +40,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { AdminPageContainer } from "@/components/admin/admin-page-container";
+import { AdminCard } from "@/components/admin/admin-card";
+import { SearchToolbar } from "@/components/admin/search-toolbar";
+import { EmptyState } from "@/components/admin/empty-state";
 
 interface Promotion {
   id: string;
@@ -216,29 +220,26 @@ export default function PromotionsPage() {
 
   if (loading && promotions.length === 0) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-[#CDB586]" />
-      </div>
+      <AdminPageContainer>
+        <div className="flex items-center justify-center h-64">
+          <Loader2 className="h-8 w-8 animate-spin text-[#CDB586]" />
+        </div>
+      </AdminPageContainer>
     );
   }
 
   return (
-    <div className="space-y-8">
-      <AdminPageHeader title="Promotions" subtitle="Manage promotions and discounts" />
+    <AdminPageContainer>
+      <div className="space-y-8 admin-page-container text-center">
+        <AdminPageHeader title="Promotions" subtitle="Manage promotions and discounts" />
 
       {/* Filters and Search */}
-      <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
-        <CardContent className="p-4">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-[#5F3C18]/60" />
-              <Input
-                placeholder="Search promotions..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-white border-[#CDB586] pl-10"
-              />
-            </div>
+      <SearchToolbar
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="Search promotions..."
+        filters={
+          <>
             <Select value={statusFilter} onValueChange={setStatusFilter}>
               <SelectTrigger className="bg-white border-[#CDB586] w-full md:w-[180px]">
                 <SelectValue placeholder="Status" />
@@ -285,34 +286,36 @@ export default function PromotionsPage() {
                 />
               </DialogContent>
             </Dialog>
-          </div>
-        </CardContent>
-      </Card>
+          </>
+        }
+      />
 
       {/* Empty State */}
       {!loading && promotions.length === 0 && (
-        <Card className="bg-[#F7F5EF] border-[#CDB586]">
-          <CardContent className="p-12 text-center">
-            <Tag className="h-12 w-12 mx-auto mb-4 text-[#CDB586]/40" />
-            <p className="font-medium text-[#5F3C18] mb-2">No promotions found</p>
-            <p className="text-[#5F3C18]/60 mb-4">Create your first promotion to offer discounts</p>
-            <Button
-              onClick={() => setDialogOpen(true)}
-              className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]"
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              Add Promotion
-            </Button>
-          </CardContent>
-        </Card>
+        <AdminCard>
+          <EmptyState
+            icon={Tag}
+            title="No promotions found"
+            description="Create your first promotion to offer discounts"
+            actions={
+              <Button
+                onClick={() => setDialogOpen(true)}
+                className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Add Promotion
+              </Button>
+            }
+          />
+        </AdminCard>
       )}
 
       {/* Promotions List */}
       {promotions.length > 0 && (
         <div className="grid grid-cols-1 gap-4">
           {promotions.map((promotion) => (
-            <Card key={promotion.id} className="bg-[#F7F5EF] border-[#CDB586]">
-              <CardContent className="p-6">
+            <AdminCard key={promotion.id}>
+              <div className="p-6">
                 <div className="flex flex-col lg:flex-row lg:items-start gap-4">
                   {/* Main Content */}
                   <div className="flex-1 space-y-3">
@@ -426,8 +429,8 @@ export default function PromotionsPage() {
                     </div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </AdminCard>
           ))}
         </div>
       )}
@@ -457,6 +460,7 @@ export default function PromotionsPage() {
         </div>
       )}
     </div>
+    </AdminPageContainer>
   );
 }
 

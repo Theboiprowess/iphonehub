@@ -431,6 +431,7 @@ export const ModelName = {
   Media: 'Media',
   NavigationItem: 'NavigationItem',
   FAQ: 'FAQ',
+  Accessory: 'Accessory',
   Inventory: 'Inventory',
   InventoryMovement: 'InventoryMovement',
   HomepageConfig: 'HomepageConfig',
@@ -462,7 +463,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "category" | "product" | "productVariant" | "productImage" | "device" | "order" | "orderItem" | "ecoCashReceivingAccount" | "payment" | "ecoCashTransaction" | "paymentProof" | "paymentAuditLog" | "wishlist" | "wishlistItem" | "review" | "blogPost" | "blogCategory" | "blogCategoryPost" | "blogTag" | "blogTagPost" | "enquiry" | "tradeInEnquiry" | "reservation" | "promotion" | "siteSettings" | "notification" | "auditLog" | "media" | "navigationItem" | "fAQ" | "inventory" | "inventoryMovement" | "homepageConfig" | "trustFeature" | "homepageBanner" | "article" | "aboutUs" | "contactInfo" | "priceCatalogue" | "supportConversation" | "supportMessage" | "supportEscalation" | "knowledgeArticle" | "unansweredQuestion" | "supportSettings" | "announcement"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "category" | "product" | "productVariant" | "productImage" | "device" | "order" | "orderItem" | "ecoCashReceivingAccount" | "payment" | "ecoCashTransaction" | "paymentProof" | "paymentAuditLog" | "wishlist" | "wishlistItem" | "review" | "blogPost" | "blogCategory" | "blogCategoryPost" | "blogTag" | "blogTagPost" | "enquiry" | "tradeInEnquiry" | "reservation" | "promotion" | "siteSettings" | "notification" | "auditLog" | "media" | "navigationItem" | "fAQ" | "accessory" | "inventory" | "inventoryMovement" | "homepageConfig" | "trustFeature" | "homepageBanner" | "article" | "aboutUs" | "contactInfo" | "priceCatalogue" | "supportConversation" | "supportMessage" | "supportEscalation" | "knowledgeArticle" | "unansweredQuestion" | "supportSettings" | "announcement"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2982,6 +2983,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Accessory: {
+      payload: Prisma.$AccessoryPayload<ExtArgs>
+      fields: Prisma.AccessoryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AccessoryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccessoryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AccessoryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccessoryPayload>
+        }
+        findFirst: {
+          args: Prisma.AccessoryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccessoryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AccessoryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccessoryPayload>
+        }
+        findMany: {
+          args: Prisma.AccessoryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccessoryPayload>[]
+        }
+        create: {
+          args: Prisma.AccessoryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccessoryPayload>
+        }
+        createMany: {
+          args: Prisma.AccessoryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AccessoryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccessoryPayload>[]
+        }
+        delete: {
+          args: Prisma.AccessoryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccessoryPayload>
+        }
+        update: {
+          args: Prisma.AccessoryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccessoryPayload>
+        }
+        deleteMany: {
+          args: Prisma.AccessoryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AccessoryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AccessoryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccessoryPayload>[]
+        }
+        upsert: {
+          args: Prisma.AccessoryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AccessoryPayload>
+        }
+        aggregate: {
+          args: Prisma.AccessoryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAccessory>
+        }
+        groupBy: {
+          args: Prisma.AccessoryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AccessoryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AccessoryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AccessoryCountAggregateOutputType> | number
+        }
+      }
+    }
     Inventory: {
       payload: Prisma.$InventoryPayload<ExtArgs>
       fields: Prisma.InventoryFieldRefs
@@ -4794,6 +4869,32 @@ export const FAQScalarFieldEnum = {
 export type FAQScalarFieldEnum = (typeof FAQScalarFieldEnum)[keyof typeof FAQScalarFieldEnum]
 
 
+export const AccessoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  category: 'category',
+  price: 'price',
+  comparePrice: 'comparePrice',
+  costPrice: 'costPrice',
+  sku: 'sku',
+  stock: 'stock',
+  imageUrl: 'imageUrl',
+  isFeatured: 'isFeatured',
+  isActive: 'isActive',
+  compatibility: 'compatibility',
+  metaTitle: 'metaTitle',
+  metaDescription: 'metaDescription',
+  publishedAt: 'publishedAt',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AccessoryScalarFieldEnum = (typeof AccessoryScalarFieldEnum)[keyof typeof AccessoryScalarFieldEnum]
+
+
 export const InventoryScalarFieldEnum = {
   id: 'id',
   variantId: 'variantId',
@@ -5394,6 +5495,20 @@ export type ListEnumFAQCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$
 
 
 /**
+ * Reference to a field of type 'AccessoryCategory'
+ */
+export type EnumAccessoryCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccessoryCategory'>
+    
+
+
+/**
+ * Reference to a field of type 'AccessoryCategory[]'
+ */
+export type ListEnumAccessoryCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccessoryCategory[]'>
+    
+
+
+/**
  * Reference to a field of type 'MovementReason'
  */
 export type EnumMovementReasonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MovementReason'>
@@ -5689,6 +5804,7 @@ export type GlobalOmitConfig = {
   media?: Prisma.MediaOmit
   navigationItem?: Prisma.NavigationItemOmit
   fAQ?: Prisma.FAQOmit
+  accessory?: Prisma.AccessoryOmit
   inventory?: Prisma.InventoryOmit
   inventoryMovement?: Prisma.InventoryMovementOmit
   homepageConfig?: Prisma.HomepageConfigOmit

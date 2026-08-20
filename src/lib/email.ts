@@ -49,6 +49,162 @@ interface AdminOrderNotificationProps {
   orderNotes?: string;
 }
 
+interface PaymentSuccessEmailProps {
+  customerName: string;
+  customerEmail: string;
+  orderNumber: string;
+  orderTotal: number;
+  paymentDate: string;
+}
+
+/**
+ * Send payment success email to customer
+ */
+export async function sendPaymentSuccessEmail(data: PaymentSuccessEmailProps) {
+  if (!process.env.RESEND_API_KEY) {
+    console.warn('RESEND_API_KEY not configured, skipping email');
+    return { success: false, error: 'Email not configured' };
+  }
+
+  try {
+    const paymentDate = new Date(data.paymentDate).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Payment Successful - iPhone Hub Zimbabwe</title>
+        </head>
+        <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #F7F5EF;">
+          <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
+            <!-- Header -->
+            <div style="text-align: center; margin-bottom: 40px;">
+              <h1 style="color: #0E161B; font-size: 32px; margin: 0 0 8px;">iPhone Hub Zimbabwe</h1>
+              <p style="color: #5F3C18; font-size: 16px; margin: 0;">Premium iPhones. Exceptional Service.</p>
+            </div>
+
+            <!-- Success Message -->
+            <div style="background: white; border-radius: 12px; padding: 32px; margin-bottom: 24px; border: 2px solid #CDB586;">
+              <h2 style="color: #0E161B; font-size: 28px; margin: 0 0 16px; text-align: center;">Payment Successful! 🎉</h2>
+              
+              <p style="color: #5F3C18; font-size: 16px; margin: 0 0 8px;">
+                Hi <strong>${data.customerName}</strong>,
+              </p>
+              
+              <p style="color: #5F3C18; font-size: 16px; margin: 0 0 24px;">
+                <strong>Your payment has been successfully received. Thank you for choosing iPhone Hub Zimbabwe!</strong>
+              </p>
+              
+              <p style="color: #5F3C18; font-size: 16px; margin: 0 0 8px;">
+                Your order is now <strong>officially confirmed</strong>, and our team will begin preparing it for you.
+              </p>
+            </div>
+
+            <!-- Order Confirmed -->
+            <div style="background: white; border-radius: 12px; padding: 24px; margin-bottom: 24px; border: 1px solid #CDB586;">
+              <h3 style="color: #0E161B; font-size: 20px; margin: 0 0 16px;">🛍️ Order Confirmed</h3>
+              
+              <div style="color: #5F3C18; font-size: 14px; line-height: 2;">
+                <p style="margin: 0;"><strong>Order Number:</strong> #${data.orderNumber}</p>
+                <p style="margin: 0;"><strong>Payment Status:</strong> ✅ PAID</p>
+                <p style="margin: 0;"><strong>Payment Amount:</strong> $${data.orderTotal.toFixed(2)}</p>
+                <p style="margin: 0;"><strong>Payment Date:</strong> ${paymentDate}</p>
+              </div>
+            </div>
+
+            <!-- What Happens Now -->
+            <div style="background: white; border-radius: 12px; padding: 24px; margin-bottom: 24px; border: 1px solid #CDB586;">
+              <h3 style="color: #0E161B; font-size: 20px; margin: 0 0 16px;">📱 What Happens Now?</h3>
+              
+              <p style="color: #5F3C18; font-size: 16px; margin: 0 0 16px;">
+                Your order is now being processed by our team. We'll carefully prepare your iPhone and keep you updated as it moves through the next stages.
+              </p>
+              
+              <div style="color: #5F3C18; font-size: 16px; line-height: 2;">
+                <p style="margin: 0;">✅ <strong>Payment Received</strong></p>
+                <p style="margin: 0;">✅ <strong>Order Confirmed</strong></p>
+                <p style="margin: 0;">⏳ <strong>Preparing Your Order</strong></p>
+                <p style="margin: 0;">🚚 <strong>Delivery To Follow</strong></p>
+              </div>
+              
+              <p style="color: #5F3C18; font-size: 16px; margin: 24px 0 0; font-style: italic;">
+                You don't need to do anything right now. <strong>We'll contact you when your order is ready for delivery or collection.</strong>
+              </p>
+            </div>
+
+            <!-- Thank You -->
+            <div style="background: #0E161B; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+              <h3 style="color: #EBE2C5; font-size: 20px; margin: 0 0 16px;">Thank You for Trusting Us</h3>
+              
+              <p style="color: #EBE2C5; font-size: 16px; margin: 0 0 16px;">
+                At <strong>iPhone Hub Zimbabwe</strong>, we don't just sell iPhones — we want every customer to feel confident from the moment they place an order until their iPhone is safely in their hands.
+              </p>
+              
+              <p style="color: #CDB586; font-size: 16px; margin: 0 0 16px; font-weight: 600;">
+                <strong>Based in Masvingo • Serving Customers Nationwide</strong>
+              </p>
+              
+              <p style="color: #EBE2C5; font-size: 16px; margin: 0;">
+                If you have any questions about your order, our team is always ready to assist.
+              </p>
+              
+              <p style="color: #EBE2C5; font-size: 16px; margin: 24px 0 0; font-style: italic;">
+                Thank you for choosing iPhone Hub Zimbabwe.
+              </p>
+              
+              <p style="color: #CDB586; font-size: 18px; margin: 0 0 8px; font-weight: 600;">
+                Your new iPhone journey starts now. 🍎
+              </p>
+              
+              <p style="color: #EBE2C5; font-size: 16px; margin: 8px 0 0;">
+                Warm regards,<br>
+                <strong>iPhone Hub Zimbabwe</strong><br>
+                <span style="color: #CDB586;">Premium iPhones. Exceptional Service.</span>
+              </p>
+              
+              <p style="color: #EBE2C5; font-size: 14px; margin: 24px 0 0;">
+                📍 Masvingo, Zimbabwe<br>
+                Serving Customers Nationwide
+              </p>
+            </div>
+
+            <!-- Contact Info -->
+            <div style="text-align: center; color: #5F3C18; font-size: 14px; margin-top: 40px;">
+              <p style="margin: 0 0 8px;">If you have any questions, please contact us:</p>
+              <p style="margin: 0;">📱 WhatsApp: +263 77 322 7172</p>
+              <p style="margin: 8px 0;">📧 Email: info@iphonehubmasvingo.co.zw</p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `;
+
+    const { data: emailData, error } = await resend.emails.send({
+      from: 'iPhone Hub Zimbabwe <orders@iphonehubzimbabwe.co.zw>',
+      to: data.customerEmail,
+      subject: `Payment Successful - Order #${data.orderNumber}`,
+      html,
+    });
+
+    if (error) {
+      console.error('Payment success email send error:', error);
+      return { success: false, error };
+    }
+
+    console.log('Payment success email sent:', emailData);
+    return { success: true, data: emailData };
+  } catch (error) {
+    console.error('Failed to send payment success email:', error);
+    return { success: false, error };
+  }
+}
+
 /**
  * Send order confirmation email to customer
  */
@@ -174,7 +330,7 @@ export async function sendOrderConfirmationEmail(data: OrderConfirmationEmailPro
     `;
 
     const { data: emailData, error } = await resend.emails.send({
-      from: 'iPhone Hub Masvingo <orders@iphonehubmasvingo.co.zw>',
+      from: 'iPhone Hub Zimbabwe <orders@iphonehubzimbabwe.co.zw>',
       to: data.customerEmail,
       subject: `Order Confirmation - ${data.orderNumber}`,
       html,
@@ -202,7 +358,7 @@ export async function sendAdminOrderNotification(data: AdminOrderNotificationPro
     return { success: false, error: 'Email not configured' };
   }
 
-  const adminEmail = process.env.ADMIN_EMAIL || 'iphonehub@gmail.com';
+  const adminEmail = process.env.ADMIN_EMAIL || 'iphonehubzimbabwe@gmail.com';
 
   try {
     const itemsHtml = data.items
@@ -298,7 +454,7 @@ export async function sendAdminOrderNotification(data: AdminOrderNotificationPro
     `;
 
     const { data: emailData, error } = await resend.emails.send({
-      from: 'iPhone Hub Masvingo <noreply@iphonehubmasvingo.co.zw>',
+      from: 'iPhone Hub Zimbabwe <noreply@iphonehubzimbabwe.co.zw>',
       to: adminEmail,
       subject: `New Order - ${data.orderNumber}`,
       html,

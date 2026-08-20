@@ -29,6 +29,9 @@ import {
 } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
 import { AdminPageContainer } from "@/components/admin/admin-page-container";
+import { AdminCard } from "@/components/admin/admin-card";
+import { SearchToolbar } from "@/components/admin/search-toolbar";
+import { EmptyState } from "@/components/admin/empty-state";
 import { formatPrice } from "@/lib/utils";
 
 type Order = {
@@ -239,18 +242,20 @@ export default function OrdersPage() {
 
   if (loading) {
     return (
-      <div className="space-y-8">
-        <AdminPageHeader title="Orders" subtitle="Manage customer orders" />
-        <div className="flex items-center justify-center h-64">
-          <div className="text-[#5F3C18]">Loading orders...</div>
+      <AdminPageContainer>
+        <div className="space-y-8 admin-page-container text-center">
+          <AdminPageHeader title="Orders" subtitle="Manage customer orders" />
+          <div className="flex items-center justify-center h-64">
+            <div className="text-[#5F3C18]">Loading orders...</div>
+          </div>
         </div>
-      </div>
+      </AdminPageContainer>
     );
   }
 
   return (
     <AdminPageContainer>
-      <div className="space-y-8">
+      <div className="space-y-8 admin-page-container text-center">
         <AdminPageHeader title="Orders" subtitle="Manage customer orders" />
 
       {error && (
@@ -260,20 +265,12 @@ export default function OrdersPage() {
       )}
 
       {/* Filters */}
-      <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
-        <CardContent className="p-6">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5F3C18]/50" />
-                <Input
-                  placeholder="Search orders..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-            </div>
+      <SearchToolbar
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="Search orders..."
+        filters={
+          <>
             <Select value={statusFilter} onValueChange={setStatusFilter}>
               <SelectTrigger className="w-full md:w-48">
                 <SelectValue placeholder="Order Status" />
@@ -300,22 +297,19 @@ export default function OrdersPage() {
                 ))}
               </SelectContent>
             </Select>
-          </div>
-        </CardContent>
-      </Card>
+          </>
+        }
+      />
 
       {/* Orders Table */}
-      <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
-        <CardHeader>
-          <CardTitle>Orders ({orders.length})</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {orders.length === 0 ? (
-            <div className="text-center py-12 text-[#5F3C18]/60">
-              <Package className="h-12 w-12 mx-auto mb-4 text-[#CDB586]/40" />
-              <p>No orders found</p>
-            </div>
-          ) : (
+      <AdminCard title={`Orders (${orders.length})`}>
+        {orders.length === 0 ? (
+          <EmptyState
+            icon={Package}
+            title="No orders found"
+            description="No orders match your current filters"
+          />
+        ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
@@ -564,8 +558,7 @@ export default function OrdersPage() {
               </div>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </AdminCard>
     </div>
     </AdminPageContainer>
   );

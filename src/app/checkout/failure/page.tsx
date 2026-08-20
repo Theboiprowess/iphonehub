@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button, LinkButton } from "@/components/ui/button";
+import { CtaGroup } from "@/components/ui/cta-group";
 import { XCircle, RefreshCw, MessageCircle, ShoppingBag, Phone } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import { CEOSelectionDialog } from "@/components/whatsapp/ceo-selection-dialog";
@@ -90,10 +91,11 @@ export default function CheckoutFailurePage() {
           )}
 
           {/* Action Buttons */}
-          <div className="space-y-3">
+          <CtaGroup>
             {order && (
               <Button
-                className="w-full h-12 bg-[#0E161B] text-[#EBE2C5] hover:bg-[#1A1A20] font-semibold"
+                variant="tertiary"
+                className="w-full"
                 onClick={handleRetryPayment}
               >
                 <RefreshCw className="h-4 w-4 mr-2" />
@@ -102,22 +104,24 @@ export default function CheckoutFailurePage() {
             )}
 
             <Button
-              className="w-full h-12 bg-[#25D366] text-white hover:bg-[#128C7E] font-semibold"
+              variant="whatsapp"
+              className="w-full"
               onClick={() => setShowWhatsAppDialog(true)}
             >
               <MessageCircle className="h-4 w-4 mr-2" />
               Contact Support
             </Button>
 
-            <Button
-              className="w-full h-12 bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]"
-              variant="outline"
-              onClick={() => router.push("/iphones")}
+            <LinkButton
+              href="/iphones"
+              variant="primary"
+              goldGlow
+              className="w-full"
             >
               <ShoppingBag className="h-4 w-4 mr-2" />
               Continue Shopping
-            </Button>
-          </div>
+            </LinkButton>
+          </CtaGroup>
 
           {/* WhatsApp CEO Selection Dialog */}
           <CEOSelectionDialog

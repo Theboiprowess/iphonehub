@@ -25,6 +25,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { AdminPageContainer } from "@/components/admin/admin-page-container";
+import { AdminCard } from "@/components/admin/admin-card";
+import { EmptyState } from "@/components/admin/empty-state";
 
 interface Category {
   id: string;
@@ -143,20 +146,25 @@ export default function CategoriesPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-[#CDB586]" />
-      </div>
+      <AdminPageContainer>
+        <div className="flex items-center justify-center h-64">
+          <Loader2 className="h-8 w-8 animate-spin text-[#CDB586]" />
+        </div>
+      </AdminPageContainer>
     );
   }
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
-        <div className="space-y-2 min-w-0 flex-1">
-          <h1 className="text-3xl lg:text-4xl font-bold text-[#0E161B] font-manrope">Categories</h1>
-          <p className="text-[#5F3C18] text-base">Manage product categories</p>
-        </div>
-        <div className="flex flex-shrink-0 items-center gap-3">
+    <AdminPageContainer>
+      <div className="space-y-8 admin-page-container text-center">
+        <AdminPageHeader 
+          title="Categories"
+          subtitle="Manage product categories"
+          actionText="Add Category"
+          actionHref="#"
+        />
+
+        <div className="flex justify-center gap-3">
           <Button
             onClick={handleSeedCategories}
             variant="outline"
@@ -188,32 +196,33 @@ export default function CategoriesPage() {
             </DialogContent>
           </Dialog>
         </div>
-      </div>
 
       {/* Empty State */}
       {categories.length === 0 && (
-        <Card className="bg-[#F7F5EF] border-[#CDB586]">
-          <CardContent className="p-12 text-center">
-            <Tag className="h-12 w-12 mx-auto mb-4 text-[#CDB586]/40" />
-            <p className="font-medium text-[#5F3C18] mb-2">No categories yet</p>
-            <p className="text-[#5F3C18]/60 mb-4">Create your first category to organize your products</p>
-            <Button
-              onClick={() => setDialogOpen(true)}
-              className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] flex-shrink-0"
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              Add Category
-            </Button>
-          </CardContent>
-        </Card>
+        <AdminCard>
+          <EmptyState
+            icon={Tag}
+            title="No categories yet"
+            description="Create your first category to organize your products"
+            actions={
+              <Button
+                onClick={() => setDialogOpen(true)}
+                className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] flex-shrink-0"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Add Category
+              </Button>
+            }
+          />
+        </AdminCard>
       )}
 
       {/* Category List */}
       {categories.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {categories.map((category, index) => (
-            <Card key={category.id} className="bg-[#F7F5EF] border-[#CDB586]">
-              <CardContent className="p-4">
+            <AdminCard key={category.id}>
+              <div className="p-4">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex-1">
                     <h3 className="font-semibold text-[#0E161B] mb-1">{category.name}</h3>
@@ -272,12 +281,13 @@ export default function CategoriesPage() {
                     <Trash2 className="h-4 w-4 text-red-600" />
                   </Button>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </AdminCard>
           ))}
         </div>
       )}
     </div>
+    </AdminPageContainer>
   );
 }
 

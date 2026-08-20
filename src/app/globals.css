@@ -52,19 +52,125 @@ body {
   --wood-accent: var(--rich-walnut);
   --ivory-accent: var(--soft-ivory);
   
-  /* Spacing Scale */
-  --space-1: 0.25rem;    /* 4px */
-  --space-2: 0.5rem;     /* 8px */
-  --space-3: 0.75rem;    /* 12px */
-  --space-4: 1rem;       /* 16px */
-  --space-5: 1.25rem;    /* 20px */
-  --space-6: 1.5rem;     /* 24px */
-  --space-8: 2rem;       /* 32px */
-  --space-10: 2.5rem;    /* 40px */
-  --space-12: 3rem;      /* 48px */
-  --space-16: 4rem;      /* 64px */
-  --space-20: 5rem;      /* 80px */
-  --space-24: 6rem;      /* 96px */
+  /* Professional Spacing Scale - Premium E-commerce Standard */
+  --space-xs: 0.25rem;     /* 4px - Micro spacing */
+  --space-sm: 0.5rem;      /* 8px - Tight spacing */
+  --space-md: 0.75rem;     /* 12px - Compact spacing */
+  --space-base: 1rem;      /* 16px - Base spacing */
+  --space-lg: 1.25rem;     /* 20px - Comfortable spacing */
+  --space-xl: 1.5rem;      /* 24px - Spacious spacing */
+  --space-2xl: 2rem;       /* 32px - Section spacing */
+  --space-3xl: 2.5rem;     /* 40px - Major spacing */
+  --space-4xl: 3rem;       /* 48px - Large section spacing */
+  --space-5xl: 4rem;       /* 64px - Hero spacing */
+  --space-6xl: 5rem;       /* 80px - Major hero spacing */
+  --space-7xl: 6rem;       /* 96px - Premium spacing */
+  --space-8xl: 7.5rem;     /* 120px - Extra premium spacing */
+  
+  /* Component-specific spacing */
+  --container-padding-mobile: 1rem;      /* 16px */
+  --container-padding-tablet: 1.5rem;    /* 24px */
+  --container-padding-desktop: 2rem;     /* 32px */
+  --container-padding-large: 2.5rem;     /* 40px */
+  --container-padding-xlarge: 3rem;      /* 48px */
+  
+  --card-padding: 1.5rem;                /* 24px */
+  --button-padding-vertical: 0.75rem;    /* 12px */
+  --button-padding-horizontal: 1.5rem;   /* 24px */
+  --input-padding-vertical: 0.75rem;     /* 12px */
+  --input-padding-horizontal: 1rem;      /* 16px */
+  
+  --section-padding-mobile: 3rem;        /* 48px */
+  --section-padding-tablet: 4rem;        /* 64px */
+  --section-padding-desktop: 5rem;      /* 80px */
+  --section-padding-large: 6rem;         /* 96px */
+  
+  --gap-xs: 0.5rem;        /* 8px */
+  --gap-sm: 0.75rem;       /* 12px */
+  --gap-md: 1rem;          /* 16px */
+  --gap-lg: 1.5rem;        /* 24px */
+  --gap-xl: 2rem;          /* 32px */
+  --gap-2xl: 2.5rem;       /* 40px */
+  
+  /* Button Design Tokens - Premium iPhone Hub Zimbabwe */
+  --button-height: 3.25rem;              /* 52px - Standard button height INCREASED */
+  --button-height-sm: 2.75rem;           /* 44px - Compact button height INCREASED */
+  --button-height-lg: 3.75rem;           /* 60px - Large button height INCREASED */
+  --button-radius: 0.5rem;              /* 8px - Consistent border radius */
+  --button-padding-x: 1.5rem;             /* 24px - Horizontal padding */
+  --button-padding-x-sm: 1rem;         /* 16px - Compact horizontal padding */
+  --button-padding-x-lg: 2rem;           /* 32px - Large horizontal padding */
+  --button-font-size: 0.9375rem;         /* 15px - Base button font size */
+  --button-font-size-sm: 0.875rem;       /* 14px - Compact button font size */
+  --button-font-size-lg: 1rem;          /* 16px - Large button font size */
+  --button-font-weight: 600;             /* 600 - Semi-bold for readability */
+  --button-letter-spacing: 0.025em;     /* 0.4px - Slight letter spacing */
+  --button-icon-size: 1.125rem;         /* 18px - Standard icon size */
+  --button-icon-gap: 0.5rem;            /* 8px - Icon/text spacing */
+  --button-transition: 0.2s ease;        /* 200ms - Smooth transitions */
+  
+  /* Primary Button Tokens */
+  --primary-button-bg: var(--champagne-gold);
+  --primary-button-text: var(--matte-black);
+  --primary-button-border: var(--champagne-gold);
+  --primary-button-hover-bg: var(--light-champagne);
+  --primary-button-hover-text: var(--matte-black);
+  --primary-button-hover-border: var(--light-champagne);
+  --primary-button-active-bg: var(--rich-walnut);
+  --primary-button-active-text: var(--warm-white);
+  --primary-button-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --primary-button-hover-shadow: 0 4px 12px rgba(202, 164, 90, 0.3);
+  
+  /* Secondary Button Tokens */
+  --secondary-button-bg: transparent;
+  --secondary-button-text: var(--champagne-gold);
+  --secondary-button-border: var(--champagne-gold);
+  --secondary-button-hover-bg: var(--champagne-gold);
+  --secondary-button-hover-text: var(--matte-black);
+  --secondary-button-hover-border: var(--champagne-gold);
+  --secondary-button-active-bg: var(--rich-walnut);
+  --secondary-button-active-text: var(--warm-white);
+  --secondary-button-active-border: var(--rich-walnut);
+  
+  /* Tertiary/Outline Button Tokens */
+  --tertiary-button-bg: transparent;
+  --tertiary-button-text: var(--matte-black);
+  --tertiary-button-border: var(--matte-black);
+  --tertiary-button-hover-bg: var(--matte-black);
+  --tertiary-button-hover-text: var(--warm-white);
+  --tertiary-button-hover-border: var(--matte-black);
+  
+  /* Badge/Pill Tokens */
+  --badge-height: 2.25rem;               /* 36px - Standard badge height INCREASED */
+  --badge-height-sm: 2rem;                /* 32px - Compact badge height INCREASED */
+  --badge-radius: 9999px;               /* Full rounded */
+  --badge-padding-x: 1rem;           /* 16px - Horizontal padding */
+  --badge-padding-x-sm: 0.75rem;             /* 12px - Compact horizontal padding */
+  --badge-font-size: 0.75rem;           /* 12px - Badge font size */
+  --badge-font-size-sm: 0.6875rem;      /* 11px - Compact badge font size */
+  --badge-font-weight: 600;             /* 600 - Semi-bold */
+  --badge-letter-spacing: 0.1em;         /* 1.6px - Enhanced letter spacing */
+  --badge-icon-size: 0.875rem;          /* 14px - Badge icon size */
+  --badge-icon-gap: 0.375rem;           /* 6px - Icon/text spacing */
+  
+  /* Primary Badge Tokens */
+  --primary-badge-bg: var(--champagne-gold);
+  --primary-badge-text: var(--matte-black);
+  --primary-badge-border: var(--champagne-gold);
+  
+  /* Secondary Badge Tokens */
+  --secondary-badge-bg: var(--matte-black);
+  --secondary-badge-text: var(--champagne-gold);
+  --secondary-badge-border: var(--matte-black);
+  
+  /* CTA Group Tokens */
+  --cta-group-gap: 1rem;                 /* 16px - Gap between buttons */
+  --cta-group-gap-sm: 0.75rem;          /* 12px - Compact gap */
+  --cta-group-gap-lg: 1.5rem;           /* 24px - Large gap */
+  
+  /* Gold Glow Effect */
+  --gold-glow-shadow: 0 0 20px rgba(202, 164, 90, 0.4);
+  --gold-glow-hover: 0 0 30px rgba(202, 164, 90, 0.6);
 }
 
 @theme inline {
@@ -83,18 +189,20 @@ body {
   --font-sans: 'Manrope', 'Inter', sans-serif;
   --font-body: 'Inter', sans-serif;
   
-  --spacing-1: var(--space-1);
-  --spacing-2: var(--space-2);
-  --spacing-3: var(--space-3);
-  --spacing-4: var(--space-4);
-  --spacing-5: var(--space-5);
-  --spacing-6: var(--space-6);
-  --spacing-8: var(--space-8);
-  --spacing-10: var(--space-10);
-  --spacing-12: var(--space-12);
-  --spacing-16: var(--space-16);
-  --spacing-20: var(--space-20);
-  --spacing-24: var(--space-24);
+  /* Professional Spacing Tokens */
+  --spacing-xs: var(--space-xs);
+  --spacing-sm: var(--space-sm);
+  --spacing-md: var(--space-md);
+  --spacing-base: var(--space-base);
+  --spacing-lg: var(--space-lg);
+  --spacing-xl: var(--space-xl);
+  --spacing-2xl: var(--space-2xl);
+  --spacing-3xl: var(--space-3xl);
+  --spacing-4xl: var(--space-4xl);
+  --spacing-5xl: var(--space-5xl);
+  --spacing-6xl: var(--space-6xl);
+  --spacing-7xl: var(--space-7xl);
+  --spacing-8xl: var(--space-8xl);
 }
 
 body {
@@ -130,14 +238,46 @@ button {
   }
 }
 
-/* Standard Site Container - Use this globally */
+/* Premium Site Container System - Consistent Across All Pages */
 .site-container {
   width: 100%;
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: var(--container-padding-mobile);
+  padding-right: var(--container-padding-mobile);
+}
+
+/* CRITICAL FIX: Grid column shrinking behavior */
+/* This prevents grid columns from being squeezed below their content size */
+.grid > * {
+  min-width: 0;
+}
+
+/* CRITICAL FIX: Flex child shrinking behavior */
+/* This prevents flex children from being squeezed below their content size */
+.flex > * {
+  min-width: 0;
+}
+
+/* CRITICAL FIX: Grid columns with 1fr need explicit minmax to allow shrinking */
+/* This overrides Tailwind's default grid behavior to prevent content squeezing */
+@layer utilities {
+  .grid-cols-2 > * {
+    min-width: 0;
+  }
+  .grid-cols-3 > * {
+    min-width: 0;
+  }
+  .grid-cols-4 > * {
+    min-width: 0;
+  }
+  .grid-cols-5 > * {
+    min-width: 0;
+  }
+  .grid-cols-6 > * {
+    min-width: 0;
+  }
 }
 
 /* Centered content container for content pages */
@@ -165,88 +305,297 @@ button {
 
 @media (min-width: 640px) {
   .site-container {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding-left: var(--container-padding-tablet);
+    padding-right: var(--container-padding-tablet);
   }
 }
 
 @media (min-width: 1024px) {
   .site-container {
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: var(--container-padding-desktop);
+    padding-right: var(--container-padding-desktop);
   }
 }
 
 @media (min-width: 1280px) {
   .site-container {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
+    padding-left: var(--container-padding-large);
+    padding-right: var(--container-padding-large);
   }
 }
 
 @media (min-width: 1536px) {
   .site-container {
-    padding-left: 3rem;
-    padding-right: 3rem;
+    padding-left: var(--container-padding-xlarge);
+    padding-right: var(--container-padding-xlarge);
   }
 }
 
-/* Global Section Spacing */
+/* Premium Section Spacing System */
 .section-spacing {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-top: var(--section-padding-mobile);
+  padding-bottom: var(--section-padding-mobile);
 }
 
 @media (min-width: 640px) {
   .section-spacing {
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+    padding-top: var(--section-padding-tablet);
+    padding-bottom: var(--section-padding-tablet);
   }
 }
 
 @media (min-width: 1024px) {
   .section-spacing {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
+    padding-top: var(--section-padding-desktop);
+    padding-bottom: var(--section-padding-desktop);
   }
 }
 
 @media (min-width: 1280px) {
   .section-spacing {
-    padding-top: 6rem;
-    padding-bottom: 6rem;
+    padding-top: var(--section-padding-large);
+    padding-bottom: var(--section-padding-large);
   }
 }
 
-/* Backward compatibility - alias for site-container */
+/* Compact section spacing for secondary sections */
+.section-spacing-compact {
+  padding-top: var(--space-2xl);
+  padding-bottom: var(--space-2xl);
+}
+
+@media (min-width: 640px) {
+  .section-spacing-compact {
+    padding-top: var(--space-3xl);
+    padding-bottom: var(--space-3xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-spacing-compact {
+    padding-top: var(--space-4xl);
+    padding-bottom: var(--space-4xl);
+  }
+}
+
+/* Hero section spacing - reduced top padding for ticker bar proximity */
+.section-spacing-hero {
+  padding-top: 1.5rem;    /* 24px - reduced from 48px */
+  padding-bottom: var(--section-padding-mobile);
+}
+
+@media (min-width: 640px) {
+  .section-spacing-hero {
+    padding-top: 2rem;    /* 32px - reduced from 64px */
+    padding-bottom: var(--section-padding-tablet);
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-spacing-hero {
+    padding-top: 2.5rem;  /* 40px - reduced from 80px */
+    padding-bottom: var(--section-padding-desktop);
+  }
+}
+
+@media (min-width: 1280px) {
+  .section-spacing-hero {
+    padding-top: 3rem;    /* 48px - reduced from 96px */
+    padding-bottom: var(--section-padding-large);
+  }
+}
+
+/* Premium content container - matches site-container system */
 .content-container {
   width: 100%;
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: var(--container-padding-mobile);
+  padding-right: var(--container-padding-mobile);
 }
 
 @media (min-width: 640px) {
   .content-container {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding-left: var(--container-padding-tablet);
+    padding-right: var(--container-padding-tablet);
   }
 }
 
 @media (min-width: 1024px) {
   .content-container {
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: var(--container-padding-desktop);
+    padding-right: var(--container-padding-desktop);
   }
 }
 
 @media (min-width: 1280px) {
   .content-container {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
+    padding-left: var(--container-padding-large);
+    padding-right: var(--container-padding-large);
   }
+}
+
+@media (min-width: 1536px) {
+  .content-container {
+    padding-left: var(--container-padding-xlarge);
+    padding-right: var(--container-padding-xlarge);
+  }
+}
+
+/* Premium Spacing Utilities */
+.spacing-sm { margin: var(--space-sm); }
+.spacing-md { margin: var(--space-md); }
+.spacing-lg { margin: var(--space-lg); }
+.spacing-xl { margin: var(--space-xl); }
+.spacing-2xl { margin: var(--space-2xl); }
+.spacing-3xl { margin: var(--space-3xl); }
+
+.pt-sm { padding-top: var(--space-sm); }
+.pt-md { padding-top: var(--space-md); }
+.pt-lg { padding-top: var(--space-lg); }
+.pt-xl { padding-top: var(--space-xl); }
+.pt-2xl { padding-top: var(--space-2xl); }
+.pt-3xl { padding-top: var(--space-3xl); }
+
+.pb-sm { padding-bottom: var(--space-sm); }
+.pb-md { padding-bottom: var(--space-md); }
+.pb-lg { padding-bottom: var(--space-lg); }
+.pb-xl { padding-bottom: var(--space-xl); }
+.pb-2xl { padding-bottom: var(--space-2xl); }
+.pb-3xl { padding-bottom: var(--space-3xl); }
+
+.mb-sm { margin-bottom: var(--space-sm); }
+.mb-md { margin-bottom: var(--space-md); }
+.mb-lg { margin-bottom: var(--space-lg); }
+.mb-xl { margin-bottom: var(--space-xl); }
+.mb-2xl { margin-bottom: var(--space-2xl); }
+.mb-3xl { margin-bottom: var(--space-3xl); }
+
+.mt-sm { margin-top: var(--space-sm); }
+.mt-md { margin-top: var(--space-md); }
+.mt-lg { margin-top: var(--space-lg); }
+.mt-xl { margin-top: var(--space-xl); }
+.mt-2xl { margin-top: var(--space-2xl); }
+.mt-3xl { margin-top: var(--space-3xl); }
+
+/* Premium Gap Utilities */
+.gap-xs { gap: var(--gap-xs); }
+.gap-sm { gap: var(--gap-sm); }
+.gap-md { gap: var(--gap-md); }
+.gap-lg { gap: var(--gap-lg); }
+.gap-xl { gap: var(--gap-xl); }
+.gap-2xl { gap: var(--gap-2xl); }
+
+/* Premium Card Spacing */
+.card-premium {
+  padding: var(--card-padding);
+}
+
+.card-compact {
+  padding: var(--space-lg);
+}
+
+.card-spacious {
+  padding: var(--space-2xl);
+}
+
+/* Premium Button Spacing */
+.btn-premium {
+  padding-top: var(--button-padding-vertical);
+  padding-bottom: var(--button-padding-vertical);
+  padding-left: var(--button-padding-horizontal);
+  padding-right: var(--button-padding-horizontal);
+}
+
+.btn-compact {
+  padding-top: var(--space-sm);
+  padding-bottom: var(--space-sm);
+  padding-left: var(--space-lg);
+  padding-right: var(--space-lg);
+}
+
+/* Premium Input Spacing */
+.input-premium {
+  padding-top: var(--input-padding-vertical);
+  padding-bottom: var(--input-padding-vertical);
+  padding-left: var(--input-padding-horizontal);
+  padding-right: var(--input-padding-horizontal);
+}
+
+/* Premium Heading Spacing */
+.heading-with-subtitle {
+  margin-bottom: var(--space-md);
+}
+
+.heading-with-content {
+  margin-bottom: var(--space-xl);
+}
+
+.section-heading-premium {
+  margin-bottom: var(--space-2xl);
+}
+
+/* Premium Section Header Component */
+.section-header {
+  text-align: center;
+  margin-bottom: var(--space-3xl);
+}
+
+.section-header h2 {
+  margin-bottom: var(--space-md);
+}
+
+.section-header p {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Premium Grid Spacing */
+.grid-premium {
+  gap: var(--gap-lg);
+}
+
+@media (min-width: 640px) {
+  .grid-premium {
+    gap: var(--gap-xl);
+  }
+}
+
+.grid-compact {
+  gap: var(--gap-md);
+}
+
+@media (min-width: 640px) {
+  .grid-compact {
+    gap: var(--gap-lg);
+  }
+}
+
+/* Premium Flex Spacing */
+.flex-premium {
+  gap: var(--gap-md);
+}
+
+@media (min-width: 640px) {
+  .flex-premium {
+    gap: var(--gap-lg);
+  }
+}
+
+/* Preloader Breathing Animation */
+@keyframes breathing {
+  0%, 100% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.animate-breathing {
+  animation: breathing 3s ease-in-out infinite;
 }
 
 @media (min-width: 1536px) {
@@ -309,6 +658,439 @@ button {
   animation: scaleIn 0.4s ease-out;
 }
 
+/* ============================================
+   GLOBAL BUTTON COMPONENT SYSTEM
+   iPhone Hub Zimbabwe Premium Design System
+   ============================================ */
+
+/* Base Button Styles - All buttons inherit from this */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--button-icon-gap);
+  height: var(--button-height);
+  min-height: var(--button-height);
+  padding: 0 var(--button-padding-x);
+  border-radius: var(--button-radius);
+  font-family: var(--font-sans);
+  font-size: var(--button-font-size);
+  font-weight: var(--button-font-weight);
+  letter-spacing: var(--button-letter-spacing);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--button-transition) ease;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--champagne-gold);
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Button Icon Sizing */
+.btn svg {
+  width: var(--button-icon-size);
+  height: var(--button-icon-size);
+  flex-shrink: 0;
+}
+
+/* Primary Button - Gold/Champagne Theme */
+.btn-primary {
+  background-color: var(--primary-button-bg);
+  color: var(--primary-button-text);
+  border-color: var(--primary-button-border);
+  box-shadow: var(--primary-button-shadow);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--primary-button-hover-bg);
+  color: var(--primary-button-hover-text);
+  border-color: var(--primary-button-hover-border);
+  box-shadow: var(--primary-button-hover-shadow);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active:not(:disabled) {
+  background-color: var(--primary-button-active-bg);
+  color: var(--primary-button-active-text);
+  transform: translateY(0);
+}
+
+/* Secondary Button - Gold Border, Transparent Background */
+.btn-secondary {
+  background-color: var(--secondary-button-bg);
+  color: var(--secondary-button-text);
+  border-color: var(--secondary-button-border);
+}
+
+/* ============================================
+   TRADE-IN PAGE FORCED SPACING OVERRIDE
+   ============================================ */
+
+.trade-in-card-header {
+  padding-left: 2rem !important;
+  padding-right: 2rem !important;
+}
+
+.trade-in-step-container {
+  padding-left: 2rem !important;
+  padding-right: 2rem !important;
+}
+
+.trade-in-disclaimer {
+  padding-left: 2rem !important;
+  padding-right: 2rem !important;
+}
+
+.trade-in-form-input {
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+}
+
+.trade-in-form-select {
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+}
+
+.trade-in-form-textarea {
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+}
+
+.trade-in-navigation-buttons {
+  padding-left: 2rem !important;
+  padding-right: 2rem !important;
+}
+
+/* ============================================
+   ACCESSORIES PAGE FORCED SPACING OVERRIDE
+   ============================================ */
+
+.accessories-product-name {
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+}
+
+.accessories-product-details {
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+}
+
+.accessories-product-price {
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+}
+
+.accessories-card-footer {
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+}
+
+.iphone-card-footer {
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+}
+
+.iphone-product-name {
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+}
+
+.iphone-product-details {
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+}
+
+.iphone-product-price {
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+}
+
+.iphone-product-stock {
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--secondary-button-hover-bg);
+  color: var(--secondary-button-hover-text);
+  border-color: var(--secondary-button-hover-border);
+  transform: translateY(-1px);
+}
+
+.btn-secondary:active:not(:disabled) {
+  background-color: var(--secondary-button-active-bg);
+  color: var(--secondary-button-active-text);
+  border-color: var(--secondary-button-active-border);
+  transform: translateY(0);
+}
+
+/* Tertiary Button - Dark Border, Transparent Background */
+.btn-tertiary {
+  background-color: var(--tertiary-button-bg);
+  color: var(--tertiary-button-text);
+  border-color: var(--tertiary-button-border);
+}
+
+.btn-tertiary:hover:not(:disabled) {
+  background-color: var(--tertiary-button-hover-bg);
+  color: var(--tertiary-button-hover-text);
+  border-color: var(--tertiary-button-hover-border);
+  transform: translateY(-1px);
+}
+
+/* WhatsApp Button - Green Theme */
+.btn-whatsapp {
+  background-color: #25D366;
+  color: white;
+  border-color: #25D366;
+}
+
+.btn-whatsapp:hover:not(:disabled) {
+  background-color: #128C7E;
+  color: white;
+  border-color: #128C7E;
+  transform: translateY(-1px);
+}
+
+/* Button Size Variants */
+.btn-sm {
+  height: var(--button-height-sm);
+  min-height: var(--button-height-sm);
+  padding: 0 var(--button-padding-x-sm);
+  font-size: var(--button-font-size-sm);
+}
+
+.btn-sm svg {
+  width: calc(var(--button-icon-size) * 0.875);
+  height: calc(var(--button-icon-size) * 0.875);
+}
+
+.btn-lg {
+  height: var(--button-height-lg);
+  min-height: var(--button-height-lg);
+  padding: 0 var(--button-padding-x-lg);
+  font-size: var(--button-font-size-lg);
+}
+
+.btn-lg svg {
+  width: calc(var(--button-icon-size) * 1.125);
+  height: calc(var(--button-icon-size) * 1.125);
+}
+
+/* Full Width Button */
+.btn-full {
+  width: 100%;
+}
+
+/* Gold Glow Special Effect */
+.btn-gold-glow {
+  box-shadow: var(--gold-glow-shadow);
+}
+
+.btn-gold-glow:hover:not(:disabled) {
+  box-shadow: var(--gold-glow-hover);
+}
+
+/* ============================================
+   GLOBAL BADGE / PILL COMPONENT SYSTEM
+   iPhone Hub Zimbabwe Premium Design System
+   ============================================ */
+
+/* Base Badge Styles */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--badge-icon-gap);
+  height: var(--badge-height);
+  min-height: var(--badge-height);
+  padding: 0 var(--badge-padding-x);
+  border-radius: var(--badge-radius);
+  font-family: var(--font-sans);
+  font-size: var(--badge-font-size);
+  font-weight: var(--badge-font-weight);
+  letter-spacing: var(--badge-letter-spacing);
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border: 1px solid transparent;
+}
+
+/* Badge Icon Sizing */
+.badge svg {
+  width: var(--badge-icon-size);
+  height: var(--badge-icon-size);
+  flex-shrink: 0;
+}
+
+/* Primary Badge - Gold Background, Dark Text */
+.badge-primary {
+  background-color: var(--primary-badge-bg);
+  color: var(--primary-badge-text);
+  border-color: var(--primary-badge-border);
+}
+
+/* Secondary Badge - Dark Background, Gold Text */
+.badge-secondary {
+  background-color: var(--secondary-badge-bg);
+  color: var(--secondary-badge-text);
+  border-color: var(--secondary-badge-border);
+}
+
+/* Badge Size Variants */
+.badge-sm {
+  height: var(--badge-height-sm);
+  min-height: var(--badge-height-sm);
+  padding: 0 var(--badge-padding-x-sm);
+  font-size: var(--badge-font-size-sm);
+}
+
+.badge-sm svg {
+  width: calc(var(--badge-icon-size) * 0.875);
+  height: calc(var(--badge-icon-size) * 0.875);
+}
+
+/* ============================================
+   CTA GROUP COMPONENT SYSTEM
+   iPhone Hub Zimbabwe Premium Design System
+   ============================================ */
+
+.cta-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cta-group-gap);
+  align-items: center;
+}
+
+.cta-group-sm {
+  gap: var(--cta-group-gap-sm);
+}
+
+.cta-group-lg {
+  gap: var(--cta-group-gap-lg);
+}
+
+/* Ensure all buttons in a group have the same height */
+.cta-group .btn {
+  height: var(--button-height);
+  min-height: var(--button-height);
+}
+
+.cta-group-sm .btn {
+  height: var(--button-height-sm);
+  min-height: var(--button-height-sm);
+}
+
+.cta-group-lg .btn {
+  height: var(--button-height-lg);
+  min-height: var(--button-height-lg);
+}
+
+/* ============================================
+   RESPONSIVE BEHAVIOR
+   ============================================ */
+
+/* Mobile - Stack buttons vertically on very small screens */
+@media (max-width: 430px) {
+  .cta-group {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .cta-group .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Tablet - Allow horizontal wrapping */
+@media (min-width: 431px) and (max-width: 768px) {
+  .cta-group {
+    flex-wrap: wrap;
+  }
+  
+  .cta-group .btn {
+    flex: 1 1 auto;
+    min-width: calc(50% - var(--cta-group-gap) / 2);
+  }
+}
+
+/* Desktop - Standard horizontal layout */
+@media (min-width: 769px) {
+  .cta-group {
+    flex-wrap: nowrap;
+  }
+  
+  .cta-group .btn {
+    flex: 0 0 auto;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY ENHANCEMENTS
+   ============================================ */
+
+/* Ensure sufficient contrast on all interactive elements */
+.btn:focus-visible,
+.badge:focus-visible {
+  outline: 2px solid var(--champagne-gold);
+  outline-offset: 2px;
+}
+
+/* Ensure touch targets are at least 44x44px on mobile */
+@media (max-width: 768px) {
+  .btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .badge {
+    min-height: 32px;
+    min-width: 32px;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .btn,
+  .badge {
+    border-width: 2px;
+  }
+  
+  .btn:focus-visible,
+  .badge:focus-visible {
+    outline-width: 3px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .badge {
+    transition: none;
+  }
+  
+  .btn:hover:not(:disabled),
+  .badge:hover {
+    transform: none;
+  }
+}
+
 /* Gold Smoke Background Animation */
 @keyframes smoke-move {
   0% {
@@ -363,7 +1145,7 @@ button {
 }
 
 .animate-scroll {
-  animation: scrollLeft linear infinite;
+  animation: scrollLeft 20s linear infinite;
 }
 
 /* Premium smoke background */
@@ -380,4 +1162,497 @@ button {
     radial-gradient(ellipse at 20% 30%, rgba(205, 181, 134, 0.3) 0%, transparent 50%),
     radial-gradient(ellipse at 80% 70%, rgba(129, 89, 43, 0.2) 0%, transparent 50%);
   animation: smoke-move 20s ease-in-out infinite;
+}
+
+/* AI Chat Widget Spacing Fixes */
+.chat-message-bubble {
+  padding: 20px 24px !important;
+  box-sizing: border-box !important;
+}
+
+.chat-message-text {
+  padding: 8px !important;
+  box-sizing: border-box !important;
+}
+
+.chat-message-container {
+  margin-bottom: 40px !important;
+  box-sizing: border-box !important;
+}
+
+.chat-input-field {
+  padding: 12px 16px !important;
+  box-sizing: border-box !important;
+}
+
+.chat-header {
+  padding: 20px 24px !important;
+  box-sizing: border-box !important;
+}
+
+.chat-input-section {
+  padding: 20px 24px !important;
+  box-sizing: border-box !important;
+}
+
+.chat-quick-actions {
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  padding-bottom: 16px !important;
+  box-sizing: border-box !important;
+}
+
+.chat-quick-action-button {
+  padding: 10px 8px !important;
+  box-sizing: border-box !important;
+}
+
+.chat-quick-action-label {
+  padding-left: 4px !important;
+  box-sizing: border-box !important;
+}
+
+.chat-loading-indicator {
+  padding: 20px !important;
+  box-sizing: border-box !important;
+}
+
+.chat-loading-text {
+  padding-left: 4px !important;
+  box-sizing: border-box !important;
+}
+
+.product-card-content {
+  padding: 16px 20px !important;
+  box-sizing: border-box !important;
+}
+
+.product-card-footer {
+  padding: 16px 20px 0 20px !important;
+  box-sizing: border-box !important;
+}
+
+.product-card-content-inner {
+  padding-left: 4px !important;
+  box-sizing: border-box !important;
+}
+
+.product-card-title {
+  padding-left: 4px !important;
+  box-sizing: border-box !important;
+}
+
+.product-card-model {
+  padding-left: 4px !important;
+  box-sizing: border-box !important;
+}
+
+.product-card-specs {
+  padding-left: 4px !important;
+  box-sizing: border-box !important;
+}
+
+.product-card-price {
+  padding-left: 4px !important;
+  box-sizing: border-box !important;
+}
+
+.product-card-button {
+  padding: 10px !important;
+  border: 1px solid rgba(205, 181, 134, 0.5) !important;
+  box-sizing: border-box !important;
+}
+
+/* Admin Dashboard Spacing Fixes */
+.admin-card-header {
+  padding: 24px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-card-content {
+  padding: 24px 24px 0 24px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-card-footer {
+  padding: 24px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-input {
+  padding: 10px 16px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-textarea {
+  padding: 10px 16px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-select-trigger {
+  padding: 10px 16px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-select-item {
+  padding: 8px 16px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-select-content {
+  padding: 8px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-select-label {
+  padding: 8px 16px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-button {
+  padding: 8px 16px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-badge {
+  padding: 6px 12px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-checkbox {
+  width: 20px !important;
+  height: 20px !important;
+  box-sizing: border-box !important;
+}
+
+/* Admin Dashboard Spacing System */
+:root {
+  --admin-sidebar-width: 260px;
+  --admin-header-height: 64px;
+  --admin-spacing-xs: 0.5rem;
+  --admin-spacing-sm: 0.75rem;
+  --admin-spacing-md: 1rem;
+  --admin-spacing-lg: 1.5rem;
+  --admin-spacing-xl: 2rem;
+  --admin-spacing-2xl: 2.5rem;
+}
+
+/* Premium Card Spacing */
+.admin-card-header {
+  padding: 24px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-card-content {
+  padding: 24px 24px 0 24px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-card-footer {
+  padding: 24px !important;
+  box-sizing: border-box !important;
+}
+
+/* Premium Form Controls */
+.admin-input {
+  padding: 10px 16px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-textarea {
+  padding: 10px 16px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-select-trigger {
+  padding: 10px 16px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-select-item {
+  padding: 8px 16px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-select-content {
+  padding: 8px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-select-label {
+  padding: 8px 16px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-button {
+  padding: 10px 16px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-badge {
+  padding: 6px 12px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-checkbox {
+  width: 20px !important;
+  height: 20px !important;
+  box-sizing: border-box !important;
+}
+
+/* Error Messages */
+.admin-error-message {
+  padding: 20px !important;
+  box-sizing: border-box !important;
+}
+
+/* Dashboard Specific */
+.admin-dashboard-cards {
+  padding: var(--admin-spacing-sm) 0 !important;
+  box-sizing: border-box !important;
+}
+
+.admin-kpi-card {
+  box-sizing: border-box !important;
+}
+
+.admin-kpi-card-title {
+  padding: var(--admin-spacing-xs) 0 !important;
+  box-sizing: border-box !important;
+}
+
+.admin-kpi-card-icon {
+  padding: var(--admin-spacing-sm) !important;
+  box-sizing: border-box !important;
+}
+
+.admin-kpi-card-value {
+  padding: var(--admin-spacing-sm) 0 !important;
+  box-sizing: border-box !important;
+}
+
+.admin-kpi-card-subtitle {
+  padding: var(--admin-spacing-sm) 0 !important;
+  box-sizing: border-box !important;
+}
+
+.admin-quick-actions {
+  padding: var(--admin-spacing-sm) 0 !important;
+  box-sizing: border-box !important;
+}
+
+.admin-quick-action-card {
+  box-sizing: border-box !important;
+}
+
+.admin-quick-action-content {
+  padding: 20px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-quick-action-content-inner {
+  padding: var(--admin-spacing-xs) 0 !important;
+  box-sizing: border-box !important;
+}
+
+.admin-quick-action-icon {
+  padding: var(--admin-spacing-sm) !important;
+  box-sizing: border-box !important;
+}
+
+.admin-quick-action-text {
+  padding: var(--admin-spacing-xs) 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Responsive Admin Design */
+@media (max-width: 1024px) {
+  :root {
+    --admin-sidebar-width: 0px;
+  }
+  
+  .admin-shell-sidebar {
+    position: fixed !important;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 260px;
+    z-index: 50;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .admin-shell-sidebar.open {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-shell-main {
+    padding: var(--admin-spacing-md) !important;
+  }
+}
+
+.admin-sidebar-logo {
+  padding: 0 20px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-sidebar-logo-text {
+  padding: 4px 0 !important;
+  box-sizing: border-box !important;
+}
+
+.admin-sidebar-logo-title {
+  padding: 2px 0 !important;
+  box-sizing: border-box !important;
+}
+
+.admin-sidebar-logo-subtitle {
+  padding: 2px 0 !important;
+  box-sizing: border-box !important;
+}
+
+.admin-sidebar-collapse-btn,
+.admin-sidebar-close-btn {
+  padding: 8px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-sidebar-nav {
+  padding: 12px 8px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-sidebar-section {
+  margin-bottom: 12px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-sidebar-section-title {
+  padding: 8px 16px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-sidebar-nav-item {
+  padding: 12px 20px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-sidebar-nav-icon {
+  margin-right: 12px !important;
+}
+
+.admin-sidebar-nav-text {
+  padding: 2px 0 !important;
+  box-sizing: border-box !important;
+}
+
+.admin-topbar {
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.admin-topbar-container {
+  padding: 0 16px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-topbar-menu-btn {
+  padding: 8px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-topbar-search {
+  padding: 4px 8px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-topbar-search-icon {
+  left: 16px !important;
+}
+
+.admin-topbar-search-input {
+  padding-left: 44px !important;
+}
+
+.admin-topbar-actions {
+  padding: 4px 0 !important;
+  box-sizing: border-box !important;
+}
+
+.admin-topbar-add-btn,
+.admin-topbar-website-btn {
+  padding: 8px 16px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-topbar-notif-btn,
+.admin-topbar-profile-btn,
+.admin-topbar-logout-btn {
+  padding: 8px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-error-message {
+  padding: 20px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-dashboard-cards {
+  padding: 8px 0 !important;
+  box-sizing: border-box !important;
+}
+
+.admin-kpi-card {
+  box-sizing: border-box !important;
+}
+
+.admin-kpi-card-title {
+  padding: 4px 0 !important;
+  box-sizing: border-box !important;
+}
+
+.admin-kpi-card-icon {
+  padding: 8px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-kpi-card-value {
+  padding: 8px 0 !important;
+  box-sizing: border-box !important;
+}
+
+.admin-kpi-card-subtitle {
+  padding: 8px 0 !important;
+  box-sizing: border-box !important;
+}
+
+.admin-quick-actions {
+  padding: 8px 0 !important;
+  box-sizing: border-box !important;
+}
+
+.admin-quick-action-card {
+  box-sizing: border-box !important;
+}
+
+.admin-quick-action-content {
+  padding: 20px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-quick-action-content-inner {
+  padding: 4px 0 !important;
+  box-sizing: border-box !important;
+}
+
+.admin-quick-action-icon {
+  padding: 8px !important;
+  box-sizing: border-box !important;
+}
+
+.admin-quick-action-text {
+  padding: 4px 0 !important;
+  box-sizing: border-box !important;
 }

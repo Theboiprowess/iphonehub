@@ -2,7 +2,8 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { Button, LinkButton } from "@/components/ui/button";
+import { CtaGroup } from "@/components/ui/cta-group";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -203,12 +204,21 @@ function EcoCashProofContent() {
                   <p className="text-gray-600 mb-4">
                     Your payment has been successfully verified.
                   </p>
-                  <Button
-                    onClick={() => router.push(`/checkout/success?orderId=${orderId}`)}
-                    className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]"
-                  >
-                    View Order
-                  </Button>
+                  <CtaGroup>
+                    <LinkButton
+                      href={`/checkout/success?orderId=${orderId}`}
+                      variant="primary"
+                      goldGlow
+                    >
+                      View Order
+                    </LinkButton>
+                    <LinkButton
+                      href="/thank-you"
+                      variant="tertiary"
+                    >
+                      Thank You
+                    </LinkButton>
+                  </CtaGroup>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -287,7 +297,9 @@ function EcoCashProofContent() {
                   <Button
                     type="submit"
                     disabled={submitting}
-                    className="w-full bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]"
+                    variant="primary"
+                    goldGlow
+                    className="w-full"
                     size="lg"
                   >
                     {submitting ? (

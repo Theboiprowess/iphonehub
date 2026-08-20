@@ -1,0 +1,23 @@
+{
+  "name": "iPhone Hub Zimbabwe",
+  "short_name": "iPhone Hub",
+  "description": "Shop quality boxed, pre-owned and second-hand iPhones from iPhone Hub Zimbabwe. Based in Masvingo and serving customers across Zimbabwe.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0E161B",
+  "theme_color": "#CDB586",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

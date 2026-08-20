@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button, LinkButton } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { CtaGroup } from "@/components/ui/cta-group";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -77,19 +78,20 @@ export default function AccessoriesPage() {
         />
 
         {/* Search and Filters */}
-        <div className="mb-8 space-y-4">
+        <div className="mb-12 space-y-6">
           <div className="flex gap-4">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
                 placeholder="Search accessories..."
                 value={filters.search}
                 onChange={(e) => updateFilter("search", e.target.value)}
-                className="pl-10"
+                className="pl-11 h-11"
+                style={{ paddingLeft: '2.5rem !important', paddingRight: '1.5rem !important' }}
               />
             </div>
             <Button
-              variant="outline"
+              variant="tertiary"
               onClick={() => setShowFilters(!showFilters)}
               className="lg:hidden"
             >
@@ -99,12 +101,12 @@ export default function AccessoriesPage() {
           </div>
 
           <div className={`${showFilters ? "block" : "hidden"} lg:block`}>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 min-w-0">
               <Select
                 value={filters.condition}
                 onValueChange={(value) => updateFilter("condition", value)}
               >
-                <SelectTrigger>
+                <SelectTrigger className="h-11" style={{ paddingLeft: '1.5rem !important', paddingRight: '1.5rem !important' }}>
                   <SelectValue placeholder="Condition" />
                 </SelectTrigger>
                 <SelectContent>
@@ -119,7 +121,7 @@ export default function AccessoriesPage() {
                 value={filters.sortBy}
                 onValueChange={(value) => updateFilter("sortBy", value)}
               >
-                <SelectTrigger>
+                <SelectTrigger className="h-11" style={{ paddingLeft: '1.5rem !important', paddingRight: '1.5rem !important' }}>
                   <SelectValue placeholder="Sort By" />
                 </SelectTrigger>
                 <SelectContent>
@@ -135,17 +137,17 @@ export default function AccessoriesPage() {
 
         {/* Products Grid */}
         {loading ? (
-          <div className="text-center py-12">
+          <div className="text-center py-16">
             <p className="text-gray-600">Loading products...</p>
           </div>
         ) : products.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-600">No accessories found matching your criteria.</p>
+          <div className="text-center py-20">
+            <p className="text-gray-600 text-lg">No accessories found matching your criteria.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 min-w-0">
             {products.map((product) => (
-              <Card key={product.id} className="group hover:shadow-lg transition-shadow">
+              <Card key={product.id} className="group hover:shadow-lg transition-shadow min-w-0">
                 <CardHeader className="p-0">
                   <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-t-lg flex items-center justify-center relative overflow-hidden">
                     {product.images && product.images.length > 0 && product.images[0] && product.images[0].url ? (
@@ -166,15 +168,15 @@ export default function AccessoriesPage() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="absolute top-4 right-4 bg-white/80 hover:bg-white"
+                      className="absolute top-4 right-4 bg-white/80 hover:bg-white h-9 w-9"
                     >
                       <Heart className="h-4 w-4" />
                     </Button>
                   </div>
                 </CardHeader>
-                <CardContent className="p-6">
-                  <h3 className="font-semibold text-lg mb-2">{product.name}</h3>
-                  <div className="space-y-1 text-sm text-gray-600 mb-4">
+                <CardContent className="p-6 space-y-4">
+                  <h3 className="font-semibold text-lg text-gray-900 leading-tight accessories-product-name">{product.name}</h3>
+                  <div className="space-y-2 text-sm text-gray-600 accessories-product-details">
                     <p>{product.model}</p>
                     {product.variants?.[0] && (
                       <>
@@ -185,8 +187,8 @@ export default function AccessoriesPage() {
                       </>
                     )}
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-2xl font-bold">
+                  <div className="flex items-center gap-2 pt-2 accessories-product-price">
+                    <span className="text-2xl font-bold text-gray-900">
                       {formatPrice(product.variants?.[0]?.price || 0)}
                     </span>
                     {product.variants?.[0]?.comparePrice && (
@@ -196,27 +198,27 @@ export default function AccessoriesPage() {
                     )}
                   </div>
                 </CardContent>
-                <CardFooter className="p-6 pt-0 space-y-2">
-                  <Link href={`/accessories/${product.id}`} className="w-full">
-                    <Button className="w-full">
+                <CardFooter className="p-6 pt-0 accessories-card-footer">
+                  <CtaGroup>
+                    <LinkButton href={`/accessories/${product.id}`} className="flex-1">
                       View Details
                       <ArrowRight className="ml-2 h-4 w-4" />
+                    </LinkButton>
+                    <Button 
+                      variant="whatsapp" 
+                      className="flex-1"
+                      onClick={() => {
+                        const whatsappNumber = "263773227172"; // Artwell's WhatsApp
+                        const message = encodeURIComponent(
+                          `Hi, I'm interested in: ${product.name} - ${product.model} (${formatPrice(product.variants?.[0]?.price || 0)})`
+                        );
+                        window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+                      }}
+                    >
+                      <MessageSquare className="h-4 w-4 mr-2" />
+                      Quick Contact
                     </Button>
-                  </Link>
-                  <Button 
-                    variant="outline" 
-                    className="w-full"
-                    onClick={() => {
-                      const whatsappNumber = "263773227172"; // Artwell's WhatsApp
-                      const message = encodeURIComponent(
-                        `Hi, I'm interested in: ${product.name} - ${product.model} (${formatPrice(product.variants?.[0]?.price || 0)})`
-                      );
-                      window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
-                    }}
-                  >
-                    <MessageSquare className="h-4 w-4 mr-2" />
-                    Quick Contact
-                  </Button>
+                  </CtaGroup>
                 </CardFooter>
               </Card>
             ))}

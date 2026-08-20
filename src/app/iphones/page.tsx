@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button, LinkButton } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { CtaGroup } from "@/components/ui/cta-group";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SectionHeader } from "@/components/ui/section-header";
 import { formatPrice } from "@/lib/utils";
+import { getIPhoneImageUrl } from "@/lib/iphone-image-provider";
 import { Heart, Search, SlidersHorizontal, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { CEOSelectionDialog } from "@/components/whatsapp/ceo-selection-dialog";
@@ -112,19 +114,20 @@ export default function iPhonesPage() {
         />
 
         {/* Search and Filters */}
-        <div className="mb-8 space-y-4">
+        <div className="mb-12 space-y-6">
           <div className="flex gap-4">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
                 placeholder="Search iPhones..."
                 value={filters.search}
                 onChange={(e) => updateFilter("search", e.target.value)}
-                className="pl-10"
+                className="pl-11 pr-6 h-11"
+                style={{ paddingLeft: '2.5rem !important', paddingRight: '1.5rem !important' }}
               />
             </div>
             <Button
-              variant="outline"
+              variant="tertiary"
               onClick={() => setShowFilters(!showFilters)}
               className="lg:hidden"
             >
@@ -133,7 +136,7 @@ export default function iPhonesPage() {
             </Button>
             {filters.condition && (
               <Button
-                variant="outline"
+                variant="tertiary"
                 onClick={clearFilters}
               >
                 Clear Filter
@@ -142,12 +145,12 @@ export default function iPhonesPage() {
           </div>
 
           <div className={`${showFilters ? "block" : "hidden"} lg:block`}>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 min-w-0">
               <Select
                 value={filters.condition}
                 onValueChange={(value) => updateFilter("condition", value)}
               >
-                <SelectTrigger>
+                <SelectTrigger className="h-11 px-6" style={{ paddingLeft: '1.5rem !important', paddingRight: '1.5rem !important' }}>
                   <SelectValue placeholder="Condition" />
                 </SelectTrigger>
                 <SelectContent>
@@ -164,13 +167,15 @@ export default function iPhonesPage() {
                 placeholder="Model (e.g., iPhone 15)"
                 value={filters.model}
                 onChange={(e) => updateFilter("model", e.target.value)}
+                className="px-6 h-11"
+                style={{ paddingLeft: '1.5rem !important', paddingRight: '1.5rem !important' }}
               />
 
               <Select
                 value={filters.storage}
                 onValueChange={(value) => updateFilter("storage", value)}
               >
-                <SelectTrigger>
+                <SelectTrigger className="h-11 px-6" style={{ paddingLeft: '1.5rem !important', paddingRight: '1.5rem !important' }}>
                   <SelectValue placeholder="Storage" />
                 </SelectTrigger>
                 <SelectContent>
@@ -189,12 +194,16 @@ export default function iPhonesPage() {
                   type="number"
                   value={filters.minPrice}
                   onChange={(e) => updateFilter("minPrice", e.target.value)}
+                  className="px-6 h-11"
+                  style={{ paddingLeft: '1.5rem !important', paddingRight: '1.5rem !important' }}
                 />
                 <Input
                   placeholder="Max Price"
                   type="number"
                   value={filters.maxPrice}
                   onChange={(e) => updateFilter("maxPrice", e.target.value)}
+                  className="px-6 h-11"
+                  style={{ paddingLeft: '1.5rem !important', paddingRight: '1.5rem !important' }}
                 />
               </div>
 
@@ -202,7 +211,7 @@ export default function iPhonesPage() {
                 value={filters.sortBy}
                 onValueChange={(value) => updateFilter("sortBy", value)}
               >
-                <SelectTrigger>
+                <SelectTrigger className="h-11 px-6" style={{ paddingLeft: '1.5rem !important', paddingRight: '1.5rem !important' }}>
                   <SelectValue placeholder="Sort By" />
                 </SelectTrigger>
                 <SelectContent>
@@ -218,12 +227,12 @@ export default function iPhonesPage() {
 
         {/* Products Grid */}
         {loading ? (
-          <div className="text-center py-12">
+          <div className="text-center py-16">
             <p className="text-gray-600">Loading products...</p>
           </div>
         ) : products.length === 0 ? (
-          <div className="text-center py-16">
-            <p className="text-gray-600 text-lg mb-2">
+          <div className="text-center py-20">
+            <p className="text-gray-600 text-lg mb-4">
               {filters.condition === "boxed" 
                 ? "No boxed iPhones available at the moment" 
                 : filters.condition === "pre-owned" 
@@ -234,32 +243,34 @@ export default function iPhonesPage() {
             </p>
             {filters.condition && (
               <Button
-                variant="outline"
+                variant="tertiary"
                 onClick={clearFilters}
-                className="mt-4"
               >
                 View All iPhones
               </Button>
             )}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 min-w-0">
             {products.map((product) => {
               const variant = product.variants && product.variants.length > 0 ? product.variants[0] : null;
               return (
-                <Card key={product.id} className="group hover:shadow-lg transition-shadow">
+                <Card key={product.id} className="group hover:shadow-lg transition-shadow min-w-0">
                   <CardHeader className="p-0">
                     <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-t-lg flex items-center justify-center relative overflow-hidden">
-                      {product.images && product.images.length > 0 && product.images[0] && product.images[0].url ? (
-                        <img 
-                          src={product.images[0].url} 
-                          alt={product.images[0].alt || product.name}
-                          className="w-full h-full object-cover"
-                          loading="lazy"
-                        />
-                      ) : (
-                        <div className="text-6xl">📱</div>
-                      )}
+                      {(() => {
+                        const imageUrl = (product.images && product.images.length > 0 && product.images[0] && product.images[0].url) || null;
+                        return imageUrl ? (
+                          <img 
+                            src={imageUrl} 
+                            alt={product.name}
+                            className="w-full h-full object-contain p-4"
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div className="text-6xl">📱</div>
+                        );
+                      })()}
                       <div className="absolute top-4 left-4">
                         <Badge variant={conditionLabels[product.condition].variant}>
                           {conditionLabels[product.condition].label}
@@ -268,15 +279,15 @@ export default function iPhonesPage() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="absolute top-4 right-4 bg-white/80 hover:bg-white"
+                        className="absolute top-4 right-4 bg-white/80 hover:bg-white h-9 w-9"
                       >
                         <Heart className="h-4 w-4" />
                       </Button>
                     </div>
                   </CardHeader>
-                  <CardContent className="p-6">
-                    <h3 className="font-semibold text-lg mb-2 text-gray-900">{product.name}</h3>
-                    <div className="space-y-1 text-sm text-gray-600 mb-4">
+                  <CardContent className="p-6 space-y-4">
+                    <h3 className="font-semibold text-lg text-gray-900 leading-tight iphone-product-name">{product.name}</h3>
+                    <div className="space-y-2 text-sm text-gray-600 iphone-product-details">
                       <p className="font-medium">{product.model}</p>
                       {variant ? (
                         <>
@@ -289,7 +300,7 @@ export default function iPhonesPage() {
                         <p>No variants available</p>
                       )}
                     </div>
-                    <div className="flex items-center gap-2 mb-4">
+                    <div className="flex items-center gap-2 pt-2 iphone-product-price">
                       <span className="text-2xl font-bold text-gray-900">
                         {variant && variant.price
                           ? formatPrice(variant.price)
@@ -301,7 +312,7 @@ export default function iPhonesPage() {
                         </span>
                       )}
                     </div>
-                    <div className="flex items-center gap-2 text-sm">
+                    <div className="flex items-center gap-2 text-sm iphone-product-stock">
                       {variant ? (
                         <>
                           {variant.stock > 0 ? (
@@ -321,22 +332,22 @@ export default function iPhonesPage() {
                       )}
                     </div>
                   </CardContent>
-                  <CardFooter className="p-6 pt-0 flex gap-3">
-                    <Link href={`/iphones/${product.id}`} className="flex-1">
-                      <Button className="w-full bg-blue-600 text-white hover:bg-blue-700">
+                  <CardFooter className="p-6 pt-0 iphone-card-footer">
+                    <CtaGroup>
+                      <LinkButton href={`/iphones/${product.id}`} className="flex-1">
                         View Details
+                      </LinkButton>
+                      <Button
+                        variant="whatsapp"
+                        className="w-11 p-0"
+                        onClick={() => {
+                          setSelectedProduct(product);
+                          setShowWhatsAppDialog(true);
+                        }}
+                      >
+                        <MessageSquare className="h-4 w-4" />
                       </Button>
-                    </Link>
-                    <Button
-                      variant="outline"
-                      className="border-[#25D366] text-[#25D366] hover:bg-[#25D366]/10"
-                      onClick={() => {
-                        setSelectedProduct(product);
-                        setShowWhatsAppDialog(true);
-                      }}
-                    >
-                      <MessageSquare className="h-4 w-4" />
-                    </Button>
+                    </CtaGroup>
                   </CardFooter>
                 </Card>
               );

@@ -85,6 +85,7 @@ export const ModelName = {
   Media: 'Media',
   NavigationItem: 'NavigationItem',
   FAQ: 'FAQ',
+  Accessory: 'Accessory',
   Inventory: 'Inventory',
   InventoryMovement: 'InventoryMovement',
   HomepageConfig: 'HomepageConfig',
@@ -706,6 +707,32 @@ export const FAQScalarFieldEnum = {
 } as const
 
 export type FAQScalarFieldEnum = (typeof FAQScalarFieldEnum)[keyof typeof FAQScalarFieldEnum]
+
+
+export const AccessoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  category: 'category',
+  price: 'price',
+  comparePrice: 'comparePrice',
+  costPrice: 'costPrice',
+  sku: 'sku',
+  stock: 'stock',
+  imageUrl: 'imageUrl',
+  isFeatured: 'isFeatured',
+  isActive: 'isActive',
+  compatibility: 'compatibility',
+  metaTitle: 'metaTitle',
+  metaDescription: 'metaDescription',
+  publishedAt: 'publishedAt',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AccessoryScalarFieldEnum = (typeof AccessoryScalarFieldEnum)[keyof typeof AccessoryScalarFieldEnum]
 
 
 export const InventoryScalarFieldEnum = {

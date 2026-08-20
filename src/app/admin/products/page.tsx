@@ -25,6 +25,11 @@ import { useState, useEffect } from "react";
 import { formatPrice } from "@/lib/utils";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
 import { AdminPageContainer } from "@/components/admin/admin-page-container";
+import { AdminCard } from "@/components/admin/admin-card";
+import { StatCard } from "@/components/admin/stat-card";
+import { SearchToolbar } from "@/components/admin/search-toolbar";
+import { EmptyState } from "@/components/admin/empty-state";
+import { ResponsiveGrid } from "@/components/admin/responsive-grid";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<any[]>([]);
@@ -195,7 +200,7 @@ export default function ProductsPage() {
 
   return (
     <AdminPageContainer>
-      <div className="space-y-8">
+      <div className="space-y-8 admin-page-container text-center">
         <AdminPageHeader 
           title="Products"
           subtitle="Manage your product catalogue"
@@ -204,71 +209,45 @@ export default function ProductsPage() {
         />
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-        <Card className="bg-[#F7F5EF] border-[#CDB586]/30 hover:shadow-md transition-shadow">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-[#5F3C18]">Total Products</p>
-                <p className="text-2xl lg:text-3xl font-bold text-[#0E161B]">{products.length}</p>
-              </div>
-              <Package className="h-8 w-8 text-[#CDB586]" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-[#F7F5EF] border-[#CDB586]/30 hover:shadow-md transition-shadow">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-[#5F3C18]">Published</p>
-                <p className="text-2xl lg:text-3xl font-bold text-[#0E161B]">
-                  {statusCounts.PUBLISHED}
-                </p>
-              </div>
-              <Smartphone className="h-8 w-8 text-[#CDB586]" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-[#F7F5EF] border-[#CDB586]/30 hover:shadow-md transition-shadow">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-[#5F3C18]">Draft</p>
-                <p className="text-2xl lg:text-3xl font-bold text-[#0E161B]">
-                  {statusCounts.DRAFT}
-                </p>
-              </div>
-              <Edit className="h-8 w-8 text-[#CDB586]" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-[#F7F5EF] border-[#CDB586]/30 hover:shadow-md transition-shadow">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-[#5F3C18]">Out of Stock</p>
-                <p className="text-2xl lg:text-3xl font-bold text-[#0E161B]">
-                  {statusCounts.OUT_OF_STOCK}
-                </p>
-              </div>
-              <Archive className="h-8 w-8 text-[#CDB586]" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <ResponsiveGrid cols={{ default: 1, sm: 2, lg: 4 }}>
+        <StatCard
+          title="Total Products"
+          value={products.length}
+          icon={Package}
+          color="#CDB586"
+        />
+        <StatCard
+          title="Published"
+          value={statusCounts.PUBLISHED}
+          icon={Smartphone}
+          color="#CDB586"
+        />
+        <StatCard
+          title="Draft"
+          value={statusCounts.DRAFT}
+          icon={Edit}
+          color="#CDB586"
+        />
+        <StatCard
+          title="Out of Stock"
+          value={statusCounts.OUT_OF_STOCK}
+          icon={Archive}
+          color="#CDB586"
+        />
+      </ResponsiveGrid>
 
       {loading ? (
         <div className="flex items-center justify-center h-64">
           <Loader2 className="h-8 w-8 animate-spin text-[#CDB586]" />
         </div>
       ) : (
-        <div className="text-center py-12">
-          <Package className="h-12 w-12 mx-auto mb-4 text-[#CDB586]/40" />
-          <p className="text-[#5F3C18]">Products functionality loaded</p>
-        </div>
+        <AdminCard>
+          <EmptyState
+            icon={Package}
+            title="Products functionality loaded"
+            description="Product management features are ready to use"
+          />
+        </AdminCard>
       )}
     </div>
     </AdminPageContainer>

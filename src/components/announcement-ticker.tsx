@@ -51,14 +51,14 @@ export function AnnouncementTicker() {
   // Duplicate announcements for seamless looping
   const displayAnnouncements = [...displayMessages, ...displayMessages];
   const scrollingSpeed = displayMessages[0]?.scrollingSpeed || 30;
-  const animationDuration = scrollingSpeed * 2;
+  const animationDuration = 40; // Slower for better visibility
 
   console.log('Display messages:', displayMessages);
   console.log('Animation duration:', animationDuration);
 
   return (
-    <div className="bg-[#0E161B] border-b border-[#CDB586]/20 relative overflow-hidden">
-      <div className="py-3 px-4">
+    <div className="bg-[#0E161B] border-b border-[#CDB586]/20 relative overflow-hidden w-full min-h-[52px] flex items-center">
+      <div className="w-full overflow-hidden relative">
         <div 
           className="flex gap-12 whitespace-nowrap animate-scroll"
           style={{
@@ -68,7 +68,7 @@ export function AnnouncementTicker() {
           {displayAnnouncements.map((announcement, index) => (
             <span 
               key={`${announcement.id}-${index}`} 
-              className="text-[#CDB586] text-sm font-medium flex items-center gap-3"
+              className="text-[#CDB586] text-sm font-medium flex items-center gap-3 flex-shrink-0"
             >
               {announcement.message}
               <span className="text-[#CDB586]/40 text-lg">•</span>

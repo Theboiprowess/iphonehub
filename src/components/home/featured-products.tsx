@@ -7,7 +7,6 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { formatPrice } from "@/lib/utils";
 import { ArrowRight, Heart, Smartphone, CircleCheck, AlertTriangle, CircleX, Loader2 } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import { useState, useEffect } from "react";
 
 export function FeaturedProducts() {
@@ -24,20 +23,23 @@ export function FeaturedProducts() {
         const shuffled = [...data].sort(() => 0.5 - Math.random());
         const selected = shuffled.slice(0, 3);
         
-        // Transform to match expected format
-        const transformed = selected.map((item: any, index: number) => ({
-          id: item.id || index.toString(),
-          name: item.title,
-          model: item.model,
-          storage: item.storage,
-          colour: item.colour || "Various Colors",
-          condition: item.condition || "SECOND_HAND",
-          batteryHealth: item.batteryHealth || (85 + Math.floor(Math.random() * 15)),
-          price: item.price,
-          comparePrice: item.comparePrice || Math.round(item.price * 1.2),
-          stock: item.stock || Math.floor(Math.random() * 5) + 1,
-          imageUrl: item.imageUrl || item.image || null,
-        }));
+        // Transform to match expected format - manual upload only
+        const transformed = selected.map((item: any, index: number) => {
+          const imageUrl = item.imageUrl || item.image || null;
+          return {
+            id: item.id || index.toString(),
+            name: item.title,
+            model: item.model,
+            storage: item.storage,
+            colour: item.colour || "Various Colors",
+            condition: item.condition || "SECOND_HAND",
+            batteryHealth: item.batteryHealth || (85 + Math.floor(Math.random() * 15)),
+            price: item.price,
+            comparePrice: item.comparePrice || Math.round(item.price * 1.2),
+            stock: item.stock || Math.floor(Math.random() * 5) + 1,
+            imageUrl: imageUrl, // Manual upload only - no fallback
+          };
+        });
         
         setFeaturedProducts(transformed);
       } catch (error) {
@@ -49,19 +51,22 @@ export function FeaturedProducts() {
           const shuffled = [...data].sort(() => 0.5 - Math.random());
           const selected = shuffled.slice(0, 3);
           
-          const transformed = selected.map((item: any, index: number) => ({
-            id: item.id || index.toString(),
-            name: item.title,
-            model: item.model,
-            storage: item.storage,
-            colour: item.colour || "Various Colors",
-            condition: item.condition || "SECOND_HAND",
-            batteryHealth: item.batteryHealth || (85 + Math.floor(Math.random() * 15)),
-            price: item.price,
-            comparePrice: item.comparePrice || Math.round(item.price * 1.2),
-            stock: item.stock || Math.floor(Math.random() * 5) + 1,
-            imageUrl: item.imageUrl || item.image || null,
-          }));
+          const transformed = selected.map((item: any, index: number) => {
+            const imageUrl = item.imageUrl || item.image || null;
+            return {
+              id: item.id || index.toString(),
+              name: item.title,
+              model: item.model,
+              storage: item.storage,
+              colour: item.colour || "Various Colors",
+              condition: item.condition || "SECOND_HAND",
+              batteryHealth: item.batteryHealth || (85 + Math.floor(Math.random() * 15)),
+              price: item.price,
+              comparePrice: item.comparePrice || Math.round(item.price * 1.2),
+              stock: item.stock || Math.floor(Math.random() * 5) + 1,
+              imageUrl: imageUrl, // Manual upload only - no fallback
+            };
+          });
           
           setFeaturedProducts(transformed);
         }
@@ -99,7 +104,7 @@ export function FeaturedProducts() {
             subtitle="Our most popular devices right now"
             className="text-center"
           />
-          <div className="flex justify-center">
+          <div className="flex justify-center mt-8">
             <Loader2 className="h-8 w-8 animate-spin text-[#CAA45A]" />
           </div>
         </div>
@@ -115,29 +120,27 @@ export function FeaturedProducts() {
           subtitle="Our most popular devices right now"
           className="text-center"
         >
-          <div className="flex justify-center mt-4">
+          <div className="flex justify-center mt-6">
             <Link href="/catalogue">
-              <Button variant="outline" className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586] hover:text-[#0E161B] font-semibold">
+              <Button variant="outline" className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586] hover:text-[#0E161B] font-semibold h-11">
                 View Price Catalogue
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
           </div>
         </SectionHeader>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 min-w-0">
           {featuredProducts.map((product) => (
-            <Card key={product.id} className="group hover:shadow-xl transition-all bg-[#F7F5EF] border-[#CDB586] overflow-hidden flex flex-col h-full">
+            <Card key={product.id} className="group hover:shadow-xl transition-all bg-[#F7F5EF] border-[#CDB586] overflow-hidden flex flex-col h-full min-w-0">
               <CardHeader className="p-0 border-b border-[#CDB586]/20">
                 <div className="aspect-[4/3] bg-gradient-to-br from-[#EBE2C5] to-[#F7F5EF] flex items-center justify-center relative">
                   {/* Product Image */}
                   {product.imageUrl ? (
-                    <Image
+                    <img
                       src={product.imageUrl}
                       alt={product.name}
-                      fill
-                      className="object-cover"
-                      quality={100}
-                      priority={false}
+                      className="w-full h-full object-contain p-4"
+                      loading="lazy"
                     />
                   ) : (
                     /* Fallback placeholder */
@@ -149,7 +152,7 @@ export function FeaturedProducts() {
                       </div>
                     </div>
                   )}
-                  <div className="absolute top-3 left-3">
+                  <div className="absolute top-4 left-4">
                     <Badge variant={conditionLabels[product.condition].variant} className="text-xs">
                       {conditionLabels[product.condition].label}
                     </Badge>
@@ -157,18 +160,18 @@ export function FeaturedProducts() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="absolute top-3 right-3 bg-[#F7F5EF]/90 hover:bg-[#F7F5EF] text-[#5F3C18] backdrop-blur-sm h-8 w-8"
+                    className="absolute top-4 right-4 bg-[#F7F5EF]/90 hover:bg-[#F7F5EF] text-[#5F3C18] backdrop-blur-sm h-9 w-9"
                   >
-                    <Heart className="h-3.5 w-3.5" />
+                    <Heart className="h-4 w-4" />
                   </Button>
                 </div>
               </CardHeader>
-              <CardContent className="p-5 space-y-4 flex-1">
-                <div className="space-y-2">
+              <CardContent className="p-6 space-y-5 flex-1" style={{ paddingLeft: '2.5rem' }}>
+                <div className="space-y-3">
                   <h3 className="font-semibold text-base text-[#0E161B] leading-tight">{product.name}</h3>
                   <div className="h-px w-10 bg-[#CDB586]/30"></div>
                 </div>
-                <div className="space-y-2 text-sm text-[#5F3C18]">
+                <div className="space-y-3 text-sm text-[#5F3C18]">
                   <div className="flex items-center gap-2">
                     <span className="font-medium">Model:</span>
                     <span>{product.model}</span>
@@ -188,7 +191,7 @@ export function FeaturedProducts() {
                     </div>
                   )}
                 </div>
-                <div className="pt-3 border-t border-[#CDB586]/20">
+                <div className="pt-4 border-t border-[#CDB586]/20">
                   <div className="flex items-center gap-2">
                     <span className="text-lg font-bold text-[#0E161B]">
                       {formatPrice(product.price)}
@@ -199,21 +202,21 @@ export function FeaturedProducts() {
                       </span>
                     )}
                   </div>
-                  <div className="flex items-center gap-2 text-sm mt-2">
+                  <div className="flex items-center gap-2 text-sm mt-3">
                     {getStockIcon(product.stock)}
                     <span className="text-[#5F3C18]">{getStockText(product.stock)}</span>
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="p-5 pt-4 flex gap-3">
+              <CardFooter className="p-6 pt-5 flex gap-3" style={{ paddingLeft: '2.5rem' }}>
                 <Link href="/catalogue" className="flex-1">
-                  <Button className="w-full bg-[#0E161B] text-[#EBE2C5] hover:bg-[#1A1814] text-sm h-10">
+                  <Button className="w-full bg-[#0E161B] text-[#EBE2C5] hover:bg-[#1A1814] text-sm h-11">
                     View Details
                   </Button>
                 </Link>
                 <Button 
                   variant="outline" 
-                  className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586] hover:text-[#0E161B] h-10 w-10 p-0"
+                  className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586] hover:text-[#0E161B] h-11 w-11 p-0"
                   onClick={() => {
                     const whatsappNumber = "263773227172";
                     const message = `Hello iPhone Hub Zimbabwe, I am interested in the ${product.name} (${product.storage}). Is it still available?`;

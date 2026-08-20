@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { CtaGroup } from "@/components/ui/cta-group";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Phone, Mail, MapPin, MessageCircle } from "lucide-react";
 
 export default function ContactPage() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -32,14 +35,7 @@ export default function ContactPage() {
       });
 
       if (response.ok) {
-        alert("Message sent successfully!");
-        setFormData({
-          name: "",
-          phone: "",
-          email: "",
-          subject: "",
-          message: "",
-        });
+        router.push("/thank-you");
       } else {
         alert("Failed to send message. Please try again.");
       }
@@ -62,10 +58,10 @@ export default function ContactPage() {
       {/* Hero Section */}
       <section className="section-spacing bg-[#0E161B] wood-texture">
         <div className="site-container text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold text-[#EBE2C5] font-manrope mb-4">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#EBE2C5] font-manrope mb-6">
             Contact Us
           </h1>
-          <p className="text-lg text-[#EBE2C5]/80 leading-relaxed">
+          <p className="text-lg sm:text-xl text-[#EBE2C5]/80 leading-relaxed">
             Have questions? We're here to help. Reach out to our team via WhatsApp, phone, or send us a message.
           </p>
         </div>
@@ -74,20 +70,21 @@ export default function ContactPage() {
       {/* Contact Content */}
       <section className="section-spacing">
         <div className="site-container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 min-w-0">
               {/* Contact Form */}
               <div>
                 <Card className="bg-[#F7F5EF] border-[#CDB586]">
-                  <CardHeader>
-                    <CardTitle className="text-[#0E161B]">Send us a message</CardTitle>
+                  <CardHeader className="pb-6">
+                    <CardTitle className="text-[#0E161B] text-xl ml-2">Send us a message</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <form onSubmit={handleSubmit} className="space-y-5">
+                    <form onSubmit={handleSubmit} className="space-y-6">
                       <div>
-                        <Label htmlFor="name" className="text-[#5F3C18]">Name *</Label>
+                        <Label htmlFor="name" className="text-[#5F3C18] mb-2 block ml-2">Name *</Label>
                         <Input
                           id="name"
                           required
+                          className="h-11"
                           value={formData.name}
                           onChange={(e) =>
                             setFormData({ ...formData, name: e.target.value })
@@ -95,11 +92,12 @@ export default function ContactPage() {
                         />
                       </div>
                       <div>
-                        <Label htmlFor="phone" className="text-[#5F3C18]">Phone / WhatsApp *</Label>
+                        <Label htmlFor="phone" className="text-[#5F3C18] mb-2 block ml-2">Phone / WhatsApp *</Label>
                         <Input
                           id="phone"
                           type="tel"
                           required
+                          className="h-11"
                           value={formData.phone}
                           onChange={(e) =>
                             setFormData({ ...formData, phone: e.target.value })
@@ -107,11 +105,12 @@ export default function ContactPage() {
                         />
                       </div>
                       <div>
-                        <Label htmlFor="email" className="text-[#5F3C18]">Email *</Label>
+                        <Label htmlFor="email" className="text-[#5F3C18] mb-2 block ml-2">Email *</Label>
                         <Input
                           id="email"
                           type="email"
                           required
+                          className="h-11"
                           value={formData.email}
                           onChange={(e) =>
                             setFormData({ ...formData, email: e.target.value })
@@ -119,10 +118,11 @@ export default function ContactPage() {
                         />
                       </div>
                       <div>
-                        <Label htmlFor="subject" className="text-[#5F3C18]">Subject *</Label>
+                        <Label htmlFor="subject" className="text-[#5F3C18] mb-2 block ml-2">Subject *</Label>
                         <Input
                           id="subject"
                           required
+                          className="h-11"
                           value={formData.subject}
                           onChange={(e) =>
                             setFormData({ ...formData, subject: e.target.value })
@@ -130,18 +130,19 @@ export default function ContactPage() {
                         />
                       </div>
                       <div>
-                        <Label htmlFor="message" className="text-[#5F3C18]">Message *</Label>
+                        <Label htmlFor="message" className="text-[#5F3C18] mb-2 block ml-2">Message *</Label>
                         <Textarea
                           id="message"
                           required
                           rows={5}
+                          className="min-h-[120px]"
                           value={formData.message}
                           onChange={(e) =>
                             setFormData({ ...formData, message: e.target.value })
                           }
                         />
                       </div>
-                      <Button type="submit" className="w-full bg-[#0E161B] text-[#EBE2C5] hover:bg-[#1A1814]" disabled={loading}>
+                      <Button type="submit" variant="primary" className="w-full" disabled={loading}>
                         {loading ? "Sending..." : "SEND MESSAGE"}
                       </Button>
                     </form>
@@ -150,11 +151,11 @@ export default function ContactPage() {
               </div>
 
               {/* Contact Information */}
-              <div className="space-y-6">
+              <div className="space-y-8">
                 {/* Location */}
                 <Card className="bg-[#F7F5EF] border-[#CDB586]">
-                  <CardHeader>
-                    <CardTitle className="text-[#0E161B] flex items-center gap-2">
+                  <CardHeader className="pb-5">
+                    <CardTitle className="text-[#0E161B] flex items-center gap-3">
                       <MapPin className="h-5 w-5 text-[#CDB586]" />
                       Location
                     </CardTitle>
@@ -168,65 +169,63 @@ export default function ContactPage() {
 
                 {/* WhatsApp Contacts */}
                 <Card className="bg-[#F7F5EF] border-[#CDB586]">
-                  <CardHeader>
-                    <CardTitle className="text-[#0E161B] flex items-center gap-2">
+                  <CardHeader className="pb-5">
+                    <CardTitle className="text-[#0E161B] flex items-center gap-3">
                       <MessageCircle className="h-5 w-5 text-[#CDB586]" />
                       WhatsApp / Phone
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-6">
                     {/* Artwell */}
-                    <div className="p-5 bg-[#EBE2C5] rounded-lg border border-[#CDB586]">
-                      <h3 className="text-xl font-semibold mb-2 text-[#0E161B]">Artwell</h3>
-                      <p className="text-[#5F3C18] mb-4">0773227172</p>
-                      <div className="flex gap-3">
+                    <div className="p-6 bg-[#EBE2C5] rounded-lg border border-[#CDB586]">
+                      <h3 className="text-xl font-semibold mb-3 text-[#0E161B]">Artwell</h3>
+                      <p className="text-[#5F3C18] mb-5">0773227172</p>
+                      <CtaGroup>
                         <Button 
-                          variant="outline" 
-                          className="flex-1 border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586] hover:text-[#0E161B]"
+                          variant="tertiary"
                           onClick={() => window.open(`tel:0773227172`)}
                         >
                           <Phone className="mr-2 h-4 w-4" />
                           Call
                         </Button>
                         <Button 
-                          className="flex-1 bg-[#0E161B] text-[#EBE2C5] hover:bg-[#1A1814]"
+                          variant="secondary"
                           onClick={() => handleWhatsApp("Artwell", "773227172")}
                         >
                           <MessageCircle className="mr-2 h-4 w-4" />
                           WhatsApp
                         </Button>
-                      </div>
+                      </CtaGroup>
                     </div>
 
                     {/* Sabeka */}
-                    <div className="p-5 bg-[#EBE2C5] rounded-lg border border-[#CDB586]">
-                      <h3 className="text-xl font-semibold mb-2 text-[#0E161B]">Sabeka</h3>
-                      <p className="text-[#5F3C18] mb-4">0784502347</p>
-                      <div className="flex gap-3">
+                    <div className="p-6 bg-[#EBE2C5] rounded-lg border border-[#CDB586]">
+                      <h3 className="text-xl font-semibold mb-3 text-[#0E161B]">Sabeka</h3>
+                      <p className="text-[#5F3C18] mb-5">0784502347</p>
+                      <CtaGroup>
                         <Button 
-                          variant="outline" 
-                          className="flex-1 border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586] hover:text-[#0E161B]"
+                          variant="tertiary"
                           onClick={() => window.open(`tel:0784502347`)}
                         >
                           <Phone className="mr-2 h-4 w-4" />
                           Call
                         </Button>
                         <Button 
-                          className="flex-1 bg-[#0E161B] text-[#EBE2C5] hover:bg-[#1A1814]"
+                          variant="secondary"
                           onClick={() => handleWhatsApp("Sabeka", "784502347")}
                         >
                           <MessageCircle className="mr-2 h-4 w-4" />
                           WhatsApp
                         </Button>
-                      </div>
+                      </CtaGroup>
                     </div>
                   </CardContent>
                 </Card>
 
                 {/* Email */}
                 <Card className="bg-[#F7F5EF] border-[#CDB586]">
-                  <CardHeader>
-                    <CardTitle className="text-[#0E161B] flex items-center gap-2">
+                  <CardHeader className="pb-5">
+                    <CardTitle className="text-[#0E161B] flex items-center gap-3">
                       <Mail className="h-5 w-5 text-[#CDB586]" />
                       Email
                     </CardTitle>

@@ -15,9 +15,11 @@ export function WhatsAppFloat() {
   };
 
   return (
-    <div className="fixed bottom-24 sm:bottom-6 right-6 z-50 lg:right-36">
+    <div className="fixed bottom-6 right-6 z-50"
+         style={{ bottom: '1.5rem', right: '1.5rem' }}>
       {isOpen && (
-        <div className="absolute bottom-20 right-0 space-y-3 animate-fade-in-up">
+        <div className="absolute bottom-20 right-0 space-y-3 animate-fade-in-up"
+             style={{ bottom: '5rem', right: '0' }}>
           <button
             onClick={() => handleWhatsAppClick("Artwell", "773227172")}
             className="flex items-center gap-3 bg-[#0E161B] border border-[#CDB586] text-[#EBE2C5] px-4 py-3 rounded-lg shadow-lg hover:bg-[#1A1814] transition-all w-56"

@@ -524,6 +524,23 @@ export type EnumFAQCategoryWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumFAQCategoryFilter<$PrismaModel>
 }
 
+export type EnumAccessoryCategoryFilter<$PrismaModel = never> = {
+  equals?: $Enums.AccessoryCategory | Prisma.EnumAccessoryCategoryFieldRefInput<$PrismaModel>
+  in?: $Enums.AccessoryCategory[] | Prisma.ListEnumAccessoryCategoryFieldRefInput<$PrismaModel>
+  notIn?: $Enums.AccessoryCategory[] | Prisma.ListEnumAccessoryCategoryFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumAccessoryCategoryFilter<$PrismaModel> | $Enums.AccessoryCategory
+}
+
+export type EnumAccessoryCategoryWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.AccessoryCategory | Prisma.EnumAccessoryCategoryFieldRefInput<$PrismaModel>
+  in?: $Enums.AccessoryCategory[] | Prisma.ListEnumAccessoryCategoryFieldRefInput<$PrismaModel>
+  notIn?: $Enums.AccessoryCategory[] | Prisma.ListEnumAccessoryCategoryFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumAccessoryCategoryWithAggregatesFilter<$PrismaModel> | $Enums.AccessoryCategory
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAccessoryCategoryFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAccessoryCategoryFilter<$PrismaModel>
+}
+
 export type EnumMovementReasonFilter<$PrismaModel = never> = {
   equals?: $Enums.MovementReason | Prisma.EnumMovementReasonFieldRefInput<$PrismaModel>
   in?: $Enums.MovementReason[] | Prisma.ListEnumMovementReasonFieldRefInput<$PrismaModel>
@@ -1191,6 +1208,23 @@ export type NestedEnumFAQCategoryWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumFAQCategoryFilter<$PrismaModel>
   _max?: Prisma.NestedEnumFAQCategoryFilter<$PrismaModel>
+}
+
+export type NestedEnumAccessoryCategoryFilter<$PrismaModel = never> = {
+  equals?: $Enums.AccessoryCategory | Prisma.EnumAccessoryCategoryFieldRefInput<$PrismaModel>
+  in?: $Enums.AccessoryCategory[] | Prisma.ListEnumAccessoryCategoryFieldRefInput<$PrismaModel>
+  notIn?: $Enums.AccessoryCategory[] | Prisma.ListEnumAccessoryCategoryFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumAccessoryCategoryFilter<$PrismaModel> | $Enums.AccessoryCategory
+}
+
+export type NestedEnumAccessoryCategoryWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.AccessoryCategory | Prisma.EnumAccessoryCategoryFieldRefInput<$PrismaModel>
+  in?: $Enums.AccessoryCategory[] | Prisma.ListEnumAccessoryCategoryFieldRefInput<$PrismaModel>
+  notIn?: $Enums.AccessoryCategory[] | Prisma.ListEnumAccessoryCategoryFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumAccessoryCategoryWithAggregatesFilter<$PrismaModel> | $Enums.AccessoryCategory
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAccessoryCategoryFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAccessoryCategoryFilter<$PrismaModel>
 }
 
 export type NestedEnumMovementReasonFilter<$PrismaModel = never> = {
