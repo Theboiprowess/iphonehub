@@ -7,7 +7,7 @@ interface AdminPageContainerProps {
 
 export function AdminPageContainer({ children, className = "" }: AdminPageContainerProps) {
   return (
-    <div className={`w-full max-w-full admin-page-container text-center ${className}`}>
+    <div className={`w-full max-w-full admin-page-container ${className}`}>
       {children}
     </div>
   );

@@ -156,7 +156,7 @@ export default function CategoriesPage() {
 
   return (
     <AdminPageContainer>
-      <div className="space-y-8 admin-page-container text-center">
+      <div className="space-y-8 admin-page-container">
         <AdminPageHeader 
           title="Categories"
           subtitle="Manage product categories"

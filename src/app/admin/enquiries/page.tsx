@@ -152,7 +152,7 @@ export default function EnquiriesPage() {
 
   return (
     <AdminPageContainer>
-      <div className="space-y-8 admin-page-container text-center">
+      <div className="space-y-8 admin-page-container">
         <AdminPageHeader title="Enquiries" subtitle="Manage customer enquiries" />
 
       {error && (

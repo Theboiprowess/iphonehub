@@ -192,7 +192,7 @@ export default function ReviewsPage() {
 
   return (
     <AdminPageContainer>
-      <div className="space-y-8 admin-page-container text-center">
+      <div className="space-y-8 admin-page-container">
         <AdminPageHeader title="Reviews" subtitle="Manage customer reviews" />
 
       {error && (

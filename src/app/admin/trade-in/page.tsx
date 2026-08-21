@@ -192,7 +192,7 @@ export default function TradeInPage() {
 
   return (
     <AdminPageContainer>
-      <div className="space-y-8 admin-page-container text-center">
+      <div className="space-y-8 admin-page-container">
         <AdminPageHeader title="Trade-In Requests" subtitle="Manage trade-in requests" />
 
       {error && (
