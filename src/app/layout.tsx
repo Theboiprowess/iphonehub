@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   authors: [{ name: "iPhone Hub Zimbabwe" }],
   creator: "iPhone Hub Zimbabwe",
   publisher: "iPhone Hub Zimbabwe",
-  metadataBase: new URL(process.env.NEXTAUTH_URL?.replace(/\/$/, "") || "https://iphonehubzimbabwe.co.zw"),
+  metadataBase: new URL("https://iphonehubzimbabwe.co.zw"),
   alternates: {
     canonical: "/",
   },
