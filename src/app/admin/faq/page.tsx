@@ -27,6 +27,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { AdminPageContainer } from "@/components/admin/admin-page-container";
 
 interface FAQ {
   id: string;
@@ -164,43 +165,48 @@ export default function FAQPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-[#CDB586]" />
-      </div>
+      <AdminPageContainer>
+        <div className="flex items-center justify-center h-64">
+          <Loader2 className="h-8 w-8 animate-spin text-[#CDB586]" />
+        </div>
+      </AdminPageContainer>
     );
   }
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
-        <div className="space-y-2 min-w-0 flex-1">
-          <h1 className="text-3xl lg:text-4xl font-bold text-[#0E161B] font-manrope">FAQ Management</h1>
-          <p className="text-[#5F3C18] text-base">Manage frequently asked questions</p>
+    <AdminPageContainer>
+      <div className="space-y-8 admin-page-container">
+        <AdminPageHeader 
+          title="FAQ Management"
+          subtitle="Manage frequently asked questions"
+          actionText="Add FAQ"
+          actionHref="#"
+        />
+        <div className="flex justify-end">
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <DialogTrigger asChild>
+              <Button className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] flex-shrink-0">
+                <Plus className="h-4 w-4 mr-2" />
+                Add FAQ
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="bg-[#F7F5EF] border-[#CDB586] max-w-2xl">
+              <DialogHeader>
+                <DialogTitle className="text-[#0E161B]">
+                  {editingFAQ ? "Edit FAQ" : "Add FAQ"}
+                </DialogTitle>
+              </DialogHeader>
+              <FAQForm
+                faq={editingFAQ}
+                onSave={handleSave}
+                onCancel={() => {
+                  setDialogOpen(false);
+                  setEditingFAQ(null);
+                }}
+              />
+            </DialogContent>
+          </Dialog>
         </div>
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] flex-shrink-0">
-              <Plus className="h-4 w-4 mr-2" />
-              Add FAQ
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="bg-[#F7F5EF] border-[#CDB586] max-w-2xl">
-            <DialogHeader>
-              <DialogTitle className="text-[#0E161B]">
-                {editingFAQ ? "Edit FAQ" : "Add FAQ"}
-              </DialogTitle>
-            </DialogHeader>
-            <FAQForm
-              faq={editingFAQ}
-            onSave={handleSave}
-            onCancel={() => {
-              setDialogOpen(false);
-              setEditingFAQ(null);
-            }}
-          />
-          </DialogContent>
-        </Dialog>
-      </div>
 
       {/* Filters */}
       <Card className="bg-[#F7F5EF] border-[#CDB586]">
@@ -323,7 +329,8 @@ export default function FAQPage() {
           ))}
         </div>
       )}
-    </div>
+      </div>
+    </AdminPageContainer>
   );
 }
 

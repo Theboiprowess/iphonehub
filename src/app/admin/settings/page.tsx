@@ -102,9 +102,11 @@ export default function SettingsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-[#CDB586]" />
-      </div>
+      <AdminPageContainer>
+        <div className="flex items-center justify-center h-64">
+          <Loader2 className="h-8 w-8 animate-spin text-[#CDB586]" />
+        </div>
+      </AdminPageContainer>
     );
   }
 
@@ -114,12 +116,10 @@ export default function SettingsPage() {
         <AdminPageHeader 
           title="Website Settings"
           subtitle="Manage website configuration"
+          actionText="Save Settings"
+          actionHref="#"
         />
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
-          <div className="space-y-2 min-w-0 flex-1">
-            <h1 className="text-3xl lg:text-4xl font-bold text-[#0E161B] font-manrope">Website Settings</h1>
-            <p className="text-[#5F3C18] text-base">Manage website configuration</p>
-          </div>
+        <div className="flex justify-end">
           <Button
             onClick={handleSave}
             disabled={saving}

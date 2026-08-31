@@ -42,6 +42,7 @@ import {
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { AdminPageContainer } from "@/components/admin/admin-page-container";
 
 interface BlogPost {
   id: string;
@@ -339,17 +340,18 @@ export default function BlogPage() {
   };
 
   return (
-    <div className="space-y-8">
-      <AdminPageHeader
-        title="Blog"
-        subtitle="Manage blog posts, categories, and tags"
-        actionText="New Post"
-        actionIcon={<Plus className="h-4 w-4 mr-2" />}
-        actionOnClick={handleCreatePost}
-        secondaryActionText="New Category"
-        secondaryActionIcon={<Folder className="h-4 w-4 mr-2" />}
-        secondaryActionOnClick={() => setIsCategoryDialogOpen(true)}
-      />
+    <AdminPageContainer>
+      <div className="space-y-8 admin-page-container">
+        <AdminPageHeader
+          title="Blog"
+          subtitle="Manage blog posts, categories, and tags"
+          actionText="New Post"
+          actionIcon={<Plus className="h-4 w-4 mr-2" />}
+          actionOnClick={handleCreatePost}
+          secondaryActionText="New Category"
+          secondaryActionIcon={<Folder className="h-4 w-4 mr-2" />}
+          secondaryActionOnClick={() => setIsCategoryDialogOpen(true)}
+        />
 
       {/* Filters */}
       <Card className="bg-[#F7F5EF] border-[#CDB586]/30">
@@ -800,6 +802,7 @@ export default function BlogPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+      </div>
+    </AdminPageContainer>
   );
 }

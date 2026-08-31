@@ -16,6 +16,7 @@ import {
   ChevronRight
 } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { AdminPageContainer } from "@/components/admin/admin-page-container";
 import { formatPrice } from "@/lib/utils";
 
 type AnalyticsData = {
@@ -83,40 +84,45 @@ export default function AnalyticsPage() {
 
   if (loading) {
     return (
-      <div className="space-y-8">
-        <AdminPageHeader title="Analytics" subtitle="View business analytics" />
-        <div className="flex items-center justify-center h-64">
-          <div className="text-[#5F3C18]">Loading analytics...</div>
+      <AdminPageContainer>
+        <div className="space-y-8 admin-page-container">
+          <AdminPageHeader title="Analytics" subtitle="View business analytics" />
+          <div className="flex items-center justify-center h-64">
+            <div className="text-[#5F3C18]">Loading analytics...</div>
+          </div>
         </div>
-      </div>
+      </AdminPageContainer>
     );
   }
 
   if (!data) {
     return (
-      <div className="space-y-8">
-        <AdminPageHeader title="Analytics" subtitle="View business analytics" />
-        <div className="p-4 bg-red-900/50 border border-red-500 rounded text-red-200">
-          No data available
+      <AdminPageContainer>
+        <div className="space-y-8 admin-page-container">
+          <AdminPageHeader title="Analytics" subtitle="View business analytics" />
+          <div className="p-4 bg-red-900/50 border border-red-500 rounded text-red-200">
+            No data available
+          </div>
         </div>
-      </div>
+      </AdminPageContainer>
     );
   }
 
   return (
-    <div className="space-y-8">
-      <AdminPageHeader title="Analytics" subtitle="View business analytics">
-        <Select value={period} onValueChange={setPeriod}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="7">Last 7 days</SelectItem>
-            <SelectItem value="30">Last 30 days</SelectItem>
-            <SelectItem value="90">Last 90 days</SelectItem>
-            <SelectItem value="365">Last year</SelectItem>
-          </SelectContent>
-        </Select>
+    <AdminPageContainer>
+      <div className="space-y-8 admin-page-container">
+        <AdminPageHeader title="Analytics" subtitle="View business analytics">
+          <Select value={period} onValueChange={setPeriod}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="7">Last 7 days</SelectItem>
+              <SelectItem value="30">Last 30 days</SelectItem>
+              <SelectItem value="90">Last 90 days</SelectItem>
+              <SelectItem value="365">Last year</SelectItem>
+            </SelectContent>
+          </Select>
       </AdminPageHeader>
 
       {error && (
@@ -324,5 +330,6 @@ export default function AnalyticsPage() {
         </CardContent>
       </Card>
     </div>
+      </AdminPageContainer>
   );
 }
