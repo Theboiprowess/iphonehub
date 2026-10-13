@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { AdminPageContainer } from "@/components/admin/admin-page-container";
 import {
   CreditCard,
   DollarSign,
@@ -131,15 +132,18 @@ export default function PaymentsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#CDB586]"></div>
-      </div>
+      <AdminPageContainer>
+        <div className="flex items-center justify-center h-64">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#CDB586]"></div>
+        </div>
+      </AdminPageContainer>
     );
   }
 
   return (
-    <div className="space-y-8">
-      <AdminPageHeader title="Payments" subtitle="Manage and monitor all payment transactions" />
+    <AdminPageContainer>
+      <div className="space-y-8 admin-page-container">
+        <AdminPageHeader title="Payments" subtitle="Manage and monitor all payment transactions" />
 
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -332,6 +336,7 @@ export default function PaymentsPage() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </AdminPageContainer>
   );
 }

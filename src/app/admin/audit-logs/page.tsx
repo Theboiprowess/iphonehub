@@ -23,6 +23,7 @@ import {
   Plus
 } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { AdminPageContainer } from "@/components/admin/admin-page-container";
 
 type AuditLog = {
   id: string;
@@ -117,18 +118,21 @@ export default function AuditLogsPage() {
 
   if (loading) {
     return (
-      <div className="space-y-8">
-        <AdminPageHeader title="Audit Logs" subtitle="View system audit logs" />
-        <div className="flex items-center justify-center h-64">
-          <div className="text-[#5F3C18]">Loading audit logs...</div>
+      <AdminPageContainer>
+        <div className="space-y-8 admin-page-container">
+          <AdminPageHeader title="Audit Logs" subtitle="View system audit logs" />
+          <div className="flex items-center justify-center h-64">
+            <div className="text-[#5F3C18]">Loading audit logs...</div>
+          </div>
         </div>
-      </div>
+      </AdminPageContainer>
     );
   }
 
   return (
-    <div className="space-y-8">
-      <AdminPageHeader title="Audit Logs" subtitle="View system audit logs" />
+    <AdminPageContainer>
+      <div className="space-y-8 admin-page-container">
+        <AdminPageHeader title="Audit Logs" subtitle="View system audit logs" />
 
       {error && (
         <div className="p-4 bg-red-900/50 border border-red-500 rounded text-red-200">
@@ -305,6 +309,7 @@ export default function AuditLogsPage() {
           )}
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </AdminPageContainer>
   );
 }

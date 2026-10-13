@@ -17,6 +17,7 @@ import {
   Clock
 } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { AdminPageContainer } from "@/components/admin/admin-page-container";
 
 type SystemHealthData = {
   status: "healthy" | "degraded" | "unhealthy";
@@ -85,34 +86,39 @@ export default function SystemHealthPage() {
 
   if (loading) {
     return (
-      <div className="space-y-8">
-        <AdminPageHeader title="System Health" subtitle="Monitor system health" />
-        <div className="flex items-center justify-center h-64">
-          <div className="text-[#5F3C18]">Loading system health...</div>
+      <AdminPageContainer>
+        <div className="space-y-8 admin-page-container">
+          <AdminPageHeader title="System Health" subtitle="Monitor system health" />
+          <div className="flex items-center justify-center h-64">
+            <div className="text-[#5F3C18]">Loading system health...</div>
+          </div>
         </div>
-      </div>
+      </AdminPageContainer>
     );
   }
 
   if (!data) {
     return (
-      <div className="space-y-8">
-        <AdminPageHeader title="System Health" subtitle="Monitor system health" />
-        <div className="p-4 bg-red-900/50 border border-red-500 rounded text-red-200">
-          No data available
+      <AdminPageContainer>
+        <div className="space-y-8 admin-page-container">
+          <AdminPageHeader title="System Health" subtitle="Monitor system health" />
+          <div className="p-4 bg-red-900/50 border border-red-500 rounded text-red-200">
+            No data available
+          </div>
         </div>
-      </div>
+      </AdminPageContainer>
     );
   }
 
   return (
-    <div className="space-y-8">
-      <AdminPageHeader title="System Health" subtitle="Monitor system health">
-        <Button onClick={fetchHealth} disabled={loading}>
-          <RefreshCw className={`h-4 w-4 mr-2 ${loading ? "animate-spin" : ""}`} />
-          Refresh
-        </Button>
-      </AdminPageHeader>
+    <AdminPageContainer>
+      <div className="space-y-8 admin-page-container">
+        <AdminPageHeader title="System Health" subtitle="Monitor system health">
+          <Button onClick={fetchHealth} disabled={loading}>
+            <RefreshCw className={`h-4 w-4 mr-2 ${loading ? "animate-spin" : ""}`} />
+            Refresh
+          </Button>
+        </AdminPageHeader>
 
       {error && (
         <div className="p-4 bg-red-900/50 border border-red-500 rounded text-red-200">
@@ -242,6 +248,7 @@ export default function SystemHealthPage() {
           </CardContent>
         </Card>
       )}
-    </div>
+      </div>
+    </AdminPageContainer>
   );
 }

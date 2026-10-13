@@ -15,6 +15,7 @@ import {
   Edit
 } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { AdminPageContainer } from "@/components/admin/admin-page-container";
 
 type AdminUser = {
   id: string;
@@ -174,18 +175,21 @@ export default function AdminUsersPage() {
 
   if (loading) {
     return (
-      <div className="space-y-8">
-        <AdminPageHeader title="Admin Users" subtitle="Manage admin user accounts" />
-        <div className="flex items-center justify-center h-64">
-          <div className="text-[#5F3C18]">Loading admin users...</div>
+      <AdminPageContainer>
+        <div className="space-y-8 admin-page-container">
+          <AdminPageHeader title="Admin Users" subtitle="Manage admin user accounts" />
+          <div className="flex items-center justify-center h-64">
+            <div className="text-[#5F3C18]">Loading admin users...</div>
+          </div>
         </div>
-      </div>
+      </AdminPageContainer>
     );
   }
 
   return (
-    <div className="space-y-8">
-      <AdminPageHeader title="Admin Users" subtitle="Manage admin user accounts" />
+    <AdminPageContainer>
+      <div className="space-y-8 admin-page-container">
+        <AdminPageHeader title="Admin Users" subtitle="Manage admin user accounts" />
 
       {error && (
         <div className="p-4 bg-red-900/50 border border-red-500 rounded text-red-200">
@@ -330,6 +334,7 @@ export default function AdminUsersPage() {
           )}
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </AdminPageContainer>
   );
 }

@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
+import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { AdminPageContainer } from "@/components/admin/admin-page-container";
 import { 
   Plus, 
   Trash2, 
@@ -244,48 +246,52 @@ export default function NavigationPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-[#CDB586]" />
-      </div>
+      <AdminPageContainer>
+        <div className="flex items-center justify-center h-64">
+          <Loader2 className="h-8 w-8 animate-spin text-[#CDB586]" />
+        </div>
+      </AdminPageContainer>
     );
   }
 
   if (error) {
     return (
-      <div className="space-y-8">
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
-          <div className="space-y-2 min-w-0 flex-1">
-            <h1 className="text-3xl lg:text-4xl font-bold text-[#0E161B] font-manrope">Navigation</h1>
-            <p className="text-[#5F3C18] text-base">Manage website navigation menu</p>
-          </div>
+      <AdminPageContainer>
+        <div className="space-y-8 admin-page-container">
+          <AdminPageHeader 
+            title="Navigation"
+            subtitle="Manage website navigation menu"
+          />
+          <Card className="bg-red-50 border-red-200">
+            <CardContent className="p-12 text-center">
+              <AlertCircle className="h-12 w-12 mx-auto mb-4 text-red-400" />
+              <p className="font-medium text-red-800 mb-2">Error loading navigation</p>
+              <p className="text-red-600 mb-4">{error}</p>
+              <Button onClick={fetchNavigationItems} variant="outline">
+                Try Again
+              </Button>
+            </CardContent>
+          </Card>
         </div>
-        <Card className="bg-red-50 border-red-200">
-          <CardContent className="p-12 text-center">
-            <AlertCircle className="h-12 w-12 mx-auto mb-4 text-red-400" />
-            <p className="font-medium text-red-800 mb-2">Error loading navigation</p>
-            <p className="text-red-600 mb-4">{error}</p>
-            <Button onClick={fetchNavigationItems} variant="outline">
-              Try Again
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
+      </AdminPageContainer>
     );
   }
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
-        <div className="space-y-2 min-w-0 flex-1">
-          <h1 className="text-3xl lg:text-4xl font-bold text-[#0E161B] font-manrope">Navigation</h1>
-          <p className="text-[#5F3C18] text-base">Manage website navigation menu</p>
-        </div>
-        <div className="flex flex-shrink-0 items-center gap-3">
+    <AdminPageContainer>
+      <div className="space-y-8 admin-page-container">
+        <AdminPageHeader 
+          title="Navigation"
+          subtitle="Manage website navigation menu"
+          actionText="Add Navigation Item"
+          actionHref="#"
+        />
+        <div className="flex justify-end">
           {flatItems.length === 0 && (
             <Button
               onClick={handleSeedNavigation}
               variant="outline"
-              className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586]/10 flex-shrink-0"
+              className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586]/10 flex-shrink-0 mr-3"
             >
               Seed Default
             </Button>
@@ -315,9 +321,19 @@ export default function NavigationPage() {
             </DialogContent>
           </Dialog>
         </div>
-      </div>
 
       {/* Search */}
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-[#5F3C18]/40" />
+        <Input
+          placeholder="Search navigation items..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="bg-white border-[#CDB586] pl-10"
+        />
+      </div>
+
+      {/* Empty State */}
       <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-[#5F3C18]/40" />
         <Input
@@ -374,7 +390,8 @@ export default function NavigationPage() {
           ))}
         </div>
       )}
-    </div>
+      </div>
+    </AdminPageContainer>
   );
 }
 

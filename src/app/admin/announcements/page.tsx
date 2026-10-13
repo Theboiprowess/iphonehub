@@ -23,6 +23,7 @@ import {
   ChevronDown
 } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { AdminPageContainer } from "@/components/admin/admin-page-container";
 
 type Announcement = {
   id: string;
@@ -165,17 +166,20 @@ export default function AnnouncementsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <Loader2 className="h-8 w-8 animate-spin text-[#CDB586]" />
-      </div>
+      <AdminPageContainer>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <Loader2 className="h-8 w-8 animate-spin text-[#CDB586]" />
+        </div>
+      </AdminPageContainer>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <AdminPageHeader 
-        title="Announcements"
-        subtitle="Manage ticker announcements for the website"
+    <AdminPageContainer>
+      <div className="space-y-6 admin-page-container">
+        <AdminPageHeader 
+          title="Announcements"
+          subtitle="Manage ticker announcements for the website"
       />
 
       {/* Quick Add Form */}
@@ -424,6 +428,7 @@ export default function AnnouncementsPage() {
           )}
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </AdminPageContainer>
   );
 }
