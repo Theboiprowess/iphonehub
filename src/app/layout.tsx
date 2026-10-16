@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope, Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
@@ -12,18 +11,6 @@ import { AnnouncementTicker } from "@/components/announcement-ticker";
 import { Preloader } from "@/components/preloader";
 import { headers } from "next/headers";
 import { Analytics } from "@vercel/analytics/next";
-
-const manrope = Manrope({
-  subsets: ["latin"],
-  variable: "--font-manrope",
-  display: "swap",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: {
@@ -99,7 +86,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const isAdminRoute = pathname.startsWith('/admin') || pathname.startsWith('/api/admin');
 
   return (
-    <html lang="en" className={`${manrope.variable} ${inter.variable} antialiased`}>
+    <html lang="en" className="antialiased">
       <body className="min-h-screen flex flex-col font-body relative">
         <ThemeProvider>
           <CartProvider>

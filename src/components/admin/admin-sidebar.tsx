@@ -148,8 +148,8 @@ export function AdminSidebar({ mobileOpen: controlledMobileOpen, setMobileOpen: 
         {/* Navigation */}
         <div className="flex-1 overflow-y-auto overflow-x-hidden py-4 px-3">
           {Object.entries(navigation).map(([section, items]) => (
-            <div key={section} className="mb-6">
-              <p className="px-4 mb-3 text-xs font-semibold text-[#CDB586]/70 uppercase tracking-wider">
+            <div key={section} className="mb-4 sm:mb-6">
+              <p className="px-3 sm:px-4 mb-2 sm:mb-3 text-xs font-semibold text-[#CDB586]/70 uppercase tracking-wider">
                 {section}
               </p>
               {items.map((item) => {
@@ -161,14 +161,14 @@ export function AdminSidebar({ mobileOpen: controlledMobileOpen, setMobileOpen: 
                     href={item.href}
                     onClick={() => handleMobileOpen(false)}
                     className={cn(
-                      "flex items-center gap-3 px-4 py-3 mx-1 rounded-lg transition-all duration-200 group mb-1",
+                      "flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3 mx-1 rounded-lg transition-all duration-200 group mb-1",
                       isActive
                         ? "bg-[#CDB586] text-[#0E161B] shadow-md font-medium"
                         : "text-[#EBE2C5]/70 hover:bg-[#CDB586]/10 hover:text-[#CDB586]"
                     )}
                   >
-                    <Icon className="h-5 w-5 flex-shrink-0" />
-                    <span className="text-sm font-medium whitespace-nowrap overflow-hidden text-ellipsis">{item.name}</span>
+                    <Icon className="h-4 sm:h-5 w-4 sm:w-5 flex-shrink-0" />
+                    <span className="text-xs sm:text-sm font-medium whitespace-nowrap overflow-hidden text-ellipsis">{item.name}</span>
                   </Link>
                 );
               })}
@@ -183,67 +183,46 @@ export function AdminSidebar({ mobileOpen: controlledMobileOpen, setMobileOpen: 
 export function AdminTopbar({ onMobileMenuToggle }: { onMobileMenuToggle?: () => void }) {
   return (
     <header className="sticky top-0 z-30 w-full border-b border-[#CDB586]/20 bg-gradient-to-r from-[#0E161B]/95 to-[#1A1A20]/95 backdrop-blur flex-shrink-0 shadow-sm">
-      <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8 gap-4">
+      <div className="flex items-center justify-between h-14 sm:h-16 px-3 sm:px-4 md:px-6 lg:px-8 gap-2 sm:gap-4">
         {/* Mobile Menu Button */}
         <div className="flex-shrink-0">
           <Button
             variant="ghost"
             size="icon"
             onClick={onMobileMenuToggle}
-            className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 transition-colors h-10 w-10"
+            className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 transition-colors h-8 sm:h-10 w-8 sm:w-10"
           >
-            <Menu className="h-5 w-5" />
+            <Menu className="h-4 sm:h-5 w-4 sm:w-5" />
           </Button>
         </div>
 
         {/* Search */}
-        <div className="flex-1 min-w-0 max-w-2xl hidden sm:block">
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#EBE2C5]/40" />
+        <div className="hidden sm:flex flex-1 max-w-md">
+          <div className="relative w-full">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#CDB586]/50" />
             <Input
-              placeholder="Search products, orders, customers..."
-              className="bg-[#F7F5EF]/10 border-[#CDB586]/30 text-[#EBE2C5] placeholder:text-[#EBE2C5]/40 pl-11 focus:ring-2 focus:ring-[#CDB586]/50 focus:border-[#CDB586]/50 h-10 w-full"
+              placeholder="Search..."
+              className="w-full bg-[#0E161B]/10 border-[#CDB586]/30 pl-10 pr-4 h-9 text-sm text-[#EBE2C5] placeholder:text-[#CDB586]/50 focus:border-[#CDB586]"
             />
           </div>
         </div>
 
         {/* Right Actions */}
         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-          {/* Quick Add */}
-          <Link href="/admin/products/new">
-            <Button size="sm" className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] hidden sm:flex whitespace-nowrap h-10 px-4 text-sm font-medium shadow-sm">
-              <Plus className="h-4 w-4 mr-2" />
-              Add Product
-            </Button>
-          </Link>
-
-          {/* Website Preview */}
-          <Button variant="outline" size="sm" asChild className="border-[#CDB586] text-[#CDB586] hover:bg-[#CDB586]/10 hidden sm:flex whitespace-nowrap h-10 px-4 text-sm font-medium">
-            <Link href="/" target="_blank">
-              <ExternalLink className="h-4 w-4 mr-2" />
-              View Website
-            </Link>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 transition-colors h-8 sm:h-10 w-8 sm:w-10 hidden sm:flex"
+          >
+            <Bell className="h-4 sm:h-5 w-4 sm:w-5" />
           </Button>
-
-          {/* Notifications */}
-          <Button variant="ghost" size="icon" className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 flex-shrink-0 h-10 w-10 transition-colors relative">
-            <Bell className="h-5 w-5" />
-            <span className="absolute top-1 right-1 h-2 w-2 bg-[#CDB586] rounded-full"></span>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 transition-colors h-8 sm:h-10 w-8 sm:w-10"
+          >
+            <UserCog className="h-4 sm:h-5 w-4 sm:w-5" />
           </Button>
-
-          {/* Profile */}
-          <Link href="/admin/(protected)/settings">
-            <Button variant="ghost" size="icon" className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 flex-shrink-0 h-10 w-10 transition-colors">
-              <UserCog className="h-5 w-5" />
-            </Button>
-          </Link>
-
-          {/* Logout */}
-          <Link href="/api/auth/signout">
-            <Button variant="ghost" size="icon" className="text-[#EBE2C5] hover:text-[#CDB586] hover:bg-[#CDB586]/10 flex-shrink-0 h-10 w-10 transition-colors">
-              <LogOut className="h-5 w-5" />
-            </Button>
-          </Link>
         </div>
       </div>
     </header>

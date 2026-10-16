@@ -17,7 +17,7 @@ export function AdminLayoutWrapper({ children }: { children: React.ReactNode }) 
     return (
       <div className="h-screen w-screen overflow-hidden bg-gradient-to-br from-[#F7F5EF] to-[#EBE2C5]">
         <AdminShell sidebarWidth="260px">
-          <AdminShellSidebar>
+          <AdminShellSidebar isOpen={false} onClose={() => {}}>
             <AdminSidebar mobileOpen={false} setMobileOpen={() => {}} />
           </AdminShellSidebar>
           <AdminShellHeader>
@@ -25,7 +25,7 @@ export function AdminLayoutWrapper({ children }: { children: React.ReactNode }) 
           </AdminShellHeader>
           <AdminShellMain>
             <main className="flex-1 overflow-y-auto h-full">
-              <div className="p-6 sm:p-8 lg:p-10 w-full max-w-full">
+              <div className="p-4 sm:p-6 md:p-8 lg:p-10 w-full max-w-full">
                 {children}
               </div>
             </main>
@@ -38,7 +38,10 @@ export function AdminLayoutWrapper({ children }: { children: React.ReactNode }) 
   return (
     <div className="h-screen w-screen overflow-hidden bg-gradient-to-br from-[#F7F5EF] to-[#EBE2C5]">
       <AdminShell sidebarWidth="260px">
-        <AdminShellSidebar className={mobileMenuOpen ? 'translate-x-0' : ''}>
+        <AdminShellSidebar 
+          isOpen={mobileMenuOpen} 
+          onClose={() => setMobileMenuOpen(false)}
+        >
           <AdminSidebar 
             mobileOpen={mobileMenuOpen} 
             setMobileOpen={setMobileMenuOpen}
@@ -49,19 +52,12 @@ export function AdminLayoutWrapper({ children }: { children: React.ReactNode }) 
         </AdminShellHeader>
         <AdminShellMain>
           <main className="flex-1 overflow-y-auto h-full">
-            <div className="p-6 sm:p-8 lg:p-10 w-full max-w-full">
+            <div className="p-4 sm:p-6 md:p-8 lg:p-10 w-full max-w-full">
               {children}
             </div>
           </main>
         </AdminShellMain>
       </AdminShell>
-      {/* Mobile Backdrop */}
-      {mobileMenuOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden backdrop-blur-sm"
-          onClick={() => setMobileMenuOpen(false)}
-        />
-      )}
     </div>
   );
 }

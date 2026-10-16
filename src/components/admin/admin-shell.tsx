@@ -13,12 +13,19 @@ export function AdminShell({ children, sidebarWidth = "260px" }: AdminShellProps
       className="w-full h-screen overflow-hidden"
       style={{ 
         display: 'grid',
-        gridTemplateColumns: `${sidebarWidth} 1fr`,
+        gridTemplateColumns: `1fr`,
         gridTemplateRows: 'auto 1fr',
         gridTemplateAreas: `
-          "sidebar header"
-          "sidebar main"
-        `
+          "header"
+          "main"
+        `,
+        '@media (min-width: 1024px)': {
+          gridTemplateColumns: `${sidebarWidth} 1fr`,
+          gridTemplateAreas: `
+            "sidebar header"
+            "sidebar main"
+          `
+        }
       }}
     >
       {children}
@@ -28,13 +35,33 @@ export function AdminShell({ children, sidebarWidth = "260px" }: AdminShellProps
 
 interface AdminShellSidebarProps {
   children: ReactNode;
+  isOpen?: boolean;
+  onClose?: () => void;
 }
 
-export function AdminShellSidebar({ children }: AdminShellSidebarProps) {
+export function AdminShellSidebar({ children, isOpen = false, onClose }: AdminShellSidebarProps) {
   return (
-    <div className="overflow-hidden h-full lg:static fixed left-0 top-0 z-50 lg:z-auto transform -translate-x-full lg:translate-x-0 transition-transform duration-300 lg:transition-none" style={{ gridArea: 'sidebar' }}>
-      {children}
-    </div>
+    <>
+      {/* Mobile backdrop */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={onClose}
+        />
+      )}
+      <div 
+        className={`
+          fixed left-0 top-0 z-50 h-full w-[260px] 
+          bg-[#F7F5EF] border-r border-[#CDB586]/30
+          transform transition-transform duration-300 ease-in-out
+          ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+          lg:static lg:transform-none lg:transition-none lg:z-auto
+        `}
+        style={{ gridArea: 'sidebar' }}
+      >
+        {children}
+      </div>
+    </>
   );
 }
 
@@ -44,7 +71,7 @@ interface AdminShellHeaderProps {
 
 export function AdminShellHeader({ children }: AdminShellHeaderProps) {
   return (
-    <div className="overflow-hidden" style={{ gridArea: 'header' }}>
+    <div className="overflow-hidden bg-[#F7F5EF] border-b border-[#CDB586]/30" style={{ gridArea: 'header' }}>
       {children}
     </div>
   );
@@ -56,7 +83,7 @@ interface AdminShellMainProps {
 
 export function AdminShellMain({ children }: AdminShellMainProps) {
   return (
-    <div className="overflow-hidden h-full" style={{ gridArea: 'main' }}>
+    <div className="overflow-hidden h-full bg-[#F7F5EF]" style={{ gridArea: 'main' }}>
       {children}
     </div>
   );
