@@ -9,25 +9,7 @@ interface AdminShellProps {
 
 export function AdminShell({ children, sidebarWidth = "260px" }: AdminShellProps) {
   return (
-    <div 
-      className="w-full h-screen overflow-hidden"
-      style={{ 
-        display: 'grid',
-        gridTemplateColumns: `1fr`,
-        gridTemplateRows: 'auto 1fr',
-        gridTemplateAreas: `
-          "header"
-          "main"
-        `,
-        '@media (min-width: 1024px)': {
-          gridTemplateColumns: `${sidebarWidth} 1fr`,
-          gridTemplateAreas: `
-            "sidebar header"
-            "sidebar main"
-          `
-        }
-      }}
-    >
+    <div className="w-full h-screen overflow-hidden grid grid-cols-1 grid-rows-[auto_1fr] lg:grid-cols-[260px_1fr] lg:grid-rows-[auto_1fr] lg:grid-areas-[sidebar_header_sidebar_main]">
       {children}
     </div>
   );
@@ -52,12 +34,12 @@ export function AdminShellSidebar({ children, isOpen = false, onClose }: AdminSh
       <div 
         className={`
           fixed left-0 top-0 z-50 h-full w-[260px] 
-          bg-[#F7F5EF] border-r border-[#CDB586]/30
+          bg-gradient-to-b from-[#0E161B] to-[#1A1A20] border-r border-[#CDB586]/20
           transform transition-transform duration-300 ease-in-out
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}
           lg:static lg:transform-none lg:transition-none lg:z-auto
+          lg:grid-area-[sidebar]
         `}
-        style={{ gridArea: 'sidebar' }}
       >
         {children}
       </div>
@@ -71,7 +53,7 @@ interface AdminShellHeaderProps {
 
 export function AdminShellHeader({ children }: AdminShellHeaderProps) {
   return (
-    <div className="overflow-hidden bg-[#F7F5EF] border-b border-[#CDB586]/30" style={{ gridArea: 'header' }}>
+    <div className="overflow-hidden bg-[#F7F5EF] border-b border-[#CDB586]/30 lg:grid-area-[header]">
       {children}
     </div>
   );
@@ -83,7 +65,7 @@ interface AdminShellMainProps {
 
 export function AdminShellMain({ children }: AdminShellMainProps) {
   return (
-    <div className="overflow-hidden h-full bg-[#F7F5EF]" style={{ gridArea: 'main' }}>
+    <div className="overflow-hidden h-full bg-[#F7F5EF] lg:grid-area-[main]">
       {children}
     </div>
   );

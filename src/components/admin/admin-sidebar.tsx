@@ -125,7 +125,7 @@ export function AdminSidebar({ mobileOpen: controlledMobileOpen, setMobileOpen: 
       {/* Sidebar */}
       <aside
         className={cn(
-          "lg:relative fixed left-0 top-0 z-50 h-screen bg-gradient-to-b from-[#0E161B] to-[#1A1A20] border-r border-[#CDB586]/20 transition-all duration-300 flex flex-col shadow-2xl lg:static flex-shrink-0 w-[260px]",
+          "fixed left-0 top-0 z-50 h-screen bg-gradient-to-b from-[#0E161B] to-[#1A1A20] border-r border-[#CDB586]/20 transition-all duration-300 flex flex-col shadow-2xl lg:static lg:z-auto flex-shrink-0 w-[260px]",
           isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
