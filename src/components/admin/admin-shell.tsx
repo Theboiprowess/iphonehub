@@ -46,13 +46,14 @@ export function AdminShellSidebar({ children, isOpen = false, onClose }: AdminSh
       {/* Mobile backdrop */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/50 z-50 lg:hidden"
           onClick={onClose}
         />
       )}
       <div 
         className={`
           fixed left-0 top-0 z-50 h-full w-[260px] 
+          bg-gradient-to-b from-[#0E161B] to-[#1A1A20] border-r border-[#CDB586]/20
           transform transition-transform duration-300 ease-in-out
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}
           lg:static lg:transform-none lg:transition-none lg:z-auto
