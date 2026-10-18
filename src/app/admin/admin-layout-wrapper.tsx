@@ -15,7 +15,7 @@ export function AdminLayoutWrapper({ children }: { children: React.ReactNode }) 
   // Don't render sidebar controlled state until mounted to avoid hydration mismatch
   if (!isMounted) {
     return (
-      <div className="h-screen w-screen overflow-hidden">
+      <div className="h-screen w-screen overflow-hidden bg-[#F7F5EF]">
         <AdminShell sidebarWidth="260px">
           <AdminShellSidebar isOpen={false} onClose={() => {}}>
             <AdminSidebar mobileOpen={false} setMobileOpen={() => {}} />
@@ -36,7 +36,7 @@ export function AdminLayoutWrapper({ children }: { children: React.ReactNode }) 
   }
 
   return (
-    <div className="h-screen w-screen overflow-hidden">
+    <div className="h-screen w-screen overflow-hidden bg-[#F7F5EF]">
       <AdminShell sidebarWidth="260px">
         <AdminShellSidebar 
           isOpen={mobileMenuOpen} 

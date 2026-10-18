@@ -82,8 +82,7 @@ export const viewport: Viewport = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const headersList = await headers();
-  const pathname = headersList.get('x-pathname') || '';
-  const isAdminRoute = pathname.startsWith('/admin') || pathname.startsWith('/api/admin');
+  const isAdminRoute = headersList.get('x-is-admin-route') === 'true';
 
   return (
     <html lang="en" className="antialiased">

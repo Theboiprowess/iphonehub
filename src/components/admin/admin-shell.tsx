@@ -13,20 +13,12 @@ export function AdminShell({ children, sidebarWidth = "260px" }: AdminShellProps
       className="w-full h-screen overflow-hidden"
       style={{
         display: 'grid',
-        gridTemplateColumns: '1fr',
+        gridTemplateColumns: `${sidebarWidth} 1fr`,
         gridTemplateRows: 'auto 1fr',
         gridTemplateAreas: `
-          "header"
-          "main"
-        `,
-        '@media (min-width: 1024px)': {
-          gridTemplateColumns: `${sidebarWidth} 1fr`,
-          gridTemplateRows: 'auto 1fr',
-          gridTemplateAreas: `
-            "sidebar header"
-            "sidebar main"
-          `
-        }
+          "sidebar header"
+          "sidebar main"
+        `
       } as React.CSSProperties}
     >
       {children}
