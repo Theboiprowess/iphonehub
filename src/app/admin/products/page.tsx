@@ -4,17 +4,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Search, 
-  Filter, 
-  Plus, 
-  Smartphone, 
-  Package, 
-  Edit, 
-  Eye, 
-  EyeOff, 
-  Archive, 
-  Trash2, 
+import {
+  Search,
+  Filter,
+  Plus,
+  Smartphone,
+  Package,
+  Edit,
+  Eye,
+  EyeOff,
+  Archive,
+  Trash2,
   MoreHorizontal,
   Loader2,
   Copy,
@@ -34,6 +34,7 @@ import { ResponsiveGrid } from "@/components/admin/responsive-grid";
 export default function ProductsPage() {
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [condition, setCondition] = useState("");
@@ -50,6 +51,7 @@ export default function ProductsPage() {
 
   const fetchProducts = async () => {
     setLoading(true);
+    setError(null);
     try {
       const params = new URLSearchParams();
       if (search) params.append("search", search);
@@ -62,10 +64,14 @@ export default function ProductsPage() {
       params.append("limit", "50");
 
       const response = await fetch(`/admin/api/products?${params.toString()}`);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch products: ${response.statusText}`);
+      }
       const data = await response.json();
       setProducts(data.products || []);
     } catch (error) {
       console.error("Error fetching products:", error);
+      setError(error instanceof Error ? error.message : "Failed to fetch products");
     } finally {
       setLoading(false);
     }
@@ -240,6 +246,15 @@ export default function ProductsPage() {
         <div className="flex items-center justify-center h-64">
           <Loader2 className="h-8 w-8 animate-spin text-[#CDB586]" />
         </div>
+      ) : error ? (
+        <AdminCard>
+          <div className="p-8 text-center">
+            <p className="text-red-600 mb-4">{error}</p>
+            <Button onClick={fetchProducts} variant="outline">
+              Retry
+            </Button>
+          </div>
+        </AdminCard>
       ) : (
         <AdminCard>
           <EmptyState
