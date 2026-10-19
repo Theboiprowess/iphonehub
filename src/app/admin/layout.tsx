@@ -11,11 +11,5 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <html lang="en" className="antialiased">
-      <body className="min-h-screen font-body bg-gradient-to-br from-[#F7F5EF] to-[#EBE2C5]">
-        <AdminLayoutWrapper>{children}</AdminLayoutWrapper>
-      </body>
-    </html>
-  );
+  return <AdminLayoutWrapper>{children}</AdminLayoutWrapper>;
 }

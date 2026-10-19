@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { AdminSidebar, AdminTopbar } from "@/components/admin/admin-sidebar";
 import { AdminShell, AdminShellSidebar, AdminShellHeader, AdminShellMain } from "@/components/admin/admin-shell";
+import { AdminErrorBoundary } from "@/components/admin/admin-error-boundary";
 
 export function AdminLayoutWrapper({ children }: { children: React.ReactNode }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -36,28 +37,30 @@ export function AdminLayoutWrapper({ children }: { children: React.ReactNode }) 
   }
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-[#F7F5EF]">
-      <AdminShell sidebarWidth="260px">
-        <AdminShellSidebar 
-          isOpen={mobileMenuOpen} 
-          onClose={() => setMobileMenuOpen(false)}
-        >
-          <AdminSidebar 
-            mobileOpen={mobileMenuOpen} 
-            setMobileOpen={setMobileMenuOpen}
-          />
-        </AdminShellSidebar>
-        <AdminShellHeader>
-          <AdminTopbar onMobileMenuToggle={() => setMobileMenuOpen(!mobileMenuOpen)} />
-        </AdminShellHeader>
-        <AdminShellMain>
-          <main className="flex-1 overflow-y-auto h-full">
-            <div className="p-4 sm:p-6 md:p-8 lg:p-10 w-full max-w-full">
-              {children}
-            </div>
-          </main>
-        </AdminShellMain>
-      </AdminShell>
-    </div>
+    <AdminErrorBoundary>
+      <div className="h-screen w-screen overflow-hidden bg-[#F7F5EF]">
+        <AdminShell sidebarWidth="260px">
+          <AdminShellSidebar 
+            isOpen={mobileMenuOpen} 
+            onClose={() => setMobileMenuOpen(false)}
+          >
+            <AdminSidebar 
+              mobileOpen={mobileMenuOpen} 
+              setMobileOpen={setMobileMenuOpen}
+            />
+          </AdminShellSidebar>
+          <AdminShellHeader>
+            <AdminTopbar onMobileMenuToggle={() => setMobileMenuOpen(!mobileMenuOpen)} />
+          </AdminShellHeader>
+          <AdminShellMain>
+            <main className="flex-1 overflow-y-auto h-full">
+              <div className="p-4 sm:p-6 md:p-8 lg:p-10 w-full max-w-full">
+                {children}
+              </div>
+            </main>
+          </AdminShellMain>
+        </AdminShell>
+      </div>
+    </AdminErrorBoundary>
   );
 }
