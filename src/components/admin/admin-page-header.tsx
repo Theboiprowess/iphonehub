@@ -21,7 +21,7 @@ export function AdminPageHeader({
   subtitle,
   actionHref,
   actionText = "Add New",
-  actionIcon = <Plus className="h-4 w-4 mr-2" />,
+  actionIcon,
   actionOnClick,
   secondaryActionHref,
   secondaryActionText,
@@ -29,6 +29,8 @@ export function AdminPageHeader({
   secondaryActionOnClick,
   children
 }: AdminPageHeaderProps) {
+  const defaultActionIcon = <Plus className="h-4 w-4 mr-2" />;
+
   return (
     <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6 md:mb-8">
       <div className="space-y-1.5 min-w-0 flex-1">
@@ -63,7 +65,7 @@ export function AdminPageHeader({
           actionHref ? (
             <Link href={actionHref}>
               <Button className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] flex-shrink-0 h-9 sm:h-10 px-3 sm:px-4 text-sm sm:text-base">
-                {actionIcon}
+                {actionIcon || defaultActionIcon}
                 {actionText}
               </Button>
             </Link>
@@ -72,7 +74,7 @@ export function AdminPageHeader({
               onClick={actionOnClick}
               className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5] flex-shrink-0 h-9 sm:h-10 px-3 sm:px-4 text-sm sm:text-base"
             >
-              {actionIcon}
+              {actionIcon || defaultActionIcon}
               {actionText}
             </Button>
           )
