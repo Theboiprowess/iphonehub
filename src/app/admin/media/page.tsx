@@ -144,7 +144,7 @@ export default function MediaLibraryPage() {
                 Upload Media
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-[#F7F5EF] border-[#CDB586]/30 max-w-md">
+            <DialogContent className="bg-[#F7F5EF] border-[#CDB586]/30 max-w-2xl">
               <DialogHeader>
                 <DialogTitle className="text-[#0E161B]">Upload Media</DialogTitle>
               </DialogHeader>
@@ -160,32 +160,34 @@ export default function MediaLibraryPage() {
                     className="bg-white border-[#CDB586]"
                   />
                 </div>
-                <div>
-                  <Label htmlFor="category">Category</Label>
-                  <Select value={uploadCategory} onValueChange={setUploadCategory}>
-                    <SelectTrigger className="bg-white border-[#CDB586]">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="PRODUCT">Product</SelectItem>
-                      <SelectItem value="HERO">Hero</SelectItem>
-                      <SelectItem value="BLOG">Blog</SelectItem>
-                      <SelectItem value="CEO">CEO</SelectItem>
-                      <SelectItem value="LOGO">Logo</SelectItem>
-                      <SelectItem value="BANNER">Banner</SelectItem>
-                      <SelectItem value="OTHER">Other</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label htmlFor="alt">Alt Text</Label>
-                  <Input
-                    id="alt"
-                    value={uploadAlt}
-                    onChange={(e) => setUploadAlt(e.target.value)}
-                    placeholder="Image description for accessibility"
-                    className="bg-white border-[#CDB586]"
-                  />
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="category">Category</Label>
+                    <Select value={uploadCategory} onValueChange={setUploadCategory}>
+                      <SelectTrigger className="bg-white border-[#CDB586]">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="PRODUCT">Product</SelectItem>
+                        <SelectItem value="HERO">Hero</SelectItem>
+                        <SelectItem value="BLOG">Blog</SelectItem>
+                        <SelectItem value="CEO">CEO</SelectItem>
+                        <SelectItem value="LOGO">Logo</SelectItem>
+                        <SelectItem value="BANNER">Banner</SelectItem>
+                        <SelectItem value="OTHER">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label htmlFor="alt">Alt Text</Label>
+                    <Input
+                      id="alt"
+                      value={uploadAlt}
+                      onChange={(e) => setUploadAlt(e.target.value)}
+                      placeholder="Image description for accessibility"
+                      className="bg-white border-[#CDB586]"
+                    />
+                  </div>
                 </div>
                 <div>
                   <Label htmlFor="caption">Caption</Label>
