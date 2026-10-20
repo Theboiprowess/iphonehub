@@ -1,69 +1,24 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { 
-  Search, 
-  Filter, 
-  Plus, 
-  Smartphone, 
-  Package, 
-  Edit, 
-  Eye, 
-  EyeOff, 
-  Archive, 
-  Trash2, 
-  MoreHorizontal,
-  Loader2,
-  Copy,
-  Check
-} from "lucide-react";
-import Link from "next/link";
 import { useState, useEffect } from "react";
-import { formatPrice } from "@/lib/utils";
-import { AdminPageHeader } from "@/components/admin/admin-page-header";
-import { AdminPageContainer } from "@/components/admin/admin-page-container";
-import { AdminCard } from "@/components/admin/admin-card";
-import { StatCard } from "@/components/admin/stat-card";
-import { SearchToolbar } from "@/components/admin/search-toolbar";
-import { EmptyState } from "@/components/admin/empty-state";
-import { ResponsiveGrid } from "@/components/admin/responsive-grid";
+import { Button } from "@/components/ui/button";
+import { Package, Plus, Loader2, RefreshCw } from "lucide-react";
+import Link from "next/link";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [search, setSearch] = useState("");
-  const [status, setStatus] = useState("");
-  const [condition, setCondition] = useState("");
-  const [category, setCategory] = useState("");
-  const [sortBy, setSortBy] = useState("createdAt");
-  const [sortOrder, setSortOrder] = useState("desc");
-  const [page, setPage] = useState(1);
-  const [selectedProducts, setSelectedProducts] = useState<Set<string>>(new Set());
-  const [actionLoading, setActionLoading] = useState(false);
 
   useEffect(() => {
     fetchProducts();
-  }, [search, status, condition, category, sortBy, sortOrder, page]);
+  }, []);
 
   const fetchProducts = async () => {
     setLoading(true);
     setError(null);
     try {
-      const params = new URLSearchParams();
-      if (search) params.append("search", search);
-      if (status) params.append("status", status);
-      if (condition) params.append("condition", condition);
-      if (category) params.append("category", category);
-      if (sortBy) params.append("sortBy", sortBy);
-      if (sortOrder) params.append("sortOrder", sortOrder);
-      params.append("page", page.toString());
-      params.append("limit", "50");
-
-      const response = await fetch(`/admin/api/products?${params.toString()}`);
+      const response = await fetch("/admin/api/products?limit=50");
       if (!response.ok) {
         throw new Error(`Failed to fetch products: ${response.statusText}`);
       }
@@ -77,18 +32,6 @@ export default function ProductsPage() {
     }
   };
 
-  const filteredProducts = products.filter(product => {
-    if (search && !product.name?.toLowerCase().includes(search.toLowerCase()) &&
-        !product.model?.toLowerCase().includes(search.toLowerCase()) &&
-        !product.slug?.toLowerCase().includes(search.toLowerCase())) {
-      return false;
-    }
-    if (status && product.status !== status) return false;
-    if (condition && product.condition !== condition) return false;
-    if (category && product.categoryId !== category) return false;
-    return true;
-  });
-
   const statusCounts = {
     DRAFT: products.filter(p => p.status === "DRAFT").length,
     PUBLISHED: products.filter(p => p.status === "PUBLISHED").length,
@@ -98,173 +41,100 @@ export default function ProductsPage() {
     ARCHIVED: products.filter(p => p.status === "ARCHIVED").length,
   };
 
-  const conditionCounts = {
-    BOXED: products.filter(p => p.condition === "BOXED").length,
-    PRE_OWNED: products.filter(p => p.condition === "PRE_OWNED").length,
-    SECOND_HAND: products.filter(p => p.condition === "SECOND_HAND").length,
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "DRAFT": return "bg-gray-100 text-gray-800 border-gray-200";
-      case "PUBLISHED": return "bg-green-100 text-green-800 border-green-200";
-      case "HIDDEN": return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "OUT_OF_STOCK": return "bg-red-100 text-red-800 border-red-200";
-      case "SOLD": return "bg-purple-100 text-purple-800 border-purple-200";
-      case "ARCHIVED": return "bg-gray-200 text-gray-600 border-gray-300";
-      default: return "bg-gray-100 text-gray-800 border-gray-200";
-    }
-  };
-
-  const getConditionBadge = (condition: string) => {
-    switch (condition) {
-      case "BOXED": return "bg-[#CDB586] text-[#0E161B] border border-[#0E161B]";
-      case "PRE_OWNED": return "bg-[#81592B] text-[#EBE2C5] border border-[#EBE2C5]";
-      case "SECOND_HAND": return "bg-[#5F3C18] text-[#EBE2C5] border border-[#EBE2C5]";
-      default: return "bg-gray-100 text-gray-800 border-gray-200";
-    }
-  };
-
-  const handleBulkAction = async (action: string) => {
-    if (selectedProducts.size === 0) return;
-
-    setActionLoading(true);
-    try {
-      const response = await fetch("/admin/api/products/bulk", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action,
-          productIds: Array.from(selectedProducts)
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to perform bulk action");
-      }
-
-      setSelectedProducts(new Set());
-      fetchProducts();
-    } catch (error) {
-      console.error("Error performing bulk action:", error);
-      alert("Failed to perform bulk action");
-    } finally {
-      setActionLoading(false);
-    }
-  };
-
-  const handleProductAction = async (productId: string, action: string) => {
-    setActionLoading(true);
-    try {
-      const response = await fetch(`/admin/api/products/${productId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action })
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to perform action");
-      }
-
-      fetchProducts();
-    } catch (error) {
-      console.error("Error performing action:", error);
-      alert("Failed to perform action");
-    } finally {
-      setActionLoading(false);
-    }
-  };
-
-  const toggleProductSelection = (productId: string) => {
-    setSelectedProducts(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(productId)) {
-        newSet.delete(productId);
-      } else {
-        newSet.add(productId);
-      }
-      return newSet;
-    });
-  };
-
-  const productsWithStock = filteredProducts.map(product => {
-    const totalStock = product.variants?.reduce((sum: number, v: any) => sum + (v.stock || 0), 0) || 0;
-    const minPrice = product.variants?.length > 0 
-      ? Math.min(...product.variants.map((v: any) => Number(v.price)))
-      : 0;
-    const maxPrice = product.variants?.length > 0 
-      ? Math.max(...product.variants.map((v: any) => Number(v.price)))
-      : 0;
-    
-    return {
-      ...product,
-      totalStock,
-      minPrice,
-      maxPrice
-    };
-  });
-
   return (
-    <AdminPageContainer>
-      <div className="space-y-8 admin-page-container text-center">
-        <AdminPageHeader 
-          title="Products"
-          subtitle="Manage your product catalogue"
-          actionHref="/admin/products/new"
-          actionText="Add Product"
-        />
-
-      {/* Quick Stats */}
-      <ResponsiveGrid cols={{ default: 1, sm: 2, lg: 4 }}>
-        <StatCard
-          title="Total Products"
-          value={products.length}
-          icon={Package}
-          color="#CDB586"
-        />
-        <StatCard
-          title="Published"
-          value={statusCounts.PUBLISHED}
-          icon={Smartphone}
-          color="#CDB586"
-        />
-        <StatCard
-          title="Draft"
-          value={statusCounts.DRAFT}
-          icon={Edit}
-          color="#CDB586"
-        />
-        <StatCard
-          title="Out of Stock"
-          value={statusCounts.OUT_OF_STOCK}
-          icon={Archive}
-          color="#CDB586"
-        />
-      </ResponsiveGrid>
-
-      {loading ? (
-        <div className="flex items-center justify-center h-64">
-          <Loader2 className="h-8 w-8 animate-spin text-[#CDB586]" />
+    <div className="w-full max-w-full p-4 sm:p-6 md:p-8 lg:p-10">
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-[#0E161B]">Products</h1>
+            <p className="text-[#5F3C18] mt-1">Manage your product catalogue</p>
+          </div>
+          <Link href="/admin/products/new">
+            <Button className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]">
+              <Plus className="h-4 w-4 mr-2" />
+              Add Product
+            </Button>
+          </Link>
         </div>
-      ) : error ? (
-        <AdminCard>
-          <div className="p-8 text-center">
+
+        {/* Stats */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="bg-white rounded-xl border border-[#CDB586]/20 shadow-sm p-6">
+            <p className="text-sm font-medium text-[#5F3C18]">Total Products</p>
+            <p className="text-3xl font-bold text-[#0E161B] mt-2">{products.length}</p>
+          </div>
+          <div className="bg-white rounded-xl border border-[#CDB586]/20 shadow-sm p-6">
+            <p className="text-sm font-medium text-[#5F3C18]">Published</p>
+            <p className="text-3xl font-bold text-[#0E161B] mt-2">{statusCounts.PUBLISHED}</p>
+          </div>
+          <div className="bg-white rounded-xl border border-[#CDB586]/20 shadow-sm p-6">
+            <p className="text-sm font-medium text-[#5F3C18]">Draft</p>
+            <p className="text-3xl font-bold text-[#0E161B] mt-2">{statusCounts.DRAFT}</p>
+          </div>
+          <div className="bg-white rounded-xl border border-[#CDB586]/20 shadow-sm p-6">
+            <p className="text-sm font-medium text-[#5F3C18]">Out of Stock</p>
+            <p className="text-3xl font-bold text-[#0E161B] mt-2">{statusCounts.OUT_OF_STOCK}</p>
+          </div>
+        </div>
+
+        {/* Content */}
+        {loading ? (
+          <div className="flex items-center justify-center h-64 bg-white rounded-xl border border-[#CDB586]/20">
+            <Loader2 className="h-8 w-8 animate-spin text-[#CDB586]" />
+          </div>
+        ) : error ? (
+          <div className="bg-white rounded-xl border border-[#CDB586]/20 p-8 text-center">
             <p className="text-red-600 mb-4">{error}</p>
-            <Button onClick={fetchProducts} variant="outline">
+            <Button onClick={fetchProducts} variant="outline" className="border-[#CDB586] text-[#CDB586]">
+              <RefreshCw className="h-4 w-4 mr-2" />
               Retry
             </Button>
           </div>
-        </AdminCard>
-      ) : (
-        <AdminCard>
-          <EmptyState
-            icon={Package}
-            title="Products functionality loaded"
-            description={`Found ${products.length} products`}
-          />
-        </AdminCard>
-      )}
+        ) : products.length === 0 ? (
+          <div className="bg-white rounded-xl border border-[#CDB586]/20 p-8 text-center">
+            <div className="h-16 w-16 rounded-full bg-[#CDB586]/10 flex items-center justify-center mx-auto mb-6">
+              <Package className="h-8 w-8 text-[#CDB586]" />
+            </div>
+            <h3 className="text-xl font-semibold text-[#0E161B] mb-2">No products yet</h3>
+            <p className="text-[#5F3C18] mb-6">Get started by adding your first product</p>
+            <Link href="/admin/products/new">
+              <Button className="bg-[#CDB586] text-[#0E161B] hover:bg-[#EBE2C5]">
+                <Plus className="h-4 w-4 mr-2" />
+                Add Product
+              </Button>
+            </Link>
+          </div>
+        ) : (
+          <div className="bg-white rounded-xl border border-[#CDB586]/20 p-6">
+            <h3 className="text-lg font-semibold text-[#0E161B] mb-4">Products ({products.length})</h3>
+            <div className="space-y-2">
+              {products.slice(0, 10).map((product) => (
+                <div key={product.id} className="flex items-center justify-between p-4 bg-[#F7F5EF] rounded-lg">
+                  <div>
+                    <p className="font-medium text-[#0E161B]">{product.name}</p>
+                    <p className="text-sm text-[#5F3C18]">{product.model}</p>
+                  </div>
+                  <div className="text-right">
+                    <span className={`inline-block px-2 py-1 text-xs font-medium rounded ${
+                      product.status === "PUBLISHED" ? "bg-green-100 text-green-800" :
+                      product.status === "DRAFT" ? "bg-gray-100 text-gray-800" :
+                      "bg-yellow-100 text-yellow-800"
+                    }`}>
+                      {product.status}
+                    </span>
+                  </div>
+                </div>
+              ))}
+              {products.length > 10 && (
+                <p className="text-center text-sm text-[#5F3C18] pt-2">
+                  And {products.length - 10} more products...
+                </p>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
-    </AdminPageContainer>
   );
 }
